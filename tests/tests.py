@@ -2,7 +2,7 @@ from main import increment, decrement
 
 
 def test_increment():
-    assert increment(3) == 4
+    assert increment(5) == 6
 
 
 def test_decrement():
