@@ -2,14 +2,14 @@
 import subprocess
 
 # Variables
-name = b"Z-Stick Gen5"
+z_stick = b"Z-Stick Gen5"
 
 
 # Checks if the USB is connected to the RP, by running shell commands
 def find_usb():
     p = subprocess.Popen("lsusb", stdout=subprocess.PIPE, shell=True)
-    (output, err) = p.communicate()
-    if name in output:
+    (usb_list, err) = p.communicate()
+    if z_stick in usb_list:
         return True
     else:
         return False
@@ -57,11 +57,11 @@ def setup():
         print("MQTT connection is not established!")
         exit(-1)
 
-    # Checks USB
+    # Checks USB list for Z-Stick Gen 5
     if find_usb():
         # Change to logging function
-        print("USB is connected!")
+        print("Z-Stick Gen 5 is connected!")
     else:
         # Change to logging function
-        print("USB is not connected!")
+        print("Z-Stick Gen 5 is not connected!")
         exit(-1)
