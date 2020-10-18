@@ -1,6 +1,7 @@
 # Imports
 import subprocess
 import urllib.request
+import urllib.error
 
 # Variables
 z_stick = b"Z-Stick Gen5"
