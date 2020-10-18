@@ -1,5 +1,6 @@
 # Imports
 import subprocess
+import urllib.request
 
 # Variables
 z_stick = b"Z-Stick Gen5"
@@ -22,7 +23,11 @@ def logger():
 
 # Checks if RP is connected to the internet
 def check_internet_connection():
-    return True
+    try:
+        urllib.request.urlopen('http://google.com')  # Python 3.x
+        return True
+    except False:
+        return False
 
 
 def mqtt_setup():
