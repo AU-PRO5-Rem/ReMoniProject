@@ -59,6 +59,38 @@ if network.state < network.STATE_AWAKED:
     print(":-(")
     print("Network is not awake but continue anyway")
 
+
+print("Network home id : {}".format(network.home_id_str))
+print("Controller node id : {}".format(network.controller.node.node_id))
+print("Controller node version : {}".format(network.controller.node.version))
+print("Nodes in network : {}".format(network.nodes_count))
+
+
+for node in network.nodes:
+
+    print("------------------------------------------------------------")
+    print(
+        "{} - Name : {}".format(network.nodes[node].node_id, network.nodes[node].name))
+    print("{} - Manufacturer name / id : {} / {}".format(
+        network.nodes[node].node_id, network.nodes[node].manufacturer_name, network.nodes[node].manufacturer_id))
+    print("{} - Product name / id / type : {} / {} / {}".format(
+        network.nodes[node].node_id, network.nodes[node].product_name, network.nodes[node].product_id, network.nodes[node].product_type))
+    print(
+        "{} - Version : {}".format(network.nodes[node].node_id, network.nodes[node].version))
+    print("{} - Command classes : {}".format(
+        network.nodes[node].node_id, network.nodes[node].command_classes_as_string))
+    print("{} - Capabilities : {}".format(
+        network.nodes[node].node_id, network.nodes[node].capabilities))
+    print(
+        "{} - Neigbors : {}".format(network.nodes[node].node_id, network.nodes[node].neighbors))
+    print(
+        "{} - Can sleep : {}".format(network.nodes[node].node_id, network.nodes[node].can_wake_up()))
+
+# Create the Node representing the Multisensor
+
+#multisensor = ZWaveNode(int(0x64), network)
+
+
 if __name__ == "__main__":
     print("This should be called from main.py")
     pass
