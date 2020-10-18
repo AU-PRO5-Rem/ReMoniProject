@@ -138,8 +138,11 @@ if __name__ == "__main__":
     for idx, nodeid in enumerate(multisensors_node_ids):
         multisensor_is_awake = is_multisensor_awake(nodeid, network)
 
-        if multisensor_is_awake:
-            print("Multisensor with node ID %d is Awake" % nodeid)
+        # Multisensor_is_awake [State, nodeid]
+        if multisensor_is_awake[0]:
+            print("Multisensor with node ID %d is Awake" %
+                  multisensor_is_awake[1])
         else:
-            print("Multisensor with node ID %d is Sleeping" % nodeid)
+            print("Multisensor with node ID %d is Sleeping" %
+                  multisensor_is_awake[1])
     pass
