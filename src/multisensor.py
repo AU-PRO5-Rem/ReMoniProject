@@ -30,7 +30,7 @@ options = ZWaveOption(Z_STICK)
 options.set_log_file("OpenZWave_Log.log")
 options.set_append_log_file(False)
 options.set_save_log_level("Debug")
-options.set_console_output(True)
+options.set_console_output(False)
 options.set_logging(True)
 options.lock()
 
