@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 '''
     Description:    Use Open-ZWave with Aeotec Z-Stick Gen. 5 and Multisensor 6
