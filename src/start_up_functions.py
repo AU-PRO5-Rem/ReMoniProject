@@ -26,7 +26,7 @@ def check_internet_connection():
     try:
         urllib.request.urlopen('http://google.com')  # Python 3.x
         return True
-    except False:
+    except urllib.error.URLError:
         return False
 
 
