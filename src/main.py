@@ -1,8 +1,8 @@
-import paho.mqtt.client as mqtt
+from start_up_functions import setup
 
 
 def main():
-    print("Hello World")
+    setup()
 
 
 def increment(x):
@@ -14,9 +14,4 @@ def decrement(x):
 
 
 if __name__ == "__main__":
-    mqtt.client()
     main()
-    y = 1
-    increment(y)
-    decrement(y)
-    print("Goodbye World")
