@@ -43,10 +43,12 @@ def is_zwave_network_awake(network):
             else:
                 sys.stdout.write("Z")
             sys.stdout.flush()
+            print("\n")
             return True
 
     if network.state < network.STATE_AWAKED:
         print("Error: Network could not wake up!")
+        print("\n")
         return False
 
 
