@@ -25,44 +25,35 @@ import time
 # Test: dmesg | grep ttyACM0
 Z_STICK = "/dev/ttyACM0"
 
-# Set some options for ZWave, logging to file etc.
-options = ZWaveOption(Z_STICK)
-options.set_log_file("OpenZWave_Log.log")
-options.set_append_log_file(False)
-options.set_save_log_level("Debug")
-options.set_console_output(False)
-options.set_logging(True)
-options.lock()
 
-# Create network object
-network = ZWaveNetwork(options)
-
-print("Waiting for Z-Stick Network to be awake")
-
-time_elapsed = 0
-for i in range(0, 300):
-    if network.state >= network.STATE_AWAKED:
-        print("Success: Z-Stick Network is Awake")
-        break
-    else:
-        time_elapsed += 1
-        time.sleep(1.0)
-
-        # Write to display to indicate that network is still sleeping
-        if (i % 2 == 0):
-            sys.stdout.write("zz")
+def is_zwave_network_awake(network):
+    print("Waiting for Z-Stick Network to be awake")
+    time_elapsed = 0
+    for i in range(0, 20):
+        if network.state >= network.STATE_AWAKED:
+            print("Success: Z-Stick Network is Awake")
+            break
         else:
-            sys.stdout.write("Z")
-        sys.stdout.flush()
+            time_elapsed += 1
+            time.sleep(1.0)
 
-if network.state < network.STATE_AWAKED:
-    print(":-(")
-    print("Network is not awake but continue anyway")
+            # Write to display to indicate that network is still sleeping
+            if (i % 2 == 0):
+                sys.stdout.write("zz")
+            else:
+                sys.stdout.write("Z")
+            sys.stdout.flush()
+            return True
+
+    if network.state < network.STATE_AWAKED:
+        print("Error: Network could not wake up!")
+        return False
 
 
 def zwave_network_scan():
     """Performs a complete scan for network nodes
-        and print all information
+        and print all information. 
+        Primarily for Debug and Test use 
     """
     print("Network home id : {}".format(network.home_id_str))
     print("Controller node id : {}".format(
@@ -90,7 +81,7 @@ def zwave_network_scan():
             "{} - Can sleep : {}".format(network.nodes[node].node_id, network.nodes[node].can_wake_up()))
 
 
-def get_all_multisensors_node_ids(network):
+def get_multisensors_node_ids(network):
     """Look for multisensor(s) in the ZWave network
         to retrieve the node id of all "multisensor 6" that is found
         If no multisensor is found, the returned value is -1
@@ -131,10 +122,28 @@ def is_multisensor_awake(sensor_id, network):
 
 if __name__ == "__main__":
 
+    # Set some options for ZWave, logging to file etc.
+    options = ZWaveOption(Z_STICK)
+    options.set_log_file("OpenZWave_Log.log")
+    options.set_append_log_file(False)
+    options.set_save_log_level("Debug")
+    options.set_console_output(False)
+    options.set_logging(True)
+    options.lock()
+
+    # Create network object
+    network = ZWaveNetwork(options)
+
     # zwave_network_scan()
 
+    # Check is Z-Stick ZWave Network Awake
+    is_zwave_network_awake(network)
+
+    # Collect node IDs for alle Multisensors in the Network
+    # (Any other sensor type is ignored)
     multisensors_node_ids = get_all_multisensors_node_ids(network)
 
+    # Check each Multisensor if it is awake (Show case)
     for idx, nodeid in enumerate(multisensors_node_ids):
         multisensor_is_awake = is_multisensor_awake(nodeid, network)
 
