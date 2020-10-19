@@ -141,7 +141,7 @@ if __name__ == "__main__":
 
     # Collect node IDs for alle Multisensors in the Network
     # (Any other sensor type is ignored)
-    multisensors_node_ids = get_all_multisensors_node_ids(network)
+    multisensors_node_ids = get_multisensors_node_ids(network)
 
     # Check each Multisensor if it is awake (Show case)
     for idx, nodeid in enumerate(multisensors_node_ids):
