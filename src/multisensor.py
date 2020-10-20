@@ -61,8 +61,8 @@ def is_zwave_network_awake(network_obj):
 
 def zwave_network_scan():
     """Performs a complete scan for network nodes
-        and print all information. 
-        Primarily for Debug and Test use 
+        and print all information.
+        Primarily for Debug and Test use
     """
     print("Network home id : {}".format(network.home_id_str))
     print("Controller node id : {}".format(
