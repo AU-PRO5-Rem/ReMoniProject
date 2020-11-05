@@ -38,7 +38,7 @@ def is_zwave_network_awake(network_obj):
     time_elapsed = 0
     for i in range(0, 20):
         if network_obj.state >= network_obj.STATE_AWAKED:
-            print("Success: Z-Stick Network is Awake")
+            print("\nSuccess: Z-Stick Network is Awake")
             return True
         else:
             time_elapsed += 1
@@ -52,8 +52,7 @@ def is_zwave_network_awake(network_obj):
             sys.stdout.flush()
 
     if network_obj.state < network_obj.STATE_AWAKED:
-        print("Error: Network could not wake up!")
-        print("\n")
+        print("\nError: Network could not wake up!")
         return False
 
 
