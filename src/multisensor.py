@@ -39,7 +39,7 @@ def is_zwave_network_awake(network_obj):
     for i in range(0, 20):
         if network_obj.state >= network_obj.STATE_AWAKED:
             print("Success: Z-Stick Network is Awake")
-            break
+            return True
         else:
             time_elapsed += 1
             time.sleep(1.0)
@@ -50,8 +50,6 @@ def is_zwave_network_awake(network_obj):
             else:
                 sys.stdout.write("Z")
             sys.stdout.flush()
-            print("\n")
-            return True
 
     if network_obj.state < network_obj.STATE_AWAKED:
         print("Error: Network could not wake up!")
@@ -60,7 +58,7 @@ def is_zwave_network_awake(network_obj):
 
 
 def zwave_network_scan():
-    """Performs a complete scan for network nodes
+    """ Performs a complete scan for network nodes
         and print all information.
         Primarily for Debug and Test use
     """
@@ -159,8 +157,6 @@ if __name__ == "__main__":
     # Create network object
     network = ZWaveNetwork(options)
 
-    # zwave_network_scan()
-
     # Check is Z-Stick ZWave Network Awake
     is_zwave_network_awake(network)
 
@@ -179,4 +175,3 @@ if __name__ == "__main__":
         else:
             print("Multisensor with node ID %d is Sleeping" %
                   multisensor_is_awake[1])
-    pass
