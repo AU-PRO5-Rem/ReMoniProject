@@ -138,11 +138,11 @@ def is_multisensor_awake(sensor_id, network_obj):
 
 
 def get_all_data(sensor_id, network_obj):
-    multisensor = ZWaveNode(sensor_id, network_obj)
+    multisensor = network_obj.nodes[sensor_id]
 
     values = {}
     for cmd in multisensor.command_classes:
-        for val in multisenor.get_values_for_command_class(cmd):
+        for val in multisensor.get_values_for_command_class(cmd):
             values[multisensor.values[val].object_id] = {
                 'label': multisensor.values[val].label,
                 'help': multisensor.values[val].help,
@@ -157,7 +157,7 @@ def get_all_data(sensor_id, network_obj):
                 'readonly': multisensor.values[val].is_read_only,
                 'writeonly': multisensor.values[val].is_write_only,
             }
-
+    print(values)
 
 if __name__ == "__main__":
     ''' Running this script as main will perform the following:
