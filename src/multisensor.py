@@ -70,31 +70,31 @@ def zwave_network_scan():
     for node in network.nodes:
         print("---------------------------------------")
         print(
-            "{} - Name : {}".format(network.nodes[node].node_id,
-                                    network.nodes[node].name))
+            "{} - Name : {}".format(multisensor.node_id,
+                                    multisensor.name))
         print("{} - Manufacturer name / id : {} / {}".format(
-            network.nodes[node].node_id,
-            network.nodes[node].manufacturer_name,
-            network.nodes[node].manufacturer_id))
+            multisensor.node_id,
+            multisensor.manufacturer_name,
+            multisensor.manufacturer_id))
         print("{} - Product name / id / type : {} / {} / {}".format(
-            network.nodes[node].node_id,
-            network.nodes[node].product_name,
-            network.nodes[node].product_id,
-            network.nodes[node].product_type))
+            multisensor.node_id,
+            multisensor.product_name,
+            multisensor.product_id,
+            multisensor.product_type))
         print(
-            "{} - Version : {}".format(network.nodes[node].node_id,
-                                       network.nodes[node].version))
+            "{} - Version : {}".format(multisensor.node_id,
+                                       multisensor.version))
         print("{} - Command classes : {}".format(
-            network.nodes[node].node_id,
-            network.nodes[node].command_classes_as_string))
+            multisensor.node_id,
+            multisensor.command_classes_as_string))
         print("{} - Capabilities : {}".format(
-            network.nodes[node].node_id, network.nodes[node].capabilities))
+            multisensor.node_id, multisensor.capabilities))
         print(
-            "{} - Neigbors : {}".format(network.nodes[node].node_id,
-                                        network.nodes[node].neighbors))
+            "{} - Neigbors : {}".format(multisensor.node_id,
+                                        multisensor.neighbors))
         print(
-            "{} - Can sleep : {}".format(network.nodes[node].node_id,
-                                         network.nodes[node].can_wake_up()))
+            "{} - Can sleep : {}".format(multisensor.node_id,
+                                         multisensor.can_wake_up()))
 
 
 def get_multisensors_node_ids(network_obj):
@@ -137,6 +137,28 @@ def is_multisensor_awake(sensor_id, network_obj):
         return False, sensor_id
 
 
+def get_all_data(sensor_id, network_obj):
+    multisensor = ZWaveNode(sensor_id, network_obj)
+
+    values = {}
+    for cmd in multisensor.command_classes:
+        for val in multisenor.get_values_for_command_class(cmd):
+            values[multisensor.values[val].object_id] = {
+                'label': multisensor.values[val].label,
+                'help': multisensor.values[val].help,
+                'max': multisensor.values[val].max,
+                'min': multisensor.values[val].min,
+                'units': multisensor.values[val].units,
+                'data': multisensor.values[val].data,
+                'data_str': multisensor.values[val].data_as_string,
+                'genre': multisensor.values[val].genre,
+                'type': multisensor.values[val].type,
+                'ispolled': multisensor.values[val].is_polled,
+                'readonly': multisensor.values[val].is_read_only,
+                'writeonly': multisensor.values[val].is_write_only,
+            }
+
+
 if __name__ == "__main__":
     ''' Running this script as main will perform the following:
         1. Set logging options
@@ -171,6 +193,12 @@ if __name__ == "__main__":
         if multisensor_is_awake[0]:
             print("Multisensor with node ID %d is Awake" %
                   multisensor_is_awake[1])
+            try:
+                get_all_data(nodeid, network)
+            except Exception as e:
+                print("Failed to get data from Sensor")
+                print(e)
+
         else:
             print("Multisensor with node ID %d is Sleeping" %
                   multisensor_is_awake[1])
