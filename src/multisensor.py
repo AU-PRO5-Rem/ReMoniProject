@@ -36,7 +36,7 @@ def is_zwave_network_awake(network_obj):
     """
     print("Waiting for Z-Stick Network to be awake")
     time_elapsed = 0
-    for i in range(0, 20):
+    for i in range(0, 60):
         if network_obj.state >= network_obj.STATE_AWAKED:
             print("\nSuccess: Z-Stick Network is Awake")
             return True
@@ -142,7 +142,9 @@ def get_all_data(sensor_id, network_obj):
 
     values = {}
     for cmd in multisensor.command_classes:
+        print("Command: ", cmd)
         for val in multisensor.get_values_for_command_class(cmd):
+            values = {}
             values[multisensor.values[val].object_id] = {
                 'label': multisensor.values[val].label,
                 'help': multisensor.values[val].help,
@@ -157,7 +159,19 @@ def get_all_data(sensor_id, network_obj):
                 'readonly': multisensor.values[val].is_read_only,
                 'writeonly': multisensor.values[val].is_write_only,
             }
-    print(values)
+            # if values is not None:
+            # print(values)
+
+
+def get_temperature(sensor_id, network_obj):
+    multisensor = network_obj.nodes[sensor_id]
+    multisensor.get_values()
+    values = {}
+    for value in multisensor.values:
+        if multisensor.values[value].label == 'Temperature':
+            values = {'Temperature': multisensor.values[value].data}
+    return values
+
 
 if __name__ == "__main__":
     ''' Running this script as main will perform the following:
@@ -194,7 +208,9 @@ if __name__ == "__main__":
             print("Multisensor with node ID %d is Awake" %
                   multisensor_is_awake[1])
             try:
-                get_all_data(nodeid, network)
+                #get_all_data(nodeid, network)
+                temp = get_temperature(nodeid, network)
+                print(temp)
             except Exception as e:
                 print("Failed to get data from Sensor")
                 print(e)
