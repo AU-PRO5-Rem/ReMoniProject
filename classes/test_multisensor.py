@@ -41,6 +41,13 @@ class MultisensorUnitTest(unittest.TestCase):
         # Assert
         self.assertFalse(self._uut.is_awake())
 
+    def test_getValues_getsTemperature_CorrectValue(self):
+        # Arrange
+
+        # Act
+
+        # Assert
+
 
 if __name__ == '__main__':
     unittest.main()

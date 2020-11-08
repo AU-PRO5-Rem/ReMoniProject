@@ -6,6 +6,7 @@
 """
 
 from classes.interfaces.interface_ozwnetwork import IOZWNetwork
+from classes.test_fakes.fake_sensordata import fake_sensor_dict
 
 
 class fake_ozwnetwork(IOZWNetwork):
@@ -18,6 +19,18 @@ class fake_ozwnetwork(IOZWNetwork):
 
     def is_awake(self):
         """
-        Check if
+        Check if sensor is awake
         """
         return self.status_is_awake
+
+    def get_values(self):
+        """
+        Get Values from Sensor(s)
+        """
+        return fake_sensor_dict
+
+    def update_configuration(self):
+        """
+        Send configurations to sensor
+        """
+        raise NotImplementedError

@@ -15,8 +15,9 @@ abstract class IOZWNetwork {
 
 class Multisensor implements ISensor {
     - _temperature : float
-    - _humidity : float
-    - _luminous : float
+    - _relhumidity : float
+    - _luminance : float
+    - _ultraviolet : float
     - _node_id : int
     + sensor_values : dict
     + sensor_values_str : String
@@ -29,8 +30,9 @@ class Multisensor implements ISensor {
     + get_values() : void
     + update_configuration() : int
     - get_temperature() : void
-    - get_humidity() : void
-    - get_luminous() : void
+    - get_relhumidity() : void
+    - get_luminance() : void
+    - get_ultraviolet() : void
 }
 
 class OZWNetwork implements IOZWNetwork {
