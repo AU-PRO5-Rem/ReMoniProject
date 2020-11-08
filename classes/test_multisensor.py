@@ -47,6 +47,7 @@ class MultisensorUnitTest(unittest.TestCase):
         # Act
 
         # Assert
+        self.assertTrue(True)
 
 
 if __name__ == '__main__':
