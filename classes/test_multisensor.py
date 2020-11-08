@@ -9,7 +9,6 @@ import unittest
 
 from class_multisensor import Multisensor
 from interfaces.interface_sensor import ISensor
-from interfaces.interface_ozwnetwork import IOZWNetwork
 from test_fakes.fake_ozwnetwork import fake_ozwnetwork
 
 # Global Arrange

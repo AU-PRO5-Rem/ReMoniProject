@@ -15,6 +15,6 @@ class IOZWNetwork():
 
     def is_awake(self, parameter_list):
         """
-        Check if 
+        Check if
         """
         raise NotImplementedError

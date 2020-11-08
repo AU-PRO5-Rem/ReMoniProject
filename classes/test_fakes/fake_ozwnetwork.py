@@ -18,6 +18,6 @@ class fake_ozwnetwork(IOZWNetwork):
 
     def is_awake(self):
         """
-        Check if 
+        Check if
         """
         return self.status_is_awake
