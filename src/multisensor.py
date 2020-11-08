@@ -56,11 +56,12 @@ def is_zwave_network_awake(network_obj):
         return False
 
 
-def zwave_network_scan():
+def zwave_network_scan(network_obj):
     """ Performs a complete scan for network nodes
         and print all information.
         Primarily for Debug and Test use
     """
+    network = network_obj
     print("Network home id : {}".format(network.home_id_str))
     print("Controller node id : {}".format(
         network.controller.node.node_id))
@@ -70,31 +71,31 @@ def zwave_network_scan():
     for node in network.nodes:
         print("---------------------------------------")
         print(
-            "{} - Name : {}".format(multisensor.node_id,
-                                    multisensor.name))
+            "{} - Name : {}".format(network.nodes[node].node_id,
+                                    network.nodes[node].name))
         print("{} - Manufacturer name / id : {} / {}".format(
-            multisensor.node_id,
-            multisensor.manufacturer_name,
-            multisensor.manufacturer_id))
+            network.nodes[node].node_id,
+            network.nodes[node].manufacturer_name,
+            network.nodes[node].manufacturer_id))
         print("{} - Product name / id / type : {} / {} / {}".format(
-            multisensor.node_id,
-            multisensor.product_name,
-            multisensor.product_id,
-            multisensor.product_type))
+            network.nodes[node].node_id,
+            network.nodes[node].product_name,
+            network.nodes[node].product_id,
+            network.nodes[node].product_type))
         print(
-            "{} - Version : {}".format(multisensor.node_id,
-                                       multisensor.version))
+            "{} - Version : {}".format(network.nodes[node].node_id,
+                                       network.nodes[node].version))
         print("{} - Command classes : {}".format(
-            multisensor.node_id,
-            multisensor.command_classes_as_string))
+            network.nodes[node].node_id,
+            network.nodes[node].command_classes_as_string))
         print("{} - Capabilities : {}".format(
-            multisensor.node_id, multisensor.capabilities))
+            network.nodes[node].node_id, network.nodes[node].capabilities))
         print(
-            "{} - Neigbors : {}".format(multisensor.node_id,
-                                        multisensor.neighbors))
+            "{} - Neigbors : {}".format(network.nodes[node].node_id,
+                                        network.nodes[node].neighbors))
         print(
-            "{} - Can sleep : {}".format(multisensor.node_id,
-                                         multisensor.can_wake_up()))
+            "{} - Can sleep : {}".format(network.nodes[node].node_id,
+                                         network.nodes[node].can_wake_up()))
 
 
 def get_multisensors_node_ids(network_obj):
@@ -208,7 +209,6 @@ if __name__ == "__main__":
             print("Multisensor with node ID %d is Awake" %
                   multisensor_is_awake[1])
             try:
-                #get_all_data(nodeid, network)
                 temp = get_temperature(nodeid, network)
                 print(temp)
             except Exception as e:
