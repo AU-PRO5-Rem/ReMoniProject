@@ -8,12 +8,13 @@
 import unittest
 
 from class_multisensor import Multisensor
-from abstract_classes import ISensor
-from abstract_classes import IOZWNetwork
-from fakes import fake_network
+from interfaces.interface_sensor import ISensor
+from interfaces.interface_ozwnetwork import IOZWNetwork
+from test_fakes.fake_ozwnetwork import fake_ozwnetwork
+
 # Global Arrange
 _stub_sensor = ISensor()
-_mock_multisensor = fake_network()
+_mock_multisensor = fake_ozwnetwork()
 
 
 class MultisensorUnitTest(unittest.TestCase):

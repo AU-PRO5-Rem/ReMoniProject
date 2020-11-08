@@ -14,9 +14,8 @@
 
 """
 
-
-from abstract_classes import ISensor
-from abstract_classes import IOZWNetwork
+from interfaces.interface_sensor import ISensor
+from interfaces.interface_ozwnetwork import IOZWNetwork
 
 
 class Multisensor(ISensor, IOZWNetwork):

@@ -5,10 +5,10 @@
     Description:    Fakes to use for unit testing
 """
 
-from abstract_classes import IOZWNetwork
+from interfaces.interface_ozwnetwork import IOZWNetwork
 
 
-class fake_network(IOZWNetwork):
+class fake_ozwnetwork(IOZWNetwork):
 
     def __init__(self):
         self.status_is_awake = False
