@@ -5,7 +5,7 @@
     Description:    Fakes to use for unit testing
 """
 
-from interfaces.interface_ozwnetwork import IOZWNetwork
+from classes.interfaces.interface_ozwnetwork import IOZWNetwork
 
 
 class fake_ozwnetwork(IOZWNetwork):

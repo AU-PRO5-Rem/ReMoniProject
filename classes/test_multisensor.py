@@ -7,9 +7,10 @@
 
 import unittest
 
-from class_multisensor import Multisensor
-from interfaces.interface_sensor import ISensor
-from test_fakes.fake_ozwnetwork import fake_ozwnetwork
+#from class_multisensor import Multisensor
+from classes.class_multisensor import Multisensor
+from classes.interfaces.interface_sensor import ISensor
+from classes.test_fakes.fake_ozwnetwork import fake_ozwnetwork
 
 # Global Arrange
 _stub_sensor = ISensor()
