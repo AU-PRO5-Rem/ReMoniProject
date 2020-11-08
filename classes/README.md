@@ -1,3 +1,3 @@
 ## Multisensor Class:
 
-![PlantUML cd - MultiSensor](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/AU-PRO5-Rem/ReMoniProject/feature/zwave_multisensor/doc/class_multisensor.iuml)
+![PlantUML cd - MultiSensor](https://www.plantuml.com/plantuml/svg/lLJBRi8m4BpdAtnC5C8788GuLUgXvS01YKjauYLrSUp83n2YzDlhE4vmqj1ZESxipixEEgoLnbARYg4tmpHLm9MGKOGFIajSQ5Gmh1HwtJeStI9aVxUElIEgSdp19uWJj4078TYue0ITdp4pe5p9ML0oBZ4rmHhoGl0ZBOt4cWhkYYdNqVstbyr-zmxw8kHfqWzlkLm29jUdllx3UEito1NHgcPG0TVZI3EKQwXgi296WfKuCe5rHtsOYXAghsESMPmBeyOu5mHoIhoJ1anHwy2lP1b2YqagjzjPUgibvQKl66muQXvomsvNWi84Oh_sB3pZ37d3YMlu7ZGaVixqmTAdTqh_Fa-RLDCSv3vKQEak-ocko__1zLSF7cbuzD7RJP6ekqp5uTCX_ls6Y4qdhDZly1asTR-FrtXmVaJiYMJHYmOrLZJsS2FYXZJ-QroSS0beKmFFN2bQBby48o1NA-UwtR1N6I6jv11ipJRguTSmdw_2HA8WdELNbWtrfibc_2JZ9qPhuCJ-k_q0 )

@@ -4,7 +4,6 @@ abstract class ISensor {
     {abstract} is_awake() : bool
     {abstract} get_values() : void
     {abstract} update_configuration() : int
-
 }
 
 abstract class IOZWNetwork {
@@ -12,8 +11,6 @@ abstract class IOZWNetwork {
     {abstract} is_awake() : bool
     {abstract} get_values() : void
     {abstract} update_configuration() : int
-
-
 }
 
 class Multisensor implements ISensor {
@@ -49,13 +46,11 @@ package Open-ZWave <<Folder>> {
   class ZWaveNode
   class ZWaveNetwork
   class ZWaveOption
-
 }
 
 Multisensor ..> IOZWNetwork
 OZWNetwork <|-- ZWaveNetwork
 OZWNetwork <|-- ZWaveNode
 OZWNetwork <|-- ZWaveOption
-
 
 @enduml
