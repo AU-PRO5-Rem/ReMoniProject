@@ -1,0 +1,61 @@
+@startuml Multisensor
+
+abstract class ISensor {
+    {abstract} is_awake() : bool
+    {abstract} get_values() : void
+    {abstract} update_configuration() : int
+
+}
+
+abstract class IOZWNetwork {
+    {abstract} is_network_ready() : bool
+    {abstract} is_awake() : bool
+    {abstract} get_values() : void
+    {abstract} update_configuration() : int
+
+
+}
+
+class Multisensor implements ISensor {
+    - _temperature : float
+    - _humidity : float
+    - _luminous : float
+    - _node_id : int
+    + sensor_values : dict
+    + sensor_values_str : String
+    + configurations : dict
+    + configurations_str : String
+
+      Multisensor(ISensor, IOZWNetwork, node_id)
+    ~ Multisensor()
+    + is_awake() : bool
+    + get_values() : void
+    + update_configuration() : int
+    - get_temperature() : void
+    - get_humidity() : void
+    - get_luminous() : void
+}
+
+class OZWNetwork implements IOZWNetwork {
+  + options : obj
+  + network : obj
+  + nodes : obj
+  + ZWaveOption() : options
+  + ZWaveNetwork(options): network 
+  + ZWaveNode(network) : nodes
+}
+
+package Open-ZWave <<Folder>> {
+  class ZWaveNode
+  class ZWaveNetwork
+  class ZWaveOption
+
+}
+
+Multisensor ..> IOZWNetwork
+OZWNetwork <|-- ZWaveNetwork
+OZWNetwork <|-- ZWaveNode
+OZWNetwork <|-- ZWaveOption
+
+
+@enduml
