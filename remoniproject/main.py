@@ -1,4 +1,4 @@
-from remoniproject.startup.start_up_functions import setup
+from .startup.start_up_functions import setup
 
 
 def main():
