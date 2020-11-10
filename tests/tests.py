@@ -1,4 +1,4 @@
-from remonyproject.main import increment, decrement
+from remoniproject.main import increment, decrement
 
 
 def test_increment():
