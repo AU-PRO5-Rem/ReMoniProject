@@ -13,7 +13,7 @@ from remoniproject.zwave.fakes import fake_ozwnetwork
 
 # Global Arrange
 node_id = 8
-_mock_multisensor = fake_ozwnetwork(node_id)
+_mock_multisensor = fake_ozwnetwork()
 
 
 class MultisensorUnitTest(unittest.TestCase):
