@@ -17,6 +17,9 @@
 import time
 
 from classes.interfaces.interface_ozwnetwork import IOZWNetwork
+from openzwave.node import ZWaveNode
+from openzwave.network import ZWaveNetwork
+from openzwave.option import ZWaveOption
 
 
 class OZWMultisensor(IOZWNetwork):
@@ -39,28 +42,28 @@ class OZWMultisensor(IOZWNetwork):
         # Node Object
         self.__zwnode = ZWaveNode(self.__node_id, self.__network)
 
+    def get_values(self):
+        if self.network_is_ready() is True:
+            multisensor = self.__network.nodes[self.__node_id]
+            multisensor.refresh_info()
+            multisensor.get_values()
 
-def get_values(self):
-    if self.network_is_ready is True:
-        multisensor = self.__network.nodes[self.__node_id]
-        multisensor.get_values()
+            # Iterate through values and keep only the Readings from CMD CLASS 49
+            values = {}
+            new_label_data = {}
+            for val in multisensor.values:
+                if multisensor.values[val].command_class == 49:
+                    new_label_data = {
+                        multisensor.values[val].label:
+                        multisensor.values[val].data}
+                    values.update(new_label_data)
 
-        # Iterate through values and keep only the Readings from CMD CLASS 49
-        values = {}
-        new_label_data = {}
-        for val in multisensor.values:
-            if multisensor.values[val].command_class == 49:
-                new_label_data = {
-                    multisensor.values[val].label:
-                    multisensor.values[val].data}
-                values.update(new_label_data)
-
-        if len(values) > 0:
-            return values
+            if len(values) > 0:
+                return values
+            else:
+                return 0
         else:
-            return 0
-    else:
-        return -1
+            return -1
 
     def network_is_ready(self):
         """
@@ -69,7 +72,6 @@ def get_values(self):
         time_elapsed = 0
         for i in range(0, 60):
             if self.__network.state >= self.__network.STATE_AWAKED:
-                print("\nSuccess: Z-Stick Network is Awake")
                 return True
             else:
                 time_elapsed += 1
@@ -82,8 +84,9 @@ def get_values(self):
         """
         Check if sensor is awake
         """
-        if self.__zwnode.is_awake:
-            return True
+        if self.network_is_ready():
+            if self.__zwnode.is_awake:
+                return True
         else:
             return False
 
