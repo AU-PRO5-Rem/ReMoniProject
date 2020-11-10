@@ -13,12 +13,13 @@
 
 """
 import sys
+import json
+import time
 
 from openzwave.node import ZWaveNode
 from openzwave.network import ZWaveNetwork
 from openzwave.option import ZWaveOption
 
-import time
 
 # Aotec Gen.5 Stick should be known as USB ACM Device (ttyACM0) by default
 # Note: Earlier model of Z-Stick would be known as ttyUSB0 but USE ttyACM0
