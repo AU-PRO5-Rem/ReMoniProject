@@ -168,10 +168,28 @@ def get_temperature(sensor_id, network_obj):
     multisensor = network_obj.nodes[sensor_id]
     multisensor.get_values()
     values = {}
+
     for value in multisensor.values:
         if multisensor.values[value].label == 'Temperature':
             values = {'Temperature': multisensor.values[value].data}
     return values
+
+
+def get_values(sensor_id, network_obj):
+    multisensor = network_obj.nodes[sensor_id]
+    multisensor.get_values()
+
+    # Iterate through values and keep only the Readings from CMD CLASS 49
+    values = {}
+    new_label_data = {}
+    for val in multisensor.values:
+        if multisensor.values[val].command_class == 49:
+            new_label_data = {
+                multisensor.values[val].label: multisensor.values[val].data}
+            values.update(new_label_data)
+
+    if len(values) > 0:
+        return json.dumps(values)
 
 
 if __name__ == "__main__":
@@ -195,6 +213,9 @@ if __name__ == "__main__":
 
     # Check is Z-Stick ZWave Network Awake
     is_zwave_network_awake(network)
+    print("Do you want to perform a Z-Wave network scan? y/n")
+    if (input == "y"):
+        zwave_network_scan(network)
 
     # Collect node IDs for alle Multisensors in the Network
     # (Any other sensor type is ignored)
