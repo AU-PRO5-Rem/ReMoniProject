@@ -53,7 +53,8 @@ class MultisensorUnitTest(unittest.TestCase):
         }
         ''')
         # Act
-        cut = json.loads(_mock_multisensor.get_values())
+        self._uut.get_values()
+        cut = json.loads(self._uut.sensor_values)
 
         # Assert
         # Assert that keys and values are a exact match

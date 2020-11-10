@@ -30,6 +30,17 @@ class Multisensor(ISensor, IOZWNetwork):
         self.__temperature = 0
         self.__humidity = 0
         self.__luminous = 0
+        self.sensor_values = '''
+            {
+                "Temperature": 00.00,
+                "Luminance": 00.00,
+                "Relative Humidity": 00.00,
+                "Ultraviolet": 00.00
+            }
+            '''
 
     def is_awake(self):
         return self.__network.is_awake()
+
+    def get_values(self):
+        self.sensor_values = self.__network.get_values()
