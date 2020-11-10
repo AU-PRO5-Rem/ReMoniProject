@@ -16,7 +16,6 @@
 
 from remoniproject.zwave.class_multisensor import Multisensor
 from remoniproject.zwave.ozw_multisensor import OZWMultisensor
-from temp.classes import Multisensor
 
 
 def application():

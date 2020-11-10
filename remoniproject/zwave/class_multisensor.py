@@ -14,8 +14,6 @@
 
 """
 
-from remoniproject.zwave.interfaces.interface_ozwnetwork import IOZWNetwork
-
 
 class Multisensor(object):
 

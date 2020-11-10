@@ -48,7 +48,7 @@ class OZWMultisensor(IOZWNetwork):
             multisensor.refresh_info()
             multisensor.get_values()
 
-            # Iterate through values and keep only the Readings from CMD CLASS 49
+            # Iterate through values and keep the Readings from CMD CLASS 49
             values = {}
             new_label_data = {}
             for val in multisensor.values:
