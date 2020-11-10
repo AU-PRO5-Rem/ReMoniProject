@@ -77,7 +77,7 @@ class OZWMultisensor(IOZWNetwork):
                 time_elapsed += 1
                 time.sleep(1.0)
 
-        if network_obj.state < network_obj.STATE_AWAKED:
+        if self.__network.state < self.__network.STATE_AWAKED:
             return False
 
     def is_awake(self):
