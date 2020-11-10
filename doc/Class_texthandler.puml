@@ -1,0 +1,87 @@
+@startuml
+
+abstract class Itexthandler {
+'variables
+
+
+'function
+    {abstract} loadfilter() : void
+    {abstract} converttext(filter : dict) : void
+}
+
+abstract class Ifile {
+'variables
+
+
+'function
+    {abstract} writetojsonfile(filename : string,data : json) : int
+    {abstract} readfromfile(filename : string) : string
+}
+
+abstract class Ijsonhandler {
+'variables
+
+
+'function
+    {abstract} convertfromjson(data : json) : string
+    {abstract} converttojson(data : string) : json
+
+}
+
+
+class texthandler implements Itexthandler {
+'variables
+    - filter : dict
+    - data_string : string
+    - data_json : json
+    - data_dict : dict
+
+'function
+      texthandler(Itexthandler, Ifile, Ijsonhandler)
+    + loadfilter() : void
+    + converttext(filter : dict) : void
+    - stringtodict(data_string : string) : dict
+    - getdatafromjson(data_json :json) : dict
+    - savedatatojson(data_dict : dict) : json
+    - filterdata(filter : dict, data_dict : dict) : dict
+}
+
+class filehandler implements Ifile {
+'variables
+
+
+'function
+    + writetojsonfile(filename : string,data : json) : int
+    + readfromfile(filename : string) : string
+}
+class fake_filehandler implements Ifile {
+'variables
+
+
+'function
+    + writetojsonfile(filename : string,data : json) : int
+    + readfromfile(filename : string) : string
+}
+
+
+class jsonhandler implements Ijsonhandler {
+'variables
+
+
+'function
+    + convertfromjson(data : json) : string
+    + converttojson(data : string) : json
+}
+class fake_jsonhandler implements Ijsonhandler {
+'variables
+
+
+'function
+    + convertfromjson(data : json) : string
+    + converttojson(data : string) : json
+}
+
+texthandler..> Ifile
+texthandler ..> Ijsonhandler
+
+@enduml
