@@ -27,9 +27,10 @@ class Multisensor(ISensor, IOZWNetwork):
 
         self.__node_id = node_id
 
-        self.__temperature = 0
-        self.__humidity = 0
-        self.__luminous = 0
+        self.__temperature = 0.0
+        self.__rel_humidity = 0.0
+        self.__luminance = 0.0
+        self.__ultraviolet = 0.0
         self.sensor_values = '''
             {
                 "Temperature": 00.00,
