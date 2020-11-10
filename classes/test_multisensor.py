@@ -6,6 +6,7 @@
 """
 
 import unittest
+import json
 
 from classes.class_multisensor import Multisensor
 from classes.interfaces.interface_sensor import ISensor
@@ -41,13 +42,23 @@ class MultisensorUnitTest(unittest.TestCase):
         # Assert
         self.assertFalse(self._uut.is_awake())
 
-    def test_getValues_getsTemperature_CorrectValue(self):
+    def test_getValues_JSONloads_CorrectItems(self):
         # Arrange
-
+        expected_dict = json.loads('''
+        {
+            "Temperature": 12.34,
+            "Luminance": 12.34,
+            "Relative Humidity": 12.34,
+            "Ultraviolet": 12.34
+        }
+        ''')
         # Act
+        cut = json.loads(_mock_multisensor.get_values())
 
         # Assert
-        self.assertTrue(True)
+        # Assert that keys and values are a exact match
+        self.assertEqual(cut.items(),
+                         expected_dict.items())
 
 
 if __name__ == '__main__':

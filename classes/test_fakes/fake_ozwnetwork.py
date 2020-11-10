@@ -6,7 +6,7 @@
 """
 
 from classes.interfaces.interface_ozwnetwork import IOZWNetwork
-from classes.test_fakes.fake_sensordata import fake_sensor_dict
+from classes.test_fakes.fake_multisensor import fake_values_dict
 
 
 class fake_ozwnetwork(IOZWNetwork):
@@ -27,7 +27,7 @@ class fake_ozwnetwork(IOZWNetwork):
         """
         Get Values from Sensor(s)
         """
-        return fake_sensor_dict
+        return fake_values_dict
 
     def update_configuration(self):
         """

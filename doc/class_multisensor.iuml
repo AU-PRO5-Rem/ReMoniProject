@@ -20,9 +20,7 @@ class Multisensor implements ISensor {
     - _ultraviolet : float
     - _node_id : int
     + sensor_values : dict
-    + sensor_values_str : String
     + configurations : dict
-    + configurations_str : String
 
       Multisensor(ISensor, IOZWNetwork, node_id)
     ~ Multisensor()
