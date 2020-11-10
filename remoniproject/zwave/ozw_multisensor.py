@@ -16,7 +16,7 @@
 
 import time
 
-from classes.interfaces.interface_ozwnetwork import IOZWNetwork
+from remoniproject.zwave.interfaces.interface_ozwnetwork import IOZWNetwork
 
 
 class OZWMultisensor(IOZWNetwork):

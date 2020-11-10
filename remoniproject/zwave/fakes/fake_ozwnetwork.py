@@ -5,8 +5,8 @@
     Description:    Fakes to use for unit testing
 """
 
-from classes.interfaces.interface_ozwnetwork import IOZWNetwork
-from classes.test_fakes.fake_multisensor import fake_values_dict
+from remoniproject.zwave.interfaces.interface_ozwnetwork import IOZWNetwork
+from remoniproject.zwave.fakes import fake_values_dict
 
 
 class fake_ozwnetwork(IOZWNetwork):

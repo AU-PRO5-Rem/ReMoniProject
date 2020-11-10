@@ -14,8 +14,8 @@
 
 """
 
-from classes.interfaces.interface_sensor import ISensor
-from classes.interfaces.interface_ozwnetwork import IOZWNetwork
+from remoniproject.zwave.interfaces.interface_sensor import ISensor
+from remoniproject.zwave.interfaces.interface_ozwnetwork import IOZWNetwork
 
 
 class Multisensor(ISensor, IOZWNetwork):

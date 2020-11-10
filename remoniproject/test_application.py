@@ -14,12 +14,9 @@
 
 """
 
-import json
-
-from classes.ozw_multisensor import OZWMultisensor
-from classes.class_multisensor import Multisensor
-from classes.interfaces.interface_ozwnetwork import IOZWNetwork
-from classes.interfaces.interface_sensor import ISensor
+from remoniproject.zwave.ozw_multisensor import OZWMultisensor
+from temp.classes import Multisensor
+from remoniproject.zwave.interfaces.interface_sensor import ISensor
 
 
 def application():

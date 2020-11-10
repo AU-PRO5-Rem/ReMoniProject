@@ -8,9 +8,9 @@
 import unittest
 import json
 
-from classes.class_multisensor import Multisensor
-from classes.interfaces.interface_sensor import ISensor
-from classes.test_fakes.fake_ozwnetwork import fake_ozwnetwork
+from remoniproject.zwave.class_multisensor import Multisensor
+from remoniproject.zwave.interfaces.interface_sensor import ISensor
+from remoniproject.zwave.fakes import fake_ozwnetwork
 
 # Global Arrange
 _stub_sensor = ISensor()
