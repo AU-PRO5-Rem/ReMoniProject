@@ -18,12 +18,12 @@ from remoniproject.zwave.interfaces.interface_sensor import ISensor
 from remoniproject.zwave.interfaces.interface_ozwnetwork import IOZWNetwork
 
 
-class Multisensor(ISensor, IOZWNetwork):
+class Multisensor(object):
 
-    def __init__(self, ISensor, IOZWNetwork, node_id):
+    def __init__(self, _ISensor, _IOZWNetwork, node_id):
 
-        self.__multisensor = ISensor
-        self.__network = IOZWNetwork
+        self.__multisensor = _ISensor
+        self.__network = _IOZWNetwork
 
         self.__node_id = node_id
 
