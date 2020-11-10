@@ -26,14 +26,12 @@ class fake_ozwnetwork(IOZWNetwork):
         """
         Get Values from Sensor(s)
         """
-        fake_values_dict = '''
-        {
+        fake_values_dict = '''{
             "Temperature": 12.34,
             "Luminance": 12.34,
             "Relative Humidity": 12.34,
             "Ultraviolet": 12.34
-        }
-        '''
+            }'''
         return fake_values_dict
 
     def update_configuration(self):

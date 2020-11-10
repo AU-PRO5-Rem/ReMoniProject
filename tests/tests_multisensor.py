@@ -9,7 +9,7 @@ import unittest
 import json
 
 from remoniproject.zwave.class_multisensor import Multisensor
-from remoniproject.zwave.fakes import fake_ozwnetwork
+from remoniproject.zwave.fakes.fake_ozwnetwork import fake_ozwnetwork
 
 # Global Arrange
 node_id = 8
