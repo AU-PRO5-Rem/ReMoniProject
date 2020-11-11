@@ -14,30 +14,19 @@
 
 """
 
-from remoniproject.zwave.interfaces.interface_sensor import ISensor
-from remoniproject.zwave.interfaces.interface_ozwnetwork import IOZWNetwork
 
+class Multisensor(object):
 
-class Multisensor(ISensor, IOZWNetwork):
+    def __init__(self, _IOZWNetwork):
 
-    def __init__(self, ISensor, IOZWNetwork, node_id):
-
-        self.__multisensor = ISensor
-        self.__network = IOZWNetwork
-
-        self.__node_id = node_id
-
-        self.__temperature = 0.0
-        self.__rel_humidity = 0.0
-        self.__luminance = 0.0
-        self.__ultraviolet = 0.0
+        self.__network = _IOZWNetwork
         self.sensor_values = '''
-            {
-                "Temperature": 00.00,
-                "Luminance": 00.00,
-                "Relative Humidity": 00.00,
-                "Ultraviolet": 00.00
-            }
+{
+    "Temperature": 00.00,
+    "Luminance": 00.00,
+    "Relative Humidity": 00.00,
+    "Ultraviolet": 00.00
+}
             '''
 
     def is_awake(self):
