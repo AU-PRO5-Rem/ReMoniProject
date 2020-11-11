@@ -48,7 +48,7 @@ class OZWMultisensor(IOZWNetwork):
             multisensor.refresh_info()
             multisensor.get_values()
 
-            # Iterate through values and keep only the Readings from CMD CLASS 49
+            # Iterate through values and keep the Readings from CMD CLASS 49
             values = {}
             new_label_data = {}
             for val in multisensor.values:
@@ -77,7 +77,7 @@ class OZWMultisensor(IOZWNetwork):
                 time_elapsed += 1
                 time.sleep(1.0)
 
-        if network_obj.state < network_obj.STATE_AWAKED:
+        if self.__network.state < self.__network.STATE_AWAKED:
             return False
 
     def is_awake(self):

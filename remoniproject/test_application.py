@@ -14,9 +14,8 @@
 
 """
 
+from remoniproject.zwave.class_multisensor import Multisensor
 from remoniproject.zwave.ozw_multisensor import OZWMultisensor
-from temp.classes import Multisensor
-from remoniproject.zwave.interfaces.interface_sensor import ISensor
 
 
 def application():
@@ -30,10 +29,8 @@ Show Values from Sensor 2 (2v)
 Exit (e)
 """
 
-    dummy_sensor = ISensor()
-
-    multisensor_one = Multisensor(dummy_sensor, OZWMultisensor(7), 7)
-    multisensor_two = Multisensor(dummy_sensor, OZWMultisensor(8), 8)
+    multisensor_one = Multisensor(OZWMultisensor(7))
+    multisensor_two = Multisensor(OZWMultisensor(8))
 
     print("Welcome to the Demonstration of 'how to get data from two "
           "Aeotec Multisensor 6'")
