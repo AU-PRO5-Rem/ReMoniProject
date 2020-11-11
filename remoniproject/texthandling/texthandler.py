@@ -1,9 +1,8 @@
-from remoniproject.texthandling.interfaces import Itexthandler, Ijsonhandler, Ifilehandler
+from remoniproject.texthandling.interfaces import Ijsonhandler, Ifilehandler
 
 
-class texthandler(Itexthandler, Ijsonhandler, Ifilehandler):
-    def __init__(self, Itexthandler, Ijsonhandler, Ifilehandler):
-        self.__texthandler = Itexthandler
+class texthandler(Ijsonhandler, Ifilehandler):
+    def __init__(self, Ijsonhandler, Ifilehandler):
         self.__jsonhandler = Ijsonhandler
         self.__filehandler = Ifilehandler
 
@@ -14,7 +13,10 @@ class texthandler(Itexthandler, Ijsonhandler, Ifilehandler):
         self.__data_dict = {}
 
     def loadfilter(self):
-        return NotImplementedError
+        localid = {}        # Sensor ID
+
+        for id in localid:  # Gets all sensor configs and saves them with ID
+            self.__filter = {id, self.__filehandler.readconffile(id)}
 
     def converttext(self):
         return NotImplementedError

@@ -1,5 +1,5 @@
 from remoniproject.texthandling.interfaces import Ifilehandler
-from
+
 
 class filehandler(Ifilehandler):
     def __init__(self, Ifilehandler):
@@ -9,13 +9,18 @@ class filehandler(Ifilehandler):
         filepath = 'remoniproject/data/'    # File path
         filename = 'Send_sensor'+str(ID)+'.json'   # File name with ID
         writepath = filepath + filename     # Complete path to file
-        f = open(writepath, 'w+')       # Open file if file doesn't exist create the file
+        # Open file if file doesn't exist create the file
+        f = open(writepath, 'w+')
         f.write(data)       # Write json data in the file
         f.close()       # Close the file
 
-    def readfromfile(self, ID):
+    def readfromfile(self):
+        return NotImplementedError
+
+    def readconffile(self, ID):
         filepath = 'remoniproject/data/'  # File path
-        filename = 'conf_pnZW100_MultiSensor_6_ni'+str(ID)+'.txt'   # File name with ID
+        # File name with ID
+        filename = 'conf_pnZW100_MultiSensor_6_ni'+str(ID)+'.txt'
         writepath = filepath + filename     # Complete path to file
         f = open(writepath, 'r')        # open file in read mode
         data = f.read()             # Read content of file
