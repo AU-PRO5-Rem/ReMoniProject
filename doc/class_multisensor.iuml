@@ -12,7 +12,7 @@ abstract class IGatewayFS {
     {abstract} read_configuration_from_file() : bool
 }
 
-class GatewayTransactions implements IGatewayFS {
+class Gateway implements IGatewayFS {
 + write_values_to_file() : bool
 + read_configuration_from_file() : bool
 }
@@ -61,7 +61,7 @@ package OpenZWave <<Folder>> {
 Multisensor ..> IOZWNetwork
 OZWNetwork <|-- OpenZWave : Use
 Multisensor ..> IGatewayFS
-GatewayTransactions <|-- Kernel : Use
+Gateway <|-- Kernel : Use
 
 
 @enduml
