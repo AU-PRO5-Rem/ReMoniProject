@@ -137,7 +137,6 @@ class OZWMultisensor(IOZWNetwork):
         try:
             new_timestamp = {"Timestamp": timestamp}
             # Apply timestamp to sensor_values
-            vals_dict = eval(vals_dict)
             vals_dict.update(new_timestamp)
             return vals_dict
 
