@@ -9,18 +9,19 @@ import unittest
 import json
 
 from remoniproject.zwave.class_multisensor import Multisensor
-from remoniproject.zwave.fakes.fake_ozwnetwork import fake_ozwnetwork
+from remoniproject.zwave.fakes.fake_ozwnetwork import FakeOZWNetwork
+from remoniproject.zwave.fakes.fake_gateway import FakeGatewayFS
 
 # Global Arrange
-node_id = 8
-_mock_multisensor = fake_ozwnetwork()
+_mock_multisensor = FakeOZWNetwork()
+_stub_gateway = FakeGatewayFS()
 
 
 class MultisensorUnitTest(unittest.TestCase):
 
     def setUp(self):
         # Common Arrange MultisensorUnitTest
-        self._uut = Multisensor(_mock_multisensor)
+        self._uut = Multisensor(_mock_multisensor, _stub_gateway)
 
     def test_isAwake_SetToAwake_ReturnsTrue(self):
         # Arrange

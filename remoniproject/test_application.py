@@ -31,8 +31,8 @@ Write values to file, Sensor 2 (2w)
 Exit (e)
 """
 
-    multisensor_one = Multisensor(OZWMultisensor(7))
-    multisensor_two = Multisensor(OZWMultisensor(8))
+    multisensor_one = Multisensor(OZWMultisensor(7), dummy_fs())
+    multisensor_two = Multisensor(OZWMultisensor(8), dummy_fs())
 
     print("Welcome to the Demonstration of 'how to get data from two "
           "Aeotec Multisensor 6'")
