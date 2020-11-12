@@ -19,7 +19,7 @@ test:
 		@echo ""
 		@echo ""
 		@echo "Testing using Unittest Framework"
-		@cd ./Debug; python -m unittest -v tests_multisensor.py
+		@cd ./Debug; python -m unittest -v tests_multisensor
 		
 clean:	
 		@echo ""
