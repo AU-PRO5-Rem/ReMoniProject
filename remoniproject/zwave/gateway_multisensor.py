@@ -10,7 +10,7 @@
 import json
 from syslog import syslog
 
-from interfaces.interface_gatewayfs import IGatewayFS
+from .interfaces.interface_gatewayfs import IGatewayFS
 
 
 class GatewayFS(IGatewayFS):
