@@ -15,6 +15,7 @@
 """
 
 from datetime import datetime
+import syslog
 
 
 class Multisensor(object):
@@ -61,10 +62,10 @@ class Multisensor(object):
     def __add_timestamp(self):
         new_val = {}
         try:
-            timestamp = timestamp(datetime.now(timezone.utc))
+            timestamp = datetime.timestamp(datetime.now())
             new_val = {"Timestamp": timestamp}
             self.sensor_values.update(new_val)
             return True
         except Exception as emsg:
-            syslog(syslog.LOG_ERR, 'Unable to add timestamp to file!\n %s', emsg)
+            syslog(syslog.LOG_ERR, 'Unable to add timestamp!\n %s', emsg)
             return False

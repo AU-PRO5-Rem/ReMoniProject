@@ -65,6 +65,7 @@ class OZWMultisensor(IOZWNetwork):
             # Iterate through values and keep the Readings from CMD CLASS 49
             stored_vals = {}
             new_val = {}
+
             for val in multisensor.values:
                 if multisensor.values[val].command_class == 49:
                     new_val = {
@@ -72,10 +73,13 @@ class OZWMultisensor(IOZWNetwork):
                         multisensor.values[val].data}
                     stored_vals.update(new_val)
 
-            if len(values) > 0:
-                return values
+            if len(stored_vals) > 0:
+                return stored_vals
             else:
+                # No values gathered. Possibly due to an unknown error
                 return 0
+
+        # Network is not ready return -1
         else:
             return -1
 

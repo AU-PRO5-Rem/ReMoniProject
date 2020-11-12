@@ -40,9 +40,9 @@ class GatewayFS(IGatewayFS):
     def read_configuration_from_file(self):
         try:
             with open(self.__conf_filename, 'r') as ifile:
-            self.conf_params_from_file
+                self.conf_params_from_file = ifile.read()
             return True
 
         except Exception as emsg:
-            syslog(syslog.LOG_ERR, 'Unable to write values to file!\n %s', emsg)
+            syslog(syslog.LOG_ERR, 'Unable to write values!\n %s', emsg)
             return False
