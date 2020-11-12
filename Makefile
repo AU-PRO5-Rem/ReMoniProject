@@ -12,10 +12,7 @@ build:
 		@mkdir -p ${WORKINGDIR}
 		@cp ./tests/tests_multisensor.py ${WORKINGDIR}
 		@cp -r ${ORIGINALS} ${WORKINGDIR}
-		@cp ${FAKES}/fake_gateway.py ${WORKINGDIR}
-		@cp ${FAKES}/fake_ozwnetwork.py ${WORKINGDIR}
 		@rm ${WORKINGDIR}/remoniproject/test_application.py
-		@rm -r ${WORKINGDIR}/remoniproject/__pycache__/
 		@echo "Done Building!"
 		
 test:
