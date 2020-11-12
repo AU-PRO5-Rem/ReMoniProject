@@ -75,7 +75,7 @@ class OZWMultisensor(IOZWNetwork):
                     stored_vals.update(new_val)
 
             if len(stored_vals) > 0:
-                self.__add_timestamp(stored_vals)
+                stored_vals = self.__add_timestamp(stored_vals)
                 return stored_vals
             else:
                 # No values gathered. Possibly due to an unknown error
@@ -137,7 +137,7 @@ class OZWMultisensor(IOZWNetwork):
         try:
             new_timestamp = {"Timestamp": timestamp}
             # Apply timestamp to sensor_values
-            vals_dict = eval(self.sensor_values)
+            vals_dict = eval(vals_dict)
             vals_dict.update(new_timestamp)
             return vals_dict
 
