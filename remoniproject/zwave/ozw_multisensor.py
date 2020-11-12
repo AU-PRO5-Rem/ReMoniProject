@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-    Description:    Concrete Object
-    Dependencies:   Open-ZWave, TBD
+    Description:    Concrete Multisensor Open-ZWave Object
+    Dependencies:   Python Open-ZWave, Aeotec Z-Stick gen.5 and Multisensor 6
 
     Hardware setup: 1.  Z-Stick Gen. 5 is plugged into an USB port
                         and Z-Stick is registered as "/dev/ttyACM0"
@@ -16,7 +16,7 @@
 
 import time
 
-from classes.interfaces.interface_ozwnetwork import IOZWNetwork
+from interfaces.interface_ozwnetwork import IOZWNetwork
 from openzwave.node import ZWaveNode
 from openzwave.network import ZWaveNetwork
 from openzwave.option import ZWaveOption
@@ -43,6 +43,20 @@ class OZWMultisensor(IOZWNetwork):
         self.__zwnode = ZWaveNode(self.__node_id, self.__network)
 
     def get_values(self):
+        """
+        Retrieve values from the ZWave network node associated with this
+        Multisensor object. It will Perform af Refresh_info() to ensure
+        that the values are the latest registered by the sensor.
+        If OK, then values are returned, else if it fails
+        to retrieve the values an error code is returned:
+
+        -1 : network is not ready
+         0 : no values was returned by the sensor
+
+        :return: dict or int errorcode
+
+        :rtype: dict
+        """
         if self.network_is_ready() is True:
             multisensor = self.__network.nodes[self.__node_id]
             multisensor.refresh_info()
@@ -68,6 +82,11 @@ class OZWMultisensor(IOZWNetwork):
     def network_is_ready(self):
         """
         Check if Z-Stick network is awake'n'ready
+        Can take up to 60s
+
+        :return: True (Awake) / False (Sleeping)
+
+        :rtype: bool
         """
         time_elapsed = 0
         for i in range(0, 60):
@@ -82,7 +101,11 @@ class OZWMultisensor(IOZWNetwork):
 
     def is_awake(self):
         """
-        Check if sensor is awake
+        Check if Sensor is awake
+
+        :return: True (Awake) / False (Sleeping)
+
+        :rtype: bool
         """
         if self.network_is_ready():
             if self.__zwnode.is_awake:

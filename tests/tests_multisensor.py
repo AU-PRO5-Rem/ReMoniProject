@@ -59,6 +59,14 @@ class MultisensorUnitTest(unittest.TestCase):
         self.assertEqual(cut.items(),
                          expected_dict.items())
 
+    def test_newtest(self):
+        # Arrange
+
+        # Act
+
+        # Assert
+        self.assertTrue(True)
+
 
 if __name__ == '__main__':
     unittest.main()

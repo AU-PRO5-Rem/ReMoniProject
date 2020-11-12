@@ -7,6 +7,21 @@ abstract class IOZWNetwork {
     {abstract} update_configuration() : int
 }
 
+abstract class IGatewayFS {
+    {abstract} write_values_to_file() : bool
+    {abstract} read_configuration_from_file() : bool
+}
+
+class GatewayTransactions implements IGatewayFS {
++ write_values_to_file() : bool
++ read_configuration_from_file() : bool
+}
+
+package Kernel {
+  class object<< System >>
+}
+
+
 class Multisensor {
     + sensor_values : dict
     + configurations : dict
@@ -16,6 +31,8 @@ class Multisensor {
     + is_awake() : bool
     + get_values() : void
     + update_configuration() : int
+    + write_values_to_file() : bool
+    + read_configuration_from_file() : bool
 
 }
 
@@ -35,15 +52,16 @@ class OZWNetwork implements IOZWNetwork {
   + update_configuration() : int
 }
 
-package Open-ZWave <<Folder>> {
+package OpenZWave <<Folder>> {
   class ZWaveNode
   class ZWaveNetwork
   class ZWaveOption
 }
 
 Multisensor ..> IOZWNetwork
-OZWNetwork <|-- ZWaveNetwork
-OZWNetwork <|-- ZWaveNode
-OZWNetwork <|-- ZWaveOption
+OZWNetwork <|-- OpenZWave : Use
+Multisensor ..> IGatewayFS
+GatewayTransactions <|-- Kernel : Use
+
 
 @enduml

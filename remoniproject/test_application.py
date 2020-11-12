@@ -26,6 +26,8 @@ Is Sensor 1 Awake? (1a)
 Is Sensor 2 Awake? (2a)
 Show Values from Sensor 1 (1v)
 Show Values from Sensor 2 (2v)
+Write values to file, Sensor 1 (1w)
+Write values to file, Sensor 2 (2w)
 Exit (e)
 """
 
@@ -44,7 +46,7 @@ Exit (e)
             break
 
         elif choice == "1a":
-            multisensor_one.is_awake()
+
             if multisensor_one.is_awake() is True:
                 print("Multisensor 1 is Awake!")
             else:
@@ -63,6 +65,17 @@ Exit (e)
         elif choice == "2v":
             multisensor_two.get_values()
             print(multisensor_two.sensor_values)
+
+        elif choice == "1w":
+            # Write values from sensor 1 to file
+            print("TBD...")
+            pass
+
+        elif choice == "2w":
+            # Write values from sensor 2 to file
+            print("TBD...")
+            pass
+
         else:
             print("Bad input!\n")
 
