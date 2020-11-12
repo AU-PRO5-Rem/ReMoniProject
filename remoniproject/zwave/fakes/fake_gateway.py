@@ -6,13 +6,17 @@
 """
 
 from remoniproject.zwave.interfaces.interface_gatewayfs import IGatewayFS
+import sys
 
 
 class FakeGatewayFS(IGatewayFS):
-    def write_values_to_file(self):
 
-        pass
+    def __init__(self):
+        self.write_values_called = 0
+        self.read_configurations_called = 0
+
+    def write_values_to_file(self):
+        self.write_values_called += 1
 
     def read_configuration_from_file(self):
-
-        pass
+        self.read_configuration_from_file += 1
