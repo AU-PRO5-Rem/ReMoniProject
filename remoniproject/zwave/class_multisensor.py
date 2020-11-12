@@ -15,7 +15,6 @@
 """
 
 from datetime import datetime
-import syslog
 
 
 class Multisensor(object):
@@ -73,5 +72,5 @@ class Multisensor(object):
             return True
 
         except Exception as emsg:
-            syslog(syslog.LOG_ERR, 'Unable to add timestamp!\n %s', emsg)
+            print('Unable to add timestamp!\n %s', emsg)
             return False

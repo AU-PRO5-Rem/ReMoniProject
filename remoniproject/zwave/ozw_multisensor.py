@@ -16,7 +16,7 @@
 
 import time
 
-from interfaces.interface_ozwnetwork import IOZWNetwork
+from .interfaces.interface_ozwnetwork import IOZWNetwork
 from openzwave.node import ZWaveNode
 from openzwave.network import ZWaveNetwork
 from openzwave.option import ZWaveOption
