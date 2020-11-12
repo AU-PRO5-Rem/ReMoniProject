@@ -18,4 +18,4 @@ class FakeGatewayFS(IGatewayFS):
         self.write_values_called += 1
 
     def read_configuration_from_file(self):
-        self.read_configuration_from_file += 1
+        self.read_configurations_called += 1
