@@ -5,7 +5,7 @@
     Description:    Fake Gateway object to use for unit testing
 """
 
-from interfaces.interface_gatewayfs import IGatewayFS
+from remoniproject.zwave.interfaces.interface_gatewayfs import IGatewayFS
 
 
 class FakeGatewayFS(IGatewayFS):
