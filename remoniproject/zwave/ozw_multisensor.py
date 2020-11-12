@@ -74,6 +74,7 @@ class OZWMultisensor(IOZWNetwork):
                     stored_vals.update(new_val)
 
             if len(stored_vals) > 0:
+                self.__add_timestamp(stored_vals)
                 return stored_vals
             else:
                 # No values gathered. Possibly due to an unknown error
@@ -122,3 +123,23 @@ class OZWMultisensor(IOZWNetwork):
         Send configurations to sensor
         """
         raise NotImplementedError
+
+    # "Private" Support functions
+    def __make_timestamp(self):
+        # Make timestamp
+        timestamp = datetime.now()
+        timestamp.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
+        return str(timestamp)
+
+    def __add_timestamp(self, vals_dict):
+        timestamp = self.__make_timestamp()
+        try:
+            new_timestamp = {"Timestamp": timestamp}
+            # Apply timestamp to sensor_values
+            vals_dict = eval(self.sensor_values)
+            vals_dict.update(new_timestamp)
+            return vals_dict
+
+        except Exception as emsg:
+            print('Unable to add timestamp!\n %s', emsg)
+            return False

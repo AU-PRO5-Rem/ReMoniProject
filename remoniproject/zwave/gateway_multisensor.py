@@ -23,6 +23,7 @@ class GatewayFS(IGatewayFS):
         self.conf_params_from_file = ''
 
         # Values filehandling
+        self.__path = '/var/opt/sensor_transactions/'
         self.__vals_file = 'sensor_vals_'+str(node_id)+'.txt'
         self.values_to_write = ''
 

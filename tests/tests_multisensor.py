@@ -48,7 +48,8 @@ class MultisensorUnitTest(unittest.TestCase):
             "Temperature": 12.34,
             "Luminance": 12.34,
             "Relative Humidity": 12.34,
-            "Ultraviolet": 12.34
+            "Ultraviolet": 12.34,
+            "Timestamp":"2020-11-12 23:25:05.684056"
         }
         ''')
         # Act
