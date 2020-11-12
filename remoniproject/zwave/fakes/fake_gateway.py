@@ -6,7 +6,6 @@
 """
 
 from remoniproject.zwave.interfaces.interface_gatewayfs import IGatewayFS
-import sys
 
 
 class FakeGatewayFS(IGatewayFS):
