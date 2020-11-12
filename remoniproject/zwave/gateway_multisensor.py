@@ -6,7 +6,7 @@
     Dependencies:   Raspberry 3b (or eq) with Raspian OS (or eq)
 
 """
-import sys
+
 import json
 from syslog import syslog
 
