@@ -25,13 +25,11 @@ class GatewayFS(IGatewayFS):
         # Values filehandling
         self.__path = '/var/opt/sensor_transactions/'
         self.__vals_file = 'sensor_vals_'+str(node_id)+'.txt'
-        self.values_to_write = ''
 
-    def write_values_to_file(self):
-
+    def write_values_to_file(self, vals):
         try:
             with open(self.__vals_file, 'w') as outfile:
-                json.dump(self.values_to_write, outfile, indent=4)
+                json.dump(vals, outfile, indent=4)
             return True
 
         except Exception as emsg:

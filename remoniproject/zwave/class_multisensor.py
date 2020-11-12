@@ -14,8 +14,6 @@
 
 """
 
-from datetime import datetime
-
 
 class Multisensor(object):
 
@@ -48,14 +46,11 @@ class Multisensor(object):
         """
         self.sensor_values = self.__network.get_values()
 
-
     def update_configuration(self):
         pass
 
     def write_values_to_file(self):
-        self.__gateway.write_values_to_file()
+        self.__gateway.write_values_to_file(self.sensor_values)
 
     def read_configuration_from_file(self):
         self.__gateway.read_configuration_from_file()
-
-

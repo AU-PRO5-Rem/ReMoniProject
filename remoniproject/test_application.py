@@ -31,9 +31,9 @@ Write values to file, Sensor 1 (1w)
 Write values to file, Sensor 2 (2w)
 Exit (e)
 """
-    dummy_GatewayFS = GatewayFS()
-    multisensor_one = Multisensor(OZWMultisensor(7), dummy_GatewayFS)
-    multisensor_two = Multisensor(OZWMultisensor(8), dummy_GatewayFS)
+
+    multisensor_one = Multisensor(OZWMultisensor(7), GatewayFS(7))
+    multisensor_two = Multisensor(OZWMultisensor(8), GatewayFS(8))
 
     print("Welcome to the Demonstration of 'how to get data from two "
           "Aeotec Multisensor 6'")
@@ -69,13 +69,11 @@ Exit (e)
 
         elif choice == "1w":
             # Write values from sensor 1 to file
-            print("TBD...")
-            pass
+            multisensor_one.write_values_to_file()
 
         elif choice == "2w":
             # Write values from sensor 2 to file
-            print("TBD...")
-            pass
+            multisensor_two.write_values_to_file()
 
         else:
             print("Bad input!\n")
