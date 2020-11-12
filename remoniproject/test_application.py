@@ -16,6 +16,7 @@
 
 from remoniproject.zwave.class_multisensor import Multisensor
 from remoniproject.zwave.ozw_multisensor import OZWMultisensor
+from remoniproject.zwave.gateway_multisensor import GatewayFS
 
 
 def application():
@@ -31,8 +32,8 @@ Write values to file, Sensor 2 (2w)
 Exit (e)
 """
 
-    multisensor_one = Multisensor(OZWMultisensor(7), dummy_fs())
-    multisensor_two = Multisensor(OZWMultisensor(8), dummy_fs())
+    multisensor_one = Multisensor(OZWMultisensor(7), dummy_GatewayFS())
+    multisensor_two = Multisensor(OZWMultisensor(8), dummy_GatewayFS())
 
     print("Welcome to the Demonstration of 'how to get data from two "
           "Aeotec Multisensor 6'")
