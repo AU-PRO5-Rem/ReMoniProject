@@ -61,13 +61,15 @@ class MultisensorUnitTest(unittest.TestCase):
         self.assertEqual(cut.items(),
                          expected_dict.items())
 
-    def test_WriteValuesToFile_CallOnce_CalledOnce(self):
+    def test_WriteValuesToFile_CallOnce_CalledOnceCorrectValues(self):
         # Arrange
         _stub_gateway.write_values_called = 0
+        self._uut.sensor_values = "OK"
         # Act
         self._uut.write_values_to_file()
         # Assert
         self.assertEqual(_stub_gateway.write_values_called, 1)
+        self.assertEqual(_stub_gateway.values, "OK")
 
     def test_ReadConfigurationFromFile_CallOnce_CalledOnce(self):
         # Arrange
