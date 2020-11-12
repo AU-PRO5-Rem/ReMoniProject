@@ -50,7 +50,7 @@ class Multisensor(object):
         pass
 
     def write_values_to_file(self):
-        pass
+        self.__gateway.write_values_to_file()
 
     def read_configuration_from_file(self):
-        pass
+        self.__gateway.read_configuration_from_file()

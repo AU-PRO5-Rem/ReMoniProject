@@ -64,7 +64,7 @@ class MultisensorUnitTest(unittest.TestCase):
         # Arrange
         _stub_gateway.write_values_called = 0
         # Act
-        _stub_gateway.write_values_to_file()
+        _uut.write_values_to_file()
         # Assert
         self.assertEqual(_stub_gateway.write_values_called, 1)
 
@@ -72,7 +72,7 @@ class MultisensorUnitTest(unittest.TestCase):
         # Arrange
         _stub_gateway.read_configurations_called = 0
         # Act
-        _stub_gateway.read_configuration_from_file()
+        _uut.read_configuration_from_file()
         # Assert
         self.assertEqual(_stub_gateway.read_configurations_called, 1)
 
