@@ -48,7 +48,9 @@ class Multisensor(object):
         values are stored in field 'sensor_values'
         """
         self.sensor_values = self.__network.get_values()
-        self.__add_timestamp()
+        if self.__add_timestamp() is False:
+            # Do something if unable to add timestamp
+            pass
 
     def update_configuration(self):
         pass
@@ -60,12 +62,16 @@ class Multisensor(object):
         self.__gateway.read_configuration_from_file()
 
     def __add_timestamp(self):
-        new_val = {}
+        new_timestamp = {}
         try:
+            # Make timestamp
             timestamp = datetime.timestamp(datetime.now())
-            new_val = {"Timestamp": timestamp}
-            self.sensor_values.update(new_val)
+            new_timestamp = {"Timestamp": timestamp}
+            # Apply timestamp to sensor_values
+            dict(self.sensor_values)
+            self.sensor_values.update(new_timestamp)
             return True
+
         except Exception as emsg:
             syslog(syslog.LOG_ERR, 'Unable to add timestamp!\n %s', emsg)
             return False
