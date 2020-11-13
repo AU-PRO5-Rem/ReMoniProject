@@ -52,5 +52,5 @@ class GatewayFS(IGatewayFS):
             return True
 
         except Exception as emsg:
-            print( 'Unable to read configuration! %s', emsg)
+            print('Unable to read configuration! %s', emsg)
             return False
