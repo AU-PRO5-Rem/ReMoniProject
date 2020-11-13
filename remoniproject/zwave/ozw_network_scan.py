@@ -40,7 +40,7 @@ class OZWNetworkScanner():
         """
 
         time_elapsed = 0
-        print("Waiting for ZWave Network" end=" ")
+        print("Waiting for ZWave Network", end=" ")
         for i in range(0, 60):
             if self.__network.state >= self.__network.STATE_AWAKED:
                 return True
@@ -73,7 +73,7 @@ class OZWNetworkScanner():
                 for node in self.__network.nodes:
                     sensor_node_id = self.__network.nodes[node].node_id
                     sensor_type = self.__network.nodes[node].product_name
-                    # Ignore the USB Z-Stick (We are only interested in sensor nodes)
+                    # Ignore the USB Z-Stick
                     if 'Z-Stick' not in sensor_type:
                         sensor_list.append([sensor_node_id, sensor_type])
                         if initial is True:

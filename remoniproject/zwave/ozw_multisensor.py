@@ -18,9 +18,6 @@ import time
 from datetime import datetime
 
 from .interfaces.interface_ozwnetwork import IOZWNetwork
-from openzwave.node import ZWaveNode
-from openzwave.network import ZWaveNetwork
-from openzwave.option import ZWaveOption
 
 
 class OZWMultisensor(IOZWNetwork):
