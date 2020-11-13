@@ -33,7 +33,6 @@ class GatewayFS(IGatewayFS):
     def write_values_to_file(self, vals):
         self.set_path_to_data()
         filename = self.__path+self.__vals_file
-        print(vals)
         try:
             with open(filename, 'w') as outfile:
                 json.dump(vals, outfile, indent=4)

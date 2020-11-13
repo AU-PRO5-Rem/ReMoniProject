@@ -30,6 +30,7 @@ sensor_list_changed = []
 # Contains Node ID's for multisensors
 multisensor_id = []
 
+# Object to scan for Node IDs and sort by product name
 ozw_scanner = OZWNetworkScanner(network_obj)
 
 
