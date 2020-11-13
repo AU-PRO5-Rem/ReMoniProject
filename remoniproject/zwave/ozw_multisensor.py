@@ -141,5 +141,5 @@ class OZWMultisensor(IOZWNetwork):
             return vals_dict
 
         except Exception as emsg:
-            print('Unable to add timestamp!\n %s', emsg)
+            print('Unable to add timestamp!', emsg)
             return False

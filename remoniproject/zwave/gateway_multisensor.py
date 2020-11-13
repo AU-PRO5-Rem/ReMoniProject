@@ -8,7 +8,7 @@
 """
 
 import json
-from syslog import syslog
+import syslog
 
 from .interfaces.interface_gatewayfs import IGatewayFS
 
@@ -23,8 +23,8 @@ class GatewayFS(IGatewayFS):
         self.conf_params_from_file = ''
 
         # Values filehandling
-        self.__path = '/var/opt/sensor_transactions/'
-        self.__vals_file = 'sensor_vals_'+str(node_id)+'.txt'
+        self.__path = './data/sensor_transactions/'
+        self.__vals_file = self.__path+'sensor_vals_'+str(node_id)+'.txt'
 
     def write_values_to_file(self, vals):
         try:
@@ -33,7 +33,7 @@ class GatewayFS(IGatewayFS):
             return True
 
         except Exception as emsg:
-            syslog(syslog.LOG_ERR, 'Unable to write values to file! %s', emsg)
+            syslog(syslog.LOG_ERR, 'Unable to write values to file!', emsg)
             return False
 
     def read_configuration_from_file(self):
