@@ -24,9 +24,6 @@ from openzwave.option import ZWaveOption
 # Aotec Gen.5 Stick should be known as USB ACM Device (ttyACM0) by default
 # Note: Earlier model of Z-Stick would be known as ttyUSB0 but USE ttyACM0
 # Test: dmesg | grep ttyACM0
-Z_STICK = "/dev/ttyACM0"
-
-
 def zwave_network_is_awake(network_obj):
     """Check if state of network is Awake
 
@@ -59,7 +56,7 @@ def scan_ozwnetwork_for_nodes(network_obj):
     sensor_node_id = 0
     sensor_type = ''
 
-    if zwave_network_is_awake() is True:
+    if zwave_network_is_awake(network_obj) is True:
 
         for node in network_obj.nodes:
             sensor_node_id = network_obj.nodes[node].node_id

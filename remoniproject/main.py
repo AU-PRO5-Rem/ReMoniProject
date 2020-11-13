@@ -6,7 +6,7 @@ from remoniproject.zwave.ozw_network_scan import scan_ozwnetwork_for_nodes
 
 # Options for ZWave Network
 Z_STICK = "/dev/ttyACM0"
-options = ZWaveOption(self.__Z_STICK)
+options = ZWaveOption(Z_STICK)
 options.set_console_output(False)
 options.set_logging(False)
 options.lock()
