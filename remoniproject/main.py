@@ -1,6 +1,10 @@
 
 import time
 
+from openzwave.node import ZWaveNode
+from openzwave.network import ZWaveNetwork
+from openzwave.option import ZWaveOption
+
 from remoniproject.startup.start_up_functions import setup
 from remoniproject.zwave.ozw_network_scan import scan_ozwnetwork_for_nodes
 
@@ -14,19 +18,22 @@ options.lock()
 # Network object
 ozw_network = ZWaveNetwork(options)
 
-sensor_list = [][]
+sensor_list = []
 
 
 def main():
-    # Start-up
+    # Start-up checks
     setup()
+
+    # Scan the ZWave network for sensors
     sensor_list = scan_ozwnetwork_for_nodes(ozw_network)
 
     # Main Loop
-    while(1):
+    for i in range(0, 1):
         time.sleep(10.0)
         sensor_list_changed = scan_ozwnetwork_for_nodes(ozw_network)
-        print(sensor_list, sensor_list_changed)
+        print(sensor_list[0][0], sensor_list[0][1])
+        print(sensor_list[1][0], sensor_list[1][1])
         # Check if sensors is added or removed from the network
         if len(sensor_list_changed) != len(sensor_list):
             print("Sensor list changed")
