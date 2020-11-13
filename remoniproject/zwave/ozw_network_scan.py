@@ -35,7 +35,7 @@ class OZWNetworkScanner():
         """
 
         time_elapsed = 0
-        print("Waiting for ZWave Network", end=" ")
+        print("Waiting for ZWave Network")
         for i in range(0, 60):
             if self.__network.state >= self.__network.STATE_AWAKED:
                 return True
