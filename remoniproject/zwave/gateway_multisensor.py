@@ -8,7 +8,6 @@
 """
 
 import json
-import syslog
 from pathlib import Path
 
 from .interfaces.interface_gatewayfs import IGatewayFS
