@@ -11,6 +11,8 @@
 # Build
 *.pyc
 /Debug
+/data
+OZW_Log.txt
 
 # Other
 pyozw.sqlite

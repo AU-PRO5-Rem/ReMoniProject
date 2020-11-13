@@ -21,49 +21,76 @@ from openzwave.network import ZWaveNetwork
 from openzwave.option import ZWaveOption
 
 
-# Aotec Gen.5 Stick should be known as USB ACM Device (ttyACM0) by default
-# Note: Earlier model of Z-Stick would be known as ttyUSB0 but USE ttyACM0
-# Test: dmesg | grep ttyACM0
-def zwave_network_is_awake(network_obj):
-    """Check if state of network is Awake
+class OZWNetworkScanner():
 
-    :param network_obj: initialized network object
-    :type network_obj: ZWaveNetwork Object
-    :return: True or False
-    :rtype: bool
-    """
-    time_elapsed = 0
-    for i in range(0, 60):
-        if network_obj.state >= network_obj.STATE_AWAKED:
-            return True
-        else:
-            time_elapsed += 1
-            time.sleep(1.0)
+    def __init__(self, OZWNetwork_obj):
 
-    if network_obj.state < network_obj.STATE_AWAKED:
-        return False
+        # Options for ZWave Network
 
+        # Open-ZWave Network object injection
+        self.__network = OZWNetwork_obj
 
-def scan_ozwnetwork_for_nodes(network_obj):
-    """get_multisensors_node_ids [summary]
+    def zwave_network_is_awake(self):
+        """Check if state of network is Awake
 
-    :param network_obj: [description]
-    :type network_obj: [type]
-    :return: [description]
-    :rtype: [type]
-    """
-    sensor_list = []
-    sensor_node_id = 0
-    sensor_type = ''
+        :param self.__network: initialized network object
+        :type self.__network: ZWaveNetwork Object
+        :return: True or False
+        :rtype: bool
+        """
 
-    if zwave_network_is_awake(network_obj) is True:
+        time_elapsed = 0
+        print("Waiting for ZWave Network to Wake")
+        for i in range(0, 60):
+            if self.__network.state >= self.__network.STATE_AWAKED:
+                return True
+            else:
+                if i % 2 == 0:
+                    print('/', end="\r")
+                else:
+                    print('\\', end="\r")
+                time_elapsed += 1
+                time.sleep(1.0)
 
-        for node in network_obj.nodes:
-            sensor_node_id = network_obj.nodes[node].node_id
-            sensor_type = network_obj.nodes[node].product_name
-            # Ignore the USB Z-Stick (We are only interested in sensor nodes)
-            if 'Z-Stick' not in sensor_type:
-                sensor_list.append([sensor_node_id, sensor_type])
-        return sensor_list
-    else:
-        return false
+        if self.__network.state < self.__network.STATE_AWAKED:
+            return False
+
+    def scan_ozwnetwork_for_nodes(self, initial=False):
+        """get_multisensors_node_ids [summary]
+
+        :param self.__network: [description]
+        :type self.__network: [type]
+        :return: [description]
+        :rtype: [type]
+        """
+        sensor_list = []
+        sensor_node_id = 0
+        sensor_type = ''
+
+        try:
+            if self.zwave_network_is_awake() is True:
+
+                for node in self.__network.nodes:
+                    sensor_node_id = self.__network.nodes[node].node_id
+                    sensor_type = self.__network.nodes[node].product_name
+                    # Ignore the USB Z-Stick (We are only interested in sensor nodes)
+                    if 'Z-Stick' not in sensor_type:
+                        sensor_list.append([sensor_node_id, sensor_type])
+                        if initial is True:
+                            print("Found Sensor with node id: %s of type: %s" %
+                                  (sensor_node_id, sensor_type))
+        except Exception as emsg:
+            print(emsg)
+            sensor_list = 0
+        finally:
+            return sensor_list
+
+    def get_multisensor_node_ids(self, sensor_list):
+
+        multisensor_node_ids = []
+
+        for col1, _ in enumerate(sensor_list):
+            for col2, _ in enumerate(sensor_list):
+                if sensor_list[col1][col2] == 'ZW100 MultiSensor 6':
+                    multisensor_node_ids.append(sensor_list[col1][0])
+        return multisensor_node_ids

@@ -25,20 +25,13 @@ from openzwave.option import ZWaveOption
 
 class OZWMultisensor(IOZWNetwork):
 
-    def __init__(self, node_id):
+    def __init__(self, node_id, OZWNetwork_obj):
 
         # The concrete Node ID
         self.__node_id = node_id
 
-        # Options for ZWave Network
-        self.__Z_STICK = "/dev/ttyACM0"
-        self.__options = ZWaveOption(self.__Z_STICK)
-        self.__options.set_console_output(False)
-        self.__options.set_logging(False)
-        self.__options.lock()
-
-        # Network object
-        self.__network = ZWaveNetwork(self.__options)
+        # Open-ZWave Network object injection
+        self.__network = OZWNetwork_obj
 
         # Node Object
         self.__zwnode = ZWaveNode(self.__node_id, self.__network)
