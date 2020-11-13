@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 """
-    Description:    Fakes to use for unit testing
+    Description:    Fake open-zwave object to use for unit testing
 """
 
 from remoniproject.zwave.interfaces.interface_ozwnetwork import IOZWNetwork
 
 
-class fake_ozwnetwork(IOZWNetwork):
+class FakeOZWNetwork(IOZWNetwork):
 
     def __init__(self):
         self.status_is_awake = False
@@ -30,7 +30,8 @@ class fake_ozwnetwork(IOZWNetwork):
             "Temperature": 12.34,
             "Luminance": 12.34,
             "Relative Humidity": 12.34,
-            "Ultraviolet": 12.34
+            "Ultraviolet": 12.34,
+            "Timestamp":"2020-11-12 23:25:05.684056"
             }'''
         return fake_values_dict
 
