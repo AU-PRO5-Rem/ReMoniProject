@@ -13,12 +13,13 @@
 
 """
 import sys
+import json
+import time
 
 from openzwave.node import ZWaveNode
 from openzwave.network import ZWaveNetwork
 from openzwave.option import ZWaveOption
 
-import time
 
 # Aotec Gen.5 Stick should be known as USB ACM Device (ttyACM0) by default
 # Note: Earlier model of Z-Stick would be known as ttyUSB0 but USE ttyACM0
@@ -36,10 +37,10 @@ def is_zwave_network_awake(network_obj):
     """
     print("Waiting for Z-Stick Network to be awake")
     time_elapsed = 0
-    for i in range(0, 20):
+    for i in range(0, 60):
         if network_obj.state >= network_obj.STATE_AWAKED:
-            print("Success: Z-Stick Network is Awake")
-            break
+            print("\nSuccess: Z-Stick Network is Awake")
+            return True
         else:
             time_elapsed += 1
             time.sleep(1.0)
@@ -50,20 +51,18 @@ def is_zwave_network_awake(network_obj):
             else:
                 sys.stdout.write("Z")
             sys.stdout.flush()
-            print("\n")
-            return True
 
     if network_obj.state < network_obj.STATE_AWAKED:
-        print("Error: Network could not wake up!")
-        print("\n")
+        print("\nError: Network could not wake up!")
         return False
 
 
-def zwave_network_scan():
-    """Performs a complete scan for network nodes
+def zwave_network_scan(network_obj):
+    """ Performs a complete scan for network nodes
         and print all information.
         Primarily for Debug and Test use
     """
+    network = network_obj
     print("Network home id : {}".format(network.home_id_str))
     print("Controller node id : {}".format(
         network.controller.node.node_id))
@@ -140,6 +139,60 @@ def is_multisensor_awake(sensor_id, network_obj):
         return False, sensor_id
 
 
+def get_all_data(sensor_id, network_obj):
+    multisensor = network_obj.nodes[sensor_id]
+
+    values = {}
+    for cmd in multisensor.command_classes:
+        print("Command: ", cmd)
+        for val in multisensor.get_values_for_command_class(cmd):
+            values = {}
+            values[multisensor.values[val].object_id] = {
+                'label': multisensor.values[val].label,
+                'help': multisensor.values[val].help,
+                'max': multisensor.values[val].max,
+                'min': multisensor.values[val].min,
+                'units': multisensor.values[val].units,
+                'data': multisensor.values[val].data,
+                'data_str': multisensor.values[val].data_as_string,
+                'genre': multisensor.values[val].genre,
+                'type': multisensor.values[val].type,
+                'ispolled': multisensor.values[val].is_polled,
+                'readonly': multisensor.values[val].is_read_only,
+                'writeonly': multisensor.values[val].is_write_only,
+            }
+            # if values is not None:
+            # print(values)
+
+
+def get_temperature(sensor_id, network_obj):
+    multisensor = network_obj.nodes[sensor_id]
+    multisensor.get_values()
+    values = {}
+
+    for value in multisensor.values:
+        if multisensor.values[value].label == 'Temperature':
+            values = {'Temperature': multisensor.values[value].data}
+    return values
+
+
+def get_values(sensor_id, network_obj):
+    multisensor = network_obj.nodes[sensor_id]
+    multisensor.get_values()
+
+    # Iterate through values and keep only the Readings from CMD CLASS 49
+    values = {}
+    new_label_data = {}
+    for val in multisensor.values:
+        if multisensor.values[val].command_class == 49:
+            new_label_data = {
+                multisensor.values[val].label: multisensor.values[val].data}
+            values.update(new_label_data)
+
+    if len(values) > 0:
+        return json.dumps(values)
+
+
 if __name__ == "__main__":
     ''' Running this script as main will perform the following:
         1. Set logging options
@@ -159,10 +212,11 @@ if __name__ == "__main__":
     # Create network object
     network = ZWaveNetwork(options)
 
-    # zwave_network_scan()
-
     # Check is Z-Stick ZWave Network Awake
     is_zwave_network_awake(network)
+    print("Do you want to perform a Z-Wave network scan? y/n")
+    if (input == "y"):
+        zwave_network_scan(network)
 
     # Collect node IDs for alle Multisensors in the Network
     # (Any other sensor type is ignored)
@@ -176,7 +230,13 @@ if __name__ == "__main__":
         if multisensor_is_awake[0]:
             print("Multisensor with node ID %d is Awake" %
                   multisensor_is_awake[1])
+            try:
+                temp = get_temperature(nodeid, network)
+                print(temp)
+            except Exception as e:
+                print("Failed to get data from Sensor")
+                print(e)
+
         else:
             print("Multisensor with node ID %d is Sleeping" %
                   multisensor_is_awake[1])
-    pass

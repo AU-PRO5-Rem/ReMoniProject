@@ -1,0 +1,67 @@
+@startuml Multisensor
+
+abstract class IOZWNetwork {
+    {abstract} is_network_ready() : bool
+    {abstract} is_awake() : bool
+    {abstract} get_values() : void
+    {abstract} update_configuration() : int
+}
+
+abstract class IGatewayFS {
+    {abstract} write_values_to_file() : bool
+    {abstract} read_configuration_from_file() : bool
+}
+
+class Gateway implements IGatewayFS {
++ write_values_to_file() : bool
++ read_configuration_from_file() : bool
+}
+
+package Kernel {
+  class object<< System >>
+}
+
+
+class Multisensor {
+    + sensor_values : dict
+    + configurations : dict
+
+      Multisensor(IOZWNetwork)
+    ~ Multisensor()
+    + is_awake() : bool
+    + get_values() : void
+    + update_configuration() : int
+    + write_values_to_file() : bool
+    + read_configuration_from_file() : bool
+
+}
+
+class OZWNetwork implements IOZWNetwork {
+  - _options : obj
+  - _network : obj
+  - _zwnode : obj
+  - _node_id : int
+  OZWNetwork(node_id)
+  ~OZWNetwork()
+  + ZWaveOption() : _options
+  + ZWaveNetwork(_options): _network 
+  + ZWaveNode(_node_id, _network) : _zwnode
+  + is_network_ready() : bool
+  + is_awake() : bool
+  + get_values() : dict
+  + update_configuration() : int
+}
+
+package OpenZWave <<Folder>> {
+  class ZWaveNode
+  class ZWaveNetwork
+  class ZWaveOption
+}
+
+Multisensor ..> IOZWNetwork
+OZWNetwork <|-- OpenZWave : Use
+Multisensor ..> IGatewayFS
+Gateway <|-- Kernel : Use
+
+
+@enduml
