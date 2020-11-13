@@ -10,6 +10,7 @@
 
 # Build
 *.pyc
+/Debug
 
 # Other
 pyozw.sqlite
