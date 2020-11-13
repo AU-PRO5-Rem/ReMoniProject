@@ -12,13 +12,8 @@
                         or it will probably be sleeping most of the time.
 
 """
-import sys
-import json
-import time
 
-from openzwave.node import ZWaveNode
-from openzwave.network import ZWaveNetwork
-from openzwave.option import ZWaveOption
+import time
 
 
 class OZWNetworkScanner():

@@ -1,7 +1,6 @@
 
 import time
 
-from openzwave.node import ZWaveNode
 from openzwave.network import ZWaveNetwork
 from openzwave.option import ZWaveOption
 
