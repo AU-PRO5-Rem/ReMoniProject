@@ -14,7 +14,17 @@
 """
 
 import time
+from openzwave.network import ZWaveNetwork
+from openzwave.option import ZWaveOption
 
+def setup_open_zwave_network(z_stick="/dev/ttyACM0"):
+    options = ZWaveOption(z_stick)
+    options.set_console_output(False)
+    options.set_logging(False)
+    options.lock()
+
+    network_obj = ZWaveNetwork(options)
+    return network_obj
 
 class OZWNetworkScanner():
 
