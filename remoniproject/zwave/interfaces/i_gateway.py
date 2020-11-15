@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-class IGatewayFS():
+class IGateway():
     """
     Interface File System
     """

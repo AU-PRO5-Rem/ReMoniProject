@@ -10,29 +10,29 @@
 import json
 from pathlib import Path
 
-from .interfaces.interface_gatewayfs import IGatewayFS
+from .interfaces.i_gateway import IGateway
 
 
-class GatewayFS(IGatewayFS):
+class Gateway(IGateway):
 
     def __init__(self, node_id):
 
         # Configuration filehandling
         self.conf_filename = ''
-        self.conf_params_from_file = ''
+        self.conf_params = ''
 
         # Values filehandling
-        self.__path = ''
-        self.__vals_file = 'sensor_vals_'+str(node_id)+'.txt'
+        self.__val_filepath = ''
+        self.__vals_filename = 'sensor_vals_'+str(node_id)+'.txt'
 
-    def set_path_to_data(self):
+    def __set_path_to_data(self):
         abs_path = str(Path(__file__).parent.absolute())
         path = abs_path.split("remoniproject/")[0]
-        self.__path = path+'/data/'
+        self.__val_filepath = path+'/data/'
 
     def write_values_to_file(self, vals):
-        self.set_path_to_data()
-        filename = self.__path+self.__vals_file
+        self.__set_path_to_data()
+        filename = self.__val_filepath+self.__vals_filename
         try:
             with open(filename, 'w') as outfile:
                 json.dump(vals, outfile, indent=4)
@@ -46,7 +46,7 @@ class GatewayFS(IGatewayFS):
     def read_configuration_from_file(self):
         try:
             with open(self.__conf_filename, 'r') as ifile:
-                self.conf_params_from_file = ifile.read()
+                self.conf_params = ifile.read()
             return True
 
         except Exception as emsg:

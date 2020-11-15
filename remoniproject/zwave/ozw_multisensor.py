@@ -16,12 +16,13 @@
 
 import time
 from datetime import datetime
+import logging
 
-from .interfaces.interface_ozwnetwork import IOZWNetwork
+from .interfaces.i_sensor import ISensor
 from openzwave.node import ZWaveNode
 
 
-class OZWMultisensor(IOZWNetwork):
+class OZWMultisensor(ISensor):
 
     def __init__(self, node_id, OZWNetwork_obj):
 
@@ -116,7 +117,7 @@ class OZWMultisensor(IOZWNetwork):
         """
         raise NotImplementedError
 
-    # "Private" Support functions
+    # Support functions
     def __make_timestamp(self):
         # Make timestamp
         timestamp = datetime.now()
