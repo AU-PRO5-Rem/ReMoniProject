@@ -1,16 +1,16 @@
 #!/usr/bin/python3
 # import time
 
-#from openzwave.network import ZWaveNetwork
-#from openzwave.option import ZWaveOption
+# from openzwave.network import ZWaveNetwork
+# from openzwave.option import ZWaveOption
 
 from startup.start_up_functions import setup
 # ZWave Network Scanner
-#from zwave.ozw_zstick import ZStick
+# from zwave.ozw_zstick import ZStick
 # ZWave Multisensor
-#from zwave.multisensor import Multisensor
-#from zwave.ozw_multisensor import OZWMultisensor
-#from zwave.gateway import Gateway
+# from zwave.multisensor import Multisensor
+# from zwave.ozw_multisensor import OZWMultisensor
+# from zwave.gateway import Gateway
 
 
 def main():
