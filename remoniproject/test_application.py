@@ -56,8 +56,10 @@ e     : Exit
         print(emsg)
 
     # Multisensors:
-    multisensor_one = Multisensor(OZWMultisensor(7, ozw_network), Gateway(7))
-    multisensor_two = Multisensor(OZWMultisensor(8, ozw_network), Gateway(8))
+    multisensor_one = Multisensor(
+        OZWMultisensor(7, ozw_network.network), Gateway(7))
+    multisensor_two = Multisensor(
+        OZWMultisensor(8, ozw_network.network), Gateway(8))
 
     # MQTT Client
     mqtt = MQTT_Client()
