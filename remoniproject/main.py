@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-import time
-
+#import time
+'''
 from openzwave.network import ZWaveNetwork
 from openzwave.option import ZWaveOption
 
@@ -11,6 +11,7 @@ from zwave.ozw_zstick import ZStick
 from zwave.multisensor import Multisensor
 from zwave.ozw_multisensor import OZWMultisensor
 from zwave.gateway import Gateway
+'''
 
 
 def main():
