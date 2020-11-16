@@ -1,4 +1,4 @@
-@startuml
+@startuml sd MQTT Process
 header / sd / ReMoni Aeotec Multisensor 6 - MQTT Process
 
 actor ReCalc

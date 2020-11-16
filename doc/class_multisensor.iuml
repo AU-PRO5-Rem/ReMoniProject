@@ -1,4 +1,4 @@
-@startuml Multisensor
+@startuml cd Multisensor
 
 abstract class IZStick {
     {abstract} network_is_awake() : bool

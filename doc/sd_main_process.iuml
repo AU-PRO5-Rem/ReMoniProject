@@ -1,4 +1,4 @@
-@startuml
+@startuml sd Main Process
 header / sd / ReMoni Aeotec Multisensor 6 - Main
 
 actor ReCalc

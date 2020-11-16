@@ -5,10 +5,10 @@
     Description:    Fake Gateway object to use for unit testing
 """
 
-from remoniproject.zwave.interfaces.interface_gatewayfs import IGatewayFS
+from remoniproject.zwave.interfaces.i_gateway import IGateway
 
 
-class FakeGatewayFS(IGatewayFS):
+class FakeGateway(IGateway):
 
     def __init__(self):
         self.write_values_called = 0
@@ -19,5 +19,5 @@ class FakeGatewayFS(IGatewayFS):
         self.write_values_called += 1
         self.values = vals_to_write
 
-    def read_configuration_from_file(self):
+    def read_configuration(self):
         self.read_configurations_called += 1

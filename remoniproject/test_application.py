@@ -14,12 +14,12 @@
 
 """
 
-from zwave.class_multisensor import Multisensor
+from zwave.multisensor import Multisensor
 from zwave.ozw_multisensor import OZWMultisensor
-from zwave.gateway_multisensor import GatewayFS
-from zwave.ozw_network import setup_open_zwave_network
-from zwave.ozw_network import OZWNetworkScanner
+from zwave.gateway import Gateway
+from zwave.ozw_zstick import ZStick
 from mqtt.mqtt_beebotte import MQTT_Client
+
 
 def application():
 
@@ -39,32 +39,30 @@ e     : Exit
 """
 
     sensor_list = []
-    ozw_network = setup_open_zwave_network()
-    
-    ozw_scanner = OZWNetworkScanner(ozw_network)
+
+    ozw_network = ZStick()
 
     try:
         # Scan the ZWave network for sensors
-        sensor_list = ozw_scanner.scan_ozwnetwork_for_nodes(initial=True)
+        sensor_list = ozw_network.scan_for_nodes(initial=True)
 
         # Create 'Multisensor 6' objects
-        multisensor_ids = ozw_scanner.get_multisensor_node_ids(sensor_list)
-        
+        multisensor_ids = ozw_network.get_multisensor_node_ids(sensor_list)
+
         # Add other types of Sensors here..
-        # <SENSORTYPE_id> = ozw_scanner.get_<SENSORTPYE>_node_ids(sensor_list)
+        # <SENSORTYPE_id> = ozw_network.get_<SENSORTPYE>_node_ids(sensor_list)
 
     except Exception as emsg:
         print(emsg)
 
     # Multisensors:
-    multisensor_one = Multisensor(OZWMultisensor(7,ozw_network), GatewayFS(7))
-    multisensor_two = Multisensor(OZWMultisensor(8,ozw_network), GatewayFS(8))
-    
+    multisensor_one = Multisensor(OZWMultisensor(7, ozw_network), Gateway(7))
+    multisensor_two = Multisensor(OZWMultisensor(8, ozw_network), Gateway(8))
+
     # MQTT Client
     mqtt = MQTT_Client()
 
     mqtt.start_client()
-
 
     print("Welcome to the Demonstration of 'how to get data from two "
           "Aeotec Multisensor 6'")

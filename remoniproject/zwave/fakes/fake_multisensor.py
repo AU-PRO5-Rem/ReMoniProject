@@ -5,10 +5,10 @@
     Description:    Fake open-zwave object to use for unit testing
 """
 
-from remoniproject.zwave.interfaces.interface_ozwnetwork import IOZWNetwork
+from remoniproject.zwave.interfaces.i_sensor import ISensor
 
 
-class FakeOZWNetwork(IOZWNetwork):
+class FakeMultisensor(ISensor):
 
     def __init__(self):
         self.status_is_awake = False
