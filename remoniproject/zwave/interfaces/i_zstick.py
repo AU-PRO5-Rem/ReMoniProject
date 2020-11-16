@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-class IZstick():
+class IZStick():
     """
     Interface Python Open-ZWave Network
     """
