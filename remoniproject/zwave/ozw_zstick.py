@@ -66,7 +66,7 @@ class ZStick(IZStick):
 
         if self.network.state < self.network.STATE_AWAKED:
             logging.INFO("ZStick: Timeout waiton for Awake State, Time set %d"
-                         timeout % )
+                         % timeout)
             return False
 
     def scan_for_nodes(self, initial=False):

@@ -6,42 +6,17 @@ from openzwave.option import ZWaveOption
 
 from startup.start_up_functions import setup
 # ZWave Network Scanner
-from zwave.ozw_network_scan import OZWNetworkScanner
+from zwave.ozw_zstick import ZStick
 # ZWave Multisensor
-from zwave.class_multisensor import Multisensor
+from zwave.multisensor import Multisensor
 from zwave.ozw_multisensor import OZWMultisensor
-from zwave.gateway_multisensor import GatewayFS
-# MQTT Test Broker
-from mqtt.mqtt_beebotte.py
-
-
-Z_STICK = "/dev/ttyACM0"
-options = ZWaveOption(Z_STICK)
-options.set_console_output(False)
-options.set_logging(False)
-options.lock()
-
-network_obj = ZWaveNetwork(options)
-
-sensor_list = []
-sensor_list_changed = []
-# Sensor lists:
-#             Sensor I Node ID:       [0][0]
-#             Sensor I Product Name:  [0][1]
-#             Sensor II Node ID:      [1][0]
-#             Sensor II Product Name: [1][1]    etc..
-
-# Contains Node ID's for multisensors
-multisensor_id = []
-
-# Object to scan for Node IDs and sort by product name
-ozw_scanner = OZWNetworkScanner(network_obj)
+from zwave.gateway import Gateway
 
 
 def main():
     # Start-up checks
     setup()
-
+    '''
     try:
         # Scan the ZWave network for sensors
         sensor_list = ozw_scanner.scan_ozwnetwork_for_nodes(initial=True)
@@ -53,7 +28,7 @@ def main():
         for idx, node_id in enumerate(multisensor_id):
             multisensor[idx] = Multisensor(
                 OZWMultisensor(node_id, network_obj), GatewayFS(node_id))
-        
+
         # Add other types of Sensors here..
         # <SENSORTYPE_id> = ozw_scanner.get_<SENSORTPYE>_node_ids(sensor_list)
 
@@ -93,6 +68,8 @@ def main():
 
         # Filter Data
         # Push to MQTT
+
+'''
 
 
 if __name__ == "__main__":

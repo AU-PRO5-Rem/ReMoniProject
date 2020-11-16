@@ -1,26 +1,29 @@
 """
 The "main" MQTT program.
 
-This client program will run in the background, to enable a constant MQTT connection, to an MQTT broker.
-In this program it will be connected to our own rented MQTT broker (beebotte), so it's possible to do extended test's,
+This client program will run in the background,
+to enable a constant MQTT connection, to an MQTT broker.
+In this program it will be connected to our own rented MQTT broker (beebotte),
+so it's possible to do extended test's,
 where in reality it will be changed to Remonis own MQTT client and broker.
 """
 # Enable full folder struct to becoma available
+import os
+import json
+import paho.mqtt.client as mqtt
+import logging
 import sys
+from pathlib import Path
 sys.path.append("../")
 
 # Rest of imports
-import logging
-import paho.mqtt.client as mqtt
-import time  # Used for sleeping function (although it's kinda irrelevant, and can be done in other ways)
-import json
-import os
-from pathlib import Path
+# and can be done in other ways)
+
 
 class MQTT_Client():
 
     def __init__(self):
-        
+
         logging.basicConfig(
             filename='MQTT.log',
             format=('%(asctime)s %(levelname)s:%(message)s'),
@@ -28,7 +31,7 @@ class MQTT_Client():
         )
 
         # Setup Client
-        self.__client = mqtt.Client(client_id="zwave_sensors", 
+        self.__client = mqtt.Client(client_id="zwave_sensors",
                                     clean_session=False)
         self.__client.on_connect = self.on_connect
         self.__client.on_disconnect = self.on_disconnect
@@ -37,10 +40,10 @@ class MQTT_Client():
         self.__client.loop_start()
 
         # Start Client
-        self.host ="mqtt.beebotte.com"
+        self.host = "mqtt.beebotte.com"
         self.port = 1883
         self.timer = 60
-        
+
         # Files with Sensor Values
         self.__path = ''
 
@@ -86,10 +89,10 @@ class MQTT_Client():
                     sens_string = str(vals[val])
                     val = val.replace(" ", "_")
                     pub_string = '{"data":' + sens_string + ',"write":true}'
-                    self.__client.publish("mqtt_test/" + val + str(node_id), pub_string, 1)
-                    logging.info('Published to channel %s', "mqtt_test/" + val + str(node_id))
+                    self.__client.publish(
+                        "mqtt_test/" + val + str(node_id), pub_string, 1)
+                    logging.info('Published to channel %s',
+                                 "mqtt_test/" + val + str(node_id))
                     logging.info('resource: %s', pub_string)
         except Exception as emsg:
             logging.info('Unable to publish values! %s', emsg)
-
-

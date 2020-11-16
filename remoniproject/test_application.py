@@ -26,8 +26,8 @@ def application():
     menu_text = """
 Enter : Choice
 --------------------------------------------------|
-1a    : Is Sensor 1 Awake? 
-2a    : Is Sensor 2 Awake? 
+1a    : Is Sensor 1 Awake?
+2a    : Is Sensor 2 Awake?
 1v    : Show Values from Sensor 1
 2v    : Show Values from Sensor 2
 1w    : Write values to file, Sensor 1

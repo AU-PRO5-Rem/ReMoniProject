@@ -16,7 +16,6 @@
 
 import time
 from datetime import datetime
-import logging
 
 from .interfaces.i_sensor import ISensor
 from openzwave.node import ZWaveNode
