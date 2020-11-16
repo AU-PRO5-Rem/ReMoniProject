@@ -1,0 +1,36 @@
+@startuml
+header / sd / ReMoni Aeotec Multisensor 6 - MQTT Process
+
+actor ReCalc
+
+box "MQTT Process"
+participant "MQTT\nClient" as mqtt
+end box
+
+database jsonfiles
+
+box "Main Process"
+participant main
+end box
+
+== Setup : mqtt ==
+
+autoactivate on
+main -> mqtt : mqtt_setup()
+autoactivate off
+
+ReCalc -> mqtt : add_sensor()
+ReCalc -> mqtt : configurations(filter)
+loop while 1
+mqtt -> jsonfiles : read_values
+jsonfiles -> mqtt : values
+
+mqtt -> mqtt : filter(values)
+mqtt -> ReCalc : publish(filter_values)
+...wait 1 minute...
+end 
+
+ReCalc -> mqtt : remove_sensor()
+deactivate mqtt
+
+@enduml
