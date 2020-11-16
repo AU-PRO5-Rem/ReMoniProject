@@ -24,11 +24,6 @@ from .interfaces.i_zstick import IZStick
 class ZStick(IZStick):
 
     def __init__(self, z_stick="/dev/ttyACM0"):
-        logging.basicConfig(
-            filename='zstick.log',
-            format=('%(asctime)s %(levelname)s:%(message)s'),
-            level=logging.INFO
-        )
         # Options for ZWave Network
         options = ZWaveOption(z_stick)
         options.set_console_output(False)
@@ -51,10 +46,8 @@ class ZStick(IZStick):
 
         time_elapsed = 0
         print("Waiting for ZWave Network")
-        logging.INFO("ZStick: Waiting for ZWave Network Awake State")
         for i in range(0, timeout):
             if self.network.state >= self.network.STATE_AWAKED:
-                logging.INFO("ZStick: Awake after %d seconds" % i)
                 return True
             else:
                 if i % 2 == 0:
@@ -65,8 +58,6 @@ class ZStick(IZStick):
                 time.sleep(1.0)
 
         if self.network.state < self.network.STATE_AWAKED:
-            logging.INFO("ZStick: Timeout waiton for Awake State, Time set %d"
-                         % timeout)
             return False
 
     def scan_for_nodes(self, initial=False):
