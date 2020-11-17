@@ -57,7 +57,7 @@ class ZStick(IZStick):
                 time.sleep(1.0)
 
         if self.network.state < self.network.STATE_AWAKED:
-            print("ZWave Network timed out (Timeout: %ss)" % time_elapsed")
+            print("ZWave Network timed out (Timeout: %ss)" % time_elapsed)
             return False
 
     def scan_for_nodes(self, initial=False):

@@ -54,9 +54,9 @@ def main():
     # Main Loop
     while True:
 
-       # Get Values from each Multisensor and Write values to file
-       # in ./data
-       for idx, _ in enumerate(multisensors):
+        # Get Values from each Multisensor and Write values to file
+        # in ./data
+        for idx, _ in enumerate(multisensors):
             # Get data-points from Multisensor if it is awake
             if multisensors[idx].is_awake() is True:
                 # Retrive all values from the Multisensor
@@ -75,7 +75,7 @@ def main():
 
         # Create updated list of Multisensors in the network
         updated_sensor_list = zstick.get_multisensor_node_ids()
-        
+
         # Compare and handle changes
         if multisensors_node_ids != updated_sensor_list:
             print("Sensor list changed!")
