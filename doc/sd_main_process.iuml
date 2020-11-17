@@ -49,6 +49,7 @@ Multisensor_2 -> ZStick : hello<dict info>
 main -> ZStick : get_multisensor_node_ids()
 ZStick -> main : Multisensor_node_ids
 deactivate
+autoactivate off
 
 loop for node_ids
     main -> Multisensor : Multisensors[] = Multisensor(node_id, ...)
@@ -84,16 +85,18 @@ autoactivate off
 ...1 minute later...
 
 autoactivate on
-main -> ZStick : network_is_awake()
-return True / False
-main -> ZStick : scan_for_nodes()
-autoactivate off
 
+main -> ZStick : scan_for_nodes()
+ZStick -> ZStick : network_is_awake()
+return True / False
+autoactivate off
 Multisensor_1 -> ZStick : hello<dict info>
 Multisensor_2 -> ZStick : hello<dict info>
-ZStick -> ZStick : get_multisensor_node_ids()
+main -> ZStick : get_multisensor_node_ids()
 ZStick -> main : Multisensor_node_ids
-deactivate ZStick
+deactivate
+autoactivate off
+
 main -> main : compare new ids to old ids
 main -> main : create or pop Sensor obejct in\nMultisensor[Multisensor(node_id)]
 end
