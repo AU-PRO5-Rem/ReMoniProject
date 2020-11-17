@@ -39,13 +39,14 @@ return
 == Initialization : zwave ==
 main -> ZStick : init()
 return 
-main -> ZStick : network_is_awake()
-return True / False
+
 main -> ZStick : scan_for_nodes()
+ZStick -> ZStick : network_is_awake()
+return True / False
 autoactivate off
 Multisensor_1 -> ZStick : hello<dict info>
 Multisensor_2 -> ZStick : hello<dict info>
-ZStick -> ZStick : get_multisensor_node_ids()
+main -> ZStick : get_multisensor_node_ids()
 ZStick -> main : Multisensor_node_ids
 deactivate
 
