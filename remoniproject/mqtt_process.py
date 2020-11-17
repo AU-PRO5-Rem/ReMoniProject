@@ -14,7 +14,7 @@ def MQTT_process():
             try:
                 mqtt.start_client()
                 mqtt.is_running = True
-                print("MQTT Client is Running!)
+                print("MQTT Client is Running!")
 
             except Exception as emsg:
                 print(emesg)

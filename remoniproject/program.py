@@ -1,14 +1,18 @@
 #!/usr/bin/python3
 
-import thread
+from threading import Thread
 
 from main import main
 from mqtt_process import MQTT_process
 
+mp = Thread(None, main)
+mq = Thread(None, MQTT_process)
 # Create Main and MQTT Process
 try:
-    thread.start_new_thread(main, ())
-    thread.start_new_thread(MQTT_process, ())
+    print("Starting threads")
+    mp.start()
+    mq.start()
+
 except Exception as emsg:
     print(emsg)
 
