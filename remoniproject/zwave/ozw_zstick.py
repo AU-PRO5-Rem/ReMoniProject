@@ -87,7 +87,7 @@ class ZStick(IZStick):
         finally:
             self.sensor_list = sensor_list
 
-    def get_multisensor_node_ids(self, sensor_list):
+    def get_multisensor_node_ids(self):
         """Evaluate sensor_list and return list with node ids for multisensors
 
         :param sensor_list: list

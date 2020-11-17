@@ -1,75 +1,86 @@
 #!/usr/bin/python3
 # import time
 
-# from openzwave.network import ZWaveNetwork
-# from openzwave.option import ZWaveOption
-
 from startup.start_up_functions import setup
-# ZWave Network Scanner
-# from zwave.ozw_zstick import ZStick
-# ZWave Multisensor
-# from zwave.multisensor import Multisensor
-# from zwave.ozw_multisensor import OZWMultisensor
-# from zwave.gateway import Gateway
+# Aeotec Z-Stick Gen. 5 using Open-ZWave lib
+from zwave.ozw_zstick import ZStick
+# Aeotec Multisensor 6 using Open-ZWave lib
+from zwave.multisensor import Multisensor
+from zwave.ozw_multisensor import OZWMultisensor
+from zwave.gateway import Gateway
+
+# Set how often it will re-scan ZWave network for nodes and execute main()
+main_loop_time = 60.0
 
 
 def main():
     # Start-up checks
     setup()
-    '''
-    try:
-        # Scan the ZWave network for sensors
-        sensor_list = ozw_scanner.scan_ozwnetwork_for_nodes(initial=True)
 
-        # Create 'Multisensor 6' objects
-        multisensor_id = ozw_scanner.get_multisensor_node_ids(sensor_list)
-        multisensor = [0]*(len(multisensor_id))
+    # Create the Z-Stick object conaining the OZW network obj
+    # Default constructs "/dev/ttyACM0" as zstick
+    zstick = ZStick()
 
-        for idx, node_id in enumerate(multisensor_id):
-            multisensor[idx] = Multisensor(
-                OZWMultisensor(node_id, network_obj), GatewayFS(node_id))
+    # Scan ZWave network for nodes and
+    # save node ids to zstick.sensor_list
+    # set initial=False to turn off print to std.out
+    zstick.scan_for_nodes(initial=True)
 
-        # Add other types of Sensors here..
-        # <SENSORTYPE_id> = ozw_scanner.get_<SENSORTPYE>_node_ids(sensor_list)
+    # Get node ids for all multisensors in the network
+    multisensors_node_ids = zstick.get_multisensor_node_ids()
 
-    except Exception as emsg:
-        print(emsg)
+    # Initialize an empty list that can contain all Multisensors
+    multisensors = [0]*(len(multisensors_node_ids))
+
+    # Create Multisensor object per multisensors_node_ids
+    for idx, node_id in enumerate(multisensors_node_ids):
+        multisensors[idx] = Multisensor(
+            OZWMultisensor(node_id, zstick.network),
+            Gateway(node_id))
+
+    # Implement other types of Sensors as needed:
+    # 1. Implement method in 'ozw_zstick' to return
+    #    node ids for a given sensor type
+    #   ( like 'get_multisensor_node_ids()' )
+    #    <SENSORTYPE_id> = zstick.get_<SENSORTPYE>_node_ids()
+    #
+    # 2. Implement Sensor class that inherites from the ISensor and,
+    #    IGateway class and implement specific funtionality.
+    #    All functionality is probably equivalent to functionality
+    #    in ozw_multisensor.py
+    #
+    #  3. Implement loop that creates the needed sensor objects
 
     # Main Loop
     for i in range(0, 5):
-        # Time interval between main loop runs
-        time.sleep(10.0)
 
-        # Re-scan to update view of network nodes that is paired with Z-Stick
-        sensor_list_changed = ozw_scanner.scan_ozwnetwork_for_nodes()
-
-        if sensor_list_changed == 0:
-            print("Failed to scan Open-ZWave network!")
-            # Go back and re-try network scan..
-            continue
-
-        # Check if new sensors are paired/unpaired with the Z-Stick network
-        if len(sensor_list_changed) != len(sensor_list):
-
-            # Do something
-            # (eg. create or demolish multisensor object per multisensor 6)
-            sensor_list = sensor_list_changed
-
-        # TO-DO: Implement routines to:
-        # Get Values fro Multisensor and Write to file
-        for idx, _ in enumerate(multisensor):
-            # Get data-points from Multisensor
+        # Get Values from each Multisensor and Write values to file
+        # in ./data
+        for idx, _ in enumerate(multisensors):
+            # Get data-points from Multisensor if it is awake
             if multisensor[idx].is_awake() is True:
+                # Retrive all values from the Multisensor
                 multisensor[idx].get_values()
-                # Write Timestamped Data-points to File in /data/
+                # Write values to sensor_vals_<node_id>.txt
+                # ISO8601 Timestamp is appended as 'Timestamp: "<timestamp>"'
                 multisensor[idx].write_values_to_file()
             else:
                 print("Sensor %s is sleeping" % multisensor[idx])
 
-        # Filter Data
-        # Push to MQTT
+        # Wait for main_loop_time
+        time.sleep(main_loop_time)
 
-'''
+        # Re-scan ZWave network for changes
+        zstick.scan_for_nodes()
+
+        # Create updated list of Multisensors in the network
+        updated_sensor_list = zstick.get_multisensor_node_ids()
+        # Compare and handle changes
+        if multisensors_node_ids != updated_sensor_list:
+            print("Sensor list changed!")
+            # Create or pop sensor object in multisensor[]
+
+            multisensors_node_ids = updated_sensor_list
 
 
 if __name__ == "__main__":
