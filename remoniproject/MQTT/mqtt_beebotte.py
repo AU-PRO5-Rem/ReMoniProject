@@ -47,13 +47,17 @@ class MQTT_Client():
         # Files with Sensor Values
         self.__path = ''
 
+        self.is_running = False
+
     def on_connect(self, client, userdata, flags, rc):
         logging.info("MQTT: Connection established")
         self.__client.subscribe("mqtt_test/Filter", 0)
+        self.is_running = True
         # Jan?
 
     def on_disconnect(self, client, userdata, rc):
         logging.info("MQTT: Connection lost")
+        self.is_running = False
 
     def on_message(self, client, userdata, msg):
         logging.info("MQTT: Message Received")
