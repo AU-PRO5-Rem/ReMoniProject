@@ -70,7 +70,7 @@ class ZStick(IZStick):
         sensor_type = ''
 
         try:
-            if self.zwave_network_is_awake() is True:
+            if self.network_is_awake() is True:
 
                 for node in self.network.nodes:
                     sensor_node_id = self.network.nodes[node].node_id
