@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# import time
+import time
 
 from startup.start_up_functions import setup
 # Aeotec Z-Stick Gen. 5 using Open-ZWave lib
@@ -58,14 +58,14 @@ def main():
         # in ./data
         for idx, _ in enumerate(multisensors):
             # Get data-points from Multisensor if it is awake
-            if multisensor[idx].is_awake() is True:
+            if multisensors[idx].is_awake() is True:
                 # Retrive all values from the Multisensor
-                multisensor[idx].get_values()
+                multisensors[idx].get_values()
                 # Write values to sensor_vals_<node_id>.txt
                 # ISO8601 Timestamp is appended as 'Timestamp: "<timestamp>"'
-                multisensor[idx].write_values_to_file()
+                multisensors[idx].write_values_to_file()
             else:
-                print("Sensor %s is sleeping" % multisensor[idx])
+                print("Sensor %s is sleeping" % multisensors[idx])
 
         # Wait for main_loop_time
         time.sleep(main_loop_time)
