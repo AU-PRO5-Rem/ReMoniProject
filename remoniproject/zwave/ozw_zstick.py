@@ -14,7 +14,6 @@
 """
 
 import time
-import logging
 
 from openzwave.network import ZWaveNetwork
 from openzwave.option import ZWaveOption
@@ -35,15 +34,14 @@ class ZStick(IZStick):
         self.sensor_list = 0
 
     def network_is_awake(self, timeout=60):
-        """Check if state of network is Awake
+        """
+        Checks if state of network is Awake
 
-        :param self.network: initialized network object
-        :param timeout: set max time to wait for awake state
-        :type self.network: ZWaveNetwork Object
-        :return: True or False
+        :param timeout: allowed seconds before timeout, defaults to 60
+        :type timeout: int, optional
+        :return: True (Awake), or False (Sleeping)
         :rtype: bool
         """
-
         time_elapsed = 0
         print("Waiting for ZWave Network")
         for i in range(0, timeout):
@@ -61,12 +59,11 @@ class ZStick(IZStick):
             return False
 
     def scan_for_nodes(self, initial=False):
-        """get node ids for any sensors [summary]
+        """Perform scan for nodes and store all found nodes,
+        except the Z-Stick itself.
 
-        :param self.network: [description]
-        :type self.network: [type]
-        :return: [description]
-        :rtype: [type]
+        :param initial: Print to std.out if True, defaults to False
+        :type initial: bool, optional
         """
         sensor_list = []
         sensor_node_id = 0
@@ -91,7 +88,13 @@ class ZStick(IZStick):
             self.sensor_list = sensor_list
 
     def get_multisensor_node_ids(self, sensor_list):
+        """Evaluate sensor_list and return list with node ids for multisensors
 
+        :param sensor_list: list
+        :type sensor_list: [int]
+        :return: multisensors node ids
+        :rtype: [int]
+        """
         multisensor_node_ids = []
 
         for col1, _ in enumerate(self.sensor_list):

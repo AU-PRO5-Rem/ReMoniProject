@@ -47,7 +47,7 @@ class OZWMultisensor(ISensor):
 
         :return: dict or int errorcode
 
-        :rtype: dict
+        :rtype: dict or int
         """
         if self.network_is_ready() is True:
             multisensor = self.__network.nodes[self.__node_id]
@@ -118,12 +118,25 @@ class OZWMultisensor(ISensor):
 
     # Support functions
     def __make_timestamp(self):
-        # Make timestamp
+        """
+        Make ISO8601 Timestamp
+
+        :return: ISO 8601 Timestamp
+        :rtype: String
+        """
         timestamp = datetime.now()
         timestamp.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
         return str(timestamp)
 
     def __add_timestamp(self, vals_dict):
+        """
+        Append timestamp to dictionary with sensor values
+
+        :param vals_dict: sensor_values
+        :type vals_dict: dict
+        :return: sensor_values with timestamp entry
+        :rtype: dict
+        """
         timestamp = self.__make_timestamp()
         try:
             new_timestamp = {"Timestamp": timestamp}
