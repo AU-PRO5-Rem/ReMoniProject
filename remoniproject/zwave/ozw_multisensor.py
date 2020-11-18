@@ -17,28 +17,19 @@
 import time
 from datetime import datetime
 
-from .interfaces.interface_ozwnetwork import IOZWNetwork
+from .interfaces.i_sensor import ISensor
 from openzwave.node import ZWaveNode
-from openzwave.network import ZWaveNetwork
-from openzwave.option import ZWaveOption
 
 
-class OZWMultisensor(IOZWNetwork):
+class OZWMultisensor(ISensor):
 
-    def __init__(self, node_id):
+    def __init__(self, node_id, OZWNetwork_obj):
 
         # The concrete Node ID
         self.__node_id = node_id
 
-        # Options for ZWave Network
-        self.__Z_STICK = "/dev/ttyACM0"
-        self.__options = ZWaveOption(self.__Z_STICK)
-        self.__options.set_console_output(False)
-        self.__options.set_logging(False)
-        self.__options.lock()
-
-        # Network object
-        self.__network = ZWaveNetwork(self.__options)
+        # Open-ZWave Network object injection
+        self.__network = OZWNetwork_obj
 
         # Node Object
         self.__zwnode = ZWaveNode(self.__node_id, self.__network)
@@ -56,7 +47,7 @@ class OZWMultisensor(IOZWNetwork):
 
         :return: dict or int errorcode
 
-        :rtype: dict
+        :rtype: dict or int
         """
         if self.network_is_ready() is True:
             multisensor = self.__network.nodes[self.__node_id]
@@ -125,14 +116,27 @@ class OZWMultisensor(IOZWNetwork):
         """
         raise NotImplementedError
 
-    # "Private" Support functions
+    # Support functions
     def __make_timestamp(self):
-        # Make timestamp
+        """
+        Make ISO8601 Timestamp
+
+        :return: ISO 8601 Timestamp
+        :rtype: String
+        """
         timestamp = datetime.now()
         timestamp.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
         return str(timestamp)
 
     def __add_timestamp(self, vals_dict):
+        """
+        Append timestamp to dictionary with sensor values
+
+        :param vals_dict: sensor_values
+        :type vals_dict: dict
+        :return: sensor_values with timestamp entry
+        :rtype: dict
+        """
         timestamp = self.__make_timestamp()
         try:
             new_timestamp = {"Timestamp": timestamp}

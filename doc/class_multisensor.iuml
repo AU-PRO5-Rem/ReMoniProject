@@ -1,20 +1,44 @@
-@startuml Multisensor
+@startuml cd Multisensor
 
-abstract class IOZWNetwork {
-    {abstract} is_network_ready() : bool
+abstract class IZStick {
+    {abstract} network_is_awake() : bool
+    {abstract} scan_for_nodes() : void
+    {abstract} get_multisensor_node_ids() : list
+}
+
+abstract class ISensor {
+    {abstract} network_is_awake() : bool
     {abstract} is_awake() : bool
     {abstract} get_values() : void
     {abstract} update_configuration() : int
 }
 
-abstract class IGatewayFS {
+abstract class IGateway {
     {abstract} write_values_to_file() : bool
     {abstract} read_configuration_from_file() : bool
 }
 
-class Gateway implements IGatewayFS {
-+ write_values_to_file() : bool
+class ZStick implements IZStick {
++ options : ZWaveOption obj
++ network : ZWaveNetwork obj 
++ sensor_list : list
++ logging : logging obj 
+
+ZStick(z_stick_path)
++ network_is_awake() : bool
++ scan_for_nodes() : void
++ get_multisensor_node_ids() : list
+}
+
+class Gateway implements IGateway {
+Gateway(node_id)
++ conf_filename : String
++ conf_params : dict
+- _val_filepath : String
+- _vals_filename : String
++ write_values_to_file(dict values) : bool
 + read_configuration_from_file() : bool
+- _set_path_to_data() : void
 }
 
 package Kernel {
@@ -23,33 +47,31 @@ package Kernel {
 
 
 class Multisensor {
-    + sensor_values : dict
-    + configurations : dict
-
-      Multisensor(IOZWNetwork)
-    ~ Multisensor()
-    + is_awake() : bool
-    + get_values() : void
-    + update_configuration() : int
-    + write_values_to_file() : bool
-    + read_configuration_from_file() : bool
+  - _sensor : Sensor obj
+  - _gateway : Gateway obj
+  + sensor_values : dict
+  + configurations : dict
+    Multisensor(ISensor, IGateway)
+  + is_awake() : bool
+  + get_values() : void
+  + update_configuration() : int
+  + write_values_to_file() : bool
+  + read_configuration() : bool
 
 }
 
-class OZWNetwork implements IOZWNetwork {
-  - _options : obj
-  - _network : obj
-  - _zwnode : obj
+class OZWMultisensor implements ISensor {
+  - _network : ZWaveNetwork obj
+  - _zwnode : ZWaveNode obj
   - _node_id : int
-  OZWNetwork(node_id)
-  ~OZWNetwork()
-  + ZWaveOption() : _options
-  + ZWaveNetwork(_options): _network 
-  + ZWaveNode(_node_id, _network) : _zwnode
-  + is_network_ready() : bool
+  OZWMultisensor(node_id, ZWaveNetwork_obj)
+  + ZWaveNode(_node_id, _network) : ZWaveNode obj
+  + network_is_ready() : bool
   + is_awake() : bool
   + get_values() : dict
   + update_configuration() : int
+  - _make_timestamp() : String(ISO8601)
+  - _add_timestamp(dict values) : dict
 }
 
 package OpenZWave <<Folder>> {
@@ -57,10 +79,13 @@ package OpenZWave <<Folder>> {
   class ZWaveNetwork
   class ZWaveOption
 }
-
-Multisensor ..> IOZWNetwork
-OZWNetwork <|-- OpenZWave : Use
-Multisensor ..> IGatewayFS
+Multisensor <|-- ZStick
+Multisensor ..> ISensor
+Multisensor ..> IGateway
+OZWMultisensor <|-- ZWaveNode
+ZStick <|-- ZWaveNetwork
+ZStick <|-- ZWaveOption
+OZWMultisensor <|-- ZStick
 Gateway <|-- Kernel : Use
 
 
