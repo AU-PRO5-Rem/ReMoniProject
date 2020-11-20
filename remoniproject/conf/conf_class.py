@@ -9,8 +9,10 @@ import fcntl
 class ConfClass:
     """"
     This class is meant for methods to handle the configuration file/files.
-    The purpose of the configuration file is to store, and select, which sensor data a customer would be interrested in.
-    By storing these "customer data preferrals", it's possible to use them as a filter on the recieved sensor data.
+    The purpose of the configuration file is to store, and select, which sensor
+    data a customer would be interrested in.
+    By storing these "customer data preferrals", it's possible to use them as a
+    filter on the recieved sensor data.
 
     there will be 7 methods which will:
     *Get sensor id's
@@ -50,19 +52,23 @@ class ConfClass:
         """
         logging.basicConfig(
             filename='confs.log',
-            format=('%(asctime)s %(levelname)s:%(message)s'),
+            format='%(asctime)s %(levelname)s:%(message)s',
             level=logging.INFO
         )
 
     def create_confs(self, network_obj, path="", conf_log=0):
         """
-        This function will create configuration files for nodes, as long as the node exist, and there's a init configuration
-        file named after the product name (fx. ZW100_MultiSensor_6), containing sensor parameters (fx. Temperature, lum,
+        This function will create configuration files for nodes,
+        as long as the node exist, and there's a init configuration
+        file named after the product name (fx. ZW100_MultiSensor_6),
+        containing sensor parameters (fx. Temperature, lum,
         ...).
 
-        This function also has a minimum of logging, regarding basic errors and succesful configuration file creation.
+        This function also has a minimum of logging,
+        regarding basic errors and succesful configuration file creation.
 
-        It is neccessary to pass a network object to the function as an argument, and will return 1 on error free run
+        It is neccessary to pass a network object,
+        to the function as an argument, and will return 1 on error free run
         through.
 
         :param obj network_obj:
@@ -100,10 +106,14 @@ class ConfClass:
                         conf_vars = open(pn, "r")
                     except:
                         z = " "
-                        logging.error("conf: missing init configuration file called " + pn)
-                        logging.info("conf: There should be an init configuration file, "
-                                     "named after the product_name of a sensor, \n" + 29 * z +
-                                     "containing the names of the sensor vals listed on new lines fx:\n" + 29 * z +
+                        logging.error("conf: missing init configuration "
+                                      "file called " + pn)
+                        logging.info("conf: There should be an "
+                                     "init configuration file, "
+                                     "named after the product_name of a sensor,"
+                                     " \n" + 29 * z +
+                                     "containing the names of the sensor vals "
+                                     "listed on new lines fx:\n" + 29 * z +
                                      "Temperature\n" + 29 * z +
                                      "Burglar\n" + 29 * z +
                                      "Luminance")
@@ -124,9 +134,10 @@ class ConfClass:
                         lock = 0
                         while lock != 1:
                             try:
-                                fcntl.flock(outfile_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                                fcntl.flock(outfile_fd, fcntl.LOCK_EX |
+                                            fcntl.LOCK_NB)
                                 lock = 1
-                            except:
+                            except IOError:
                                 lock = 0
                         json.dump(json_dict, outfile_fd, indent=4)
                         fcntl.flock(outfile_fd, fcntl.LOCK_UN)
@@ -137,18 +148,22 @@ class ConfClass:
                     del ni
                     del pn
 
-                    logging.info("conf: configuration file " + conf_fn + ".txt created")
+                    logging.info("conf: configuration file " + conf_fn +
+                                 ".txt created")
 
                     # Reset path
                     os.chdir(o_path)
 
         return 1
 
-    def update_conf(self, product_name, node_id, update_json, path="", conf_log=0):
+    def update_conf(self, product_name, node_id, update_json, path="",
+                    conf_log=0):
         """
-        Updates a configuration file, from a new given json string, containing the name of a parameter fx:
+        Updates a configuration file, from a new given json string,
+        containing the name of a parameter fx:
         json_update_string = {"Temperature": 0}
-        This example will turn the value "off",, where a "1"w ill indicate the value is turned "on"
+        This example will turn the value "off",
+        where a "1"w ill indicate the value is turned "on"
 
 
         :param str product_name:
@@ -177,7 +192,7 @@ class ConfClass:
                     try:
                         fcntl.flock(og_conf_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
                         lock = 1
-                    except:
+                    except IOError:
                         lock = 0
                 og_data = json.load(og_conf_fd)
                 fcntl.flock(og_conf_fd, fcntl.LOCK_UN)
@@ -186,7 +201,8 @@ class ConfClass:
             os.chdir(o_path)
             return -1
 
-        # Try to find the corresponding name, and if found then change the old configuration value,
+        # Try to find the corresponding name,
+        # and if found then change the old configuration value,
         # to the updated configuration value
         for og_name in og_data:
             og_val = og_data[og_name]
@@ -205,7 +221,7 @@ class ConfClass:
                 try:
                     fcntl.flock(outfile_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
                     lock = 1
-                except:
+                except IOError:
                     lock = 0
             json.dump(og_data, outfile_fd, indent=4)
             fcntl.flock(outfile_fd, fcntl.LOCK_UN)
@@ -214,7 +230,8 @@ class ConfClass:
 
     def read_conf(self, product_name, node_id, path="", conf_log=0):
         """
-        Returns a configuration file as a json dict, so it's parameters can be used as filter parameters
+        Returns a configuration file as a json dict,
+        so it's parameters can be used as filter parameters
 
         :param str product_name:
         :param int node_id:
@@ -241,7 +258,7 @@ class ConfClass:
                     try:
                         fcntl.flock(og_conf_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
                         lock = 1
-                    except:
+                    except IOError:
                         lock = 0
                 conf_data = json.load(og_conf_fd)
                 fcntl.flock(og_conf_fd, fcntl.LOCK_UN)
@@ -255,7 +272,8 @@ class ConfClass:
 
     def clean_up_junk(self):
         """
-        Cleans up junk files, generated when testing configuration files functions
+        Cleans up junk files,
+        generated when testing configuration files functions
 
         :return:
         """

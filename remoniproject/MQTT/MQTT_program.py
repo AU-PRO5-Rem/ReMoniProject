@@ -1,8 +1,10 @@
 """
 The "main" MQTT program.
 
-This client program will run in the background, to enable a constant MQTT connection, to an MQTT broker.
-In this program it will be connected to our own rented MQTT broker (beebotte), so it's possible to do extended test's,
+This client program will run in the background, to enable a constant MQTT
+connection, to an MQTT broker.
+In this program it will be connected to our own rented MQTT broker (beebotte),
+so it's possible to do extended test's,
 where in reality it will be changed to Remonis own MQTT client and broker.
 """
 # Enable full folder structure to become available
@@ -12,7 +14,9 @@ sys.path.append("../")
 # Rest of imports
 import logging
 import paho.mqtt.client as mqtt
-import time  # Used for sleeping function (although it's kinda irrelevant, and can be done in other ways)
+# Used for sleeping function (although it's kinda irrelevant,
+# and can be done in other ways)
+import time
 import json
 import os
 import fcntl
@@ -23,22 +27,24 @@ path_to_val = ""  # path to sensor and ID value's txt's
 path_to_conf = "../conf_tests"  # path to conf class file
 
 
-# ------------------------------------- Logging setup ---------------------------------------------------------------- #
+# ------------------------- Logging setup ------------------------------------ #
 def MQTT_logging_setup():
     # File for logging
     logging.basicConfig(
         filename='MQTT.log',
-        format=('%(asctime)s %(levelname)s:%(message)s'),
+        format='%(asctime)s %(levelname)s:%(message)s',
         level=logging.INFO
     )
 
 
-# -------------------------------------------------------------------------------------------------------------------- #
+# ---------------------------------------------------------------------------- #
 # Callback definitions
-# it's possible to create a callback function, so when a certain function is done or "accomplished", it will call these
+# it's possible to create a callback function,
+# so when a certain function is done or "accomplished", it will call these
 # functions, and execute the definition code.
 def on_connect(client, userdata, flags, rc):
-    logging.info("MQTT: Connection establed and returned with result code:" + str(rc))
+    logging.info("MQTT: Connection establed and returned with result code:"
+                 + str(rc))
     mqtt_client.subscribe("mqtt_test/Filter", 0)
     mqtt_client.subscribe("mqtt_test/SensorPair", 0)
     # mqtt_client.subscribe("mqtt_test/FIFO", 0)  # used for debugging
@@ -52,17 +58,17 @@ def on_connect(client, userdata, flags, rc):
                     try:
                         fcntl.flock(FIFO_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
                         lock = 1
-                    except:
+                    except IOError:
                         lock = 0
                 # Load old FIFO values
                 FIFO_dict = json.load(FIFO_fd)
                 fcntl.flock(FIFO_fd, fcntl.LOCK_UN)
 
             FIFO_dict = str(FIFO_dict).replace("'", '"')
-            pub_string = '{"data":' + str(FIFO_dict) + ',"write":true}'
-            mqtt_client.publish("mqtt_test/FIFO", pub_string, 1)
+            publish_string = '{"data":' + str(FIFO_dict) + ',"write":true}'
+            mqtt_client.publish("mqtt_test/FIFO", publish_string, 1)
             logging.info("MQTT: FIFO content sent to broker")
-            #os.remove("FIFO.txt")
+            # os.remove("FIFO.txt")
 
 
 def on_disconnect(client, userdata, rc):
@@ -90,7 +96,7 @@ def on_disconnect(client, userdata, rc):
                 try:
                     fcntl.flock(FIFO_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
                     lock = 1
-                except:
+                except IOError:
                     lock = 0
             # Load old FIFO values
             FIFO_dict = json.load(FIFO_fd)
@@ -102,7 +108,7 @@ def on_disconnect(client, userdata, rc):
             try:
                 fcntl.flock(FIFO_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
                 lock = 1
-            except:
+            except IOError:
                 lock = 0
         # Update FIFO
         FIFO_dict[time.ctime()] = sensor_vals_list
@@ -115,10 +121,13 @@ def on_disconnect(client, userdata, rc):
 
 def on_filter_message(client, userdata, msg):
     """
-    If necessary it's possible to have individual callbacks for topics, instead of 1 collective
-    could be necessary whit multiple sensors, function for this is "message_callback_add()"
+    If necessary it's possible to have individual callbacks for topics,
+    instead of 1 collective.
+    could be necessary whit multiple sensors,
+    function for this is "message_callback_add()"
 
-    example of a recieved JSON string: {"Time":30,"7":{ "Temperature":1},"8":{"Temperature":1}}
+    example of a recieved JSON string:
+    {"Time":30,"7":{ "Temperature":1},"8":{"Temperature":1}}
 
     :param client:
     :param userdata:
@@ -135,7 +144,7 @@ def on_filter_message(client, userdata, msg):
             try:
                 fcntl.flock(sensor_ids_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
                 lock = 1
-            except:
+            except IOError:
                 lock = 0
         sensor_ids = json.load(sensor_ids_fd)
         fcntl.flock(sensor_ids_fd, fcntl.LOCK_UN)
@@ -159,21 +168,26 @@ def on_filter_message(client, userdata, msg):
             for data_objects in filter_msg[msg_objects]:
                 # "Time" values
                 if data_objects == "Time":
-                    time_val[data_objects] = filter_msg[msg_objects][data_objects]
+                    time_val[data_objects] = \
+                        filter_msg[msg_objects][data_objects]
                     for ids in sensor_ids:
-                        conf.update_conf(sensor_ids[ids], ids, time_val, path_to_conf)
+                        conf.update_conf(sensor_ids[ids], ids, time_val,
+                                         path_to_conf)
                 # Sensor values
                 else:
                     new_vals = filter_msg[msg_objects][data_objects]
-                    conf.update_conf(sensor_ids[data_objects], data_objects, new_vals, path_to_conf)
+                    conf.update_conf(sensor_ids[data_objects], data_objects,
+                                     new_vals, path_to_conf)
 
     # Log recieved info
-    logging.info("MQTT: recieved " + str(msg.topic) + " message" + " : " + str(filter_msg["data"]))
+    logging.info("MQTT: recieved " + str(msg.topic) +
+                 " message" + " : " + str(filter_msg["data"]))
 
 
 def on_SensorPair_message(client, userdata, msg):
     """
-    callback used to set dongle into pairing mode, although it's not implemented, it's been set up for possible future
+    callback used to set dongle into pairing mode,
+    although it's not implemented, it's been set up for possible future
     function implementation.
 
     example of a recieved JSON string: {"Pair_sensor":1}
@@ -190,17 +204,20 @@ def on_SensorPair_message(client, userdata, msg):
     filter_msg = json.loads(filter_msg)
     filter_msg = filter_msg["data"]
 
-    logging.info("MQTT: Call recieved to set dongle into pairing mode | msg recieved: " + str(filter_msg))
+    logging.info("MQTT: Call recieved to set dongle into pairing mode | "
+                 "msg recieved: " + str(filter_msg))
 
 
 def on_FIFO_message(client, userdata, msg):
     msg.payload = msg.payload.decode("utf-8")
-    filter_msg = str(msg.payload).replace("'", '"')  # to avoid pyton int format errors
+    # to avoid pyton int format errors
+    filter_msg = str(msg.payload).replace("'", '"')
     filter_msg = json.loads(filter_msg)
     filter_msg = filter_msg["data"]
     logging.info("MQTT_debugging: FIFO recieved: " + str(filter_msg))
 
-# -------------------------------------------------------------------------------------------------------------------- #
+
+# ---------------------------------------------------------------------------- #
 # Non callback functions
 def read_sensor_vals():
     vals_dict = {}
@@ -212,7 +229,8 @@ def read_sensor_vals():
 
     # First check if Sensor node id's txt file
     while os.path.isfile("sensor_ids.txt") != 1:
-        logging.warning("MQTT: missing sensor_ids.txt file (file listing sensor node id's)")
+        logging.warning("MQTT: missing sensor_ids.txt file "
+                        "(file listing sensor node id's)")
         time.sleep(5)
 
     # Read possible/connected sensor ID's from txt file
@@ -222,7 +240,7 @@ def read_sensor_vals():
             try:
                 fcntl.flock(sensor_ids_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
                 lock = 1
-            except:
+            except IOError:
                 lock = 0
         sensor_ids = json.load(sensor_ids_fd)
         fcntl.flock(sensor_ids_fd, fcntl.LOCK_UN)
@@ -236,18 +254,19 @@ def read_sensor_vals():
             time.sleep(5)
 
         # Load file
-        with open("sensor_filtered_val_" + str(ids) + ".txt", "r") as sensor_vals:
+        with open("sensor_filtered_val_" + str(ids) + ".txt", "r") \
+                as sensor_vals:
             lock = 0
             while lock != 1:
                 try:
                     fcntl.flock(sensor_vals, fcntl.LOCK_EX | fcntl.LOCK_NB)
                     lock = 1
-                except:
+                except IOError:
                     lock = 0
-            sensor_val = json.load(sensor_vals)
+            sensor_value = json.load(sensor_vals)
             fcntl.flock(sensor_vals, fcntl.LOCK_UN)
 
-        vals_dict[ids] = sensor_val
+        vals_dict[ids] = sensor_value
         os.chdir(o_path)  # Return to old path
 
     return vals_dict
@@ -255,7 +274,8 @@ def read_sensor_vals():
 
 def client_setup():
     """
-    This function will set up the client and its properties, as well as directing the callback's to their functions
+    This function will set up the client and its properties,
+    as well as directing the callback's to their functions
 
     :return:
     """
@@ -264,9 +284,11 @@ def client_setup():
     client.on_disconnect = on_disconnect
     client.message_callback_add("mqtt_test/Filter", on_filter_message)
     client.message_callback_add("mqtt_test/SensorPair", on_SensorPair_message)
-    # client.message_callback_add("mqtt_test/FIFO", on_FIFO_message)  # used for debugging
+    # used for debugging
+    # client.message_callback_add("mqtt_test/FIFO", on_FIFO_message)
 
-    client.username_pw_set('token:token_mWOdtefqeUm0mlDo')  # Password/token for beebotte
+    # Password/token for beebotte
+    client.username_pw_set('token:token_mWOdtefqeUm0mlDo')
     client.loop_start()
     return client
 
@@ -285,7 +307,7 @@ def start_client(host, port, timer):
     return client
 
 
-# ------------------------------------------------ "Main part" ------------------------------------------------------- #
+# ------------------------ "Main part" --------------------------------------- #
 
 # Create log
 MQTT_logging_setup()
@@ -310,7 +332,7 @@ while 1:
                 sens_string = str(sensor_vals_list[sensor_val][names])
                 names = names.replace(" ", "_")
                 pub_string = '{"data":' + sens_string + ',"write":true}'
-                #mqtt_client.publish("mqtt_test/" + names + str(ids), pub_string, 1)
-    
-    time.sleep(Timer)
+                mqtt_client.publish("mqtt_test/" + names +
+                                    str(sensor_val), pub_string, 1)
 
+    time.sleep(Timer)
