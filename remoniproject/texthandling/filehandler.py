@@ -5,6 +5,21 @@ class filehandler(Ifilehandler):
     def __init__(self, Ifilehandler):
         self.__filehandler = Ifilehandler
 
+    def readfile(self, path):
+        f = open(path, 'r')     # Opens file on path
+        data = f.read()     # Reads file content
+        f.close()       # Closes files
+        return data
+
+
+    def writefile(self, path, data):
+
+        return NotImplementedError
+
+
+
+
+
     def writetojsonfile(self, data, ID):
         filepath = 'remoniproject/data/'    # File path
         filename = 'Send_sensor'+str(ID)+'.json'   # File name with ID

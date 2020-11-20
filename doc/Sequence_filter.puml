@@ -1,0 +1,64 @@
+@startuml
+actor Program
+participant texthandler
+participant jsonhandler
+participant filehandler
+participant filesystem
+
+title sequence diagram for data filter
+
+
+== Initialization  ==
+Program -> texthandler : create object
+    activate texthandler
+group Get sensor config
+    Program -> texthandler : Getconfig()
+    texthandler -> filehandler : loadfile(filepath)
+    activate filehandler
+    filehandler -> filesystem : openfile(filepath)
+    activate filesystem
+    return Config data
+    return Config data
+end
+group Get list with ID
+    Program -> texthandler : GetID()
+    texthandler -> filehandler : loadfile(filepath)
+    activate filehandler
+    filehandler -> filesystem : openfile(filepath)
+    activate filesystem
+    return ID list
+    return ID list
+end
+
+== loop ==
+
+Program -> texthandler : filterdata()
+loop for all ID's
+    texthandler->filehandler : loadfile(filepath+id)
+    activate filehandler
+
+    filehandler -> filesystem : openfile(filepath+id)
+    activate filesystem
+    return  sensor data
+
+    return sensor data
+
+    texthandler->jsonhandler : convertfromjson(sensor data)
+    activate jsonhandler
+    return sensor data in string form
+
+    texthandler -> texthandler : Filter data
+    activate texthandler
+    return filtered sensor data
+
+    texthandler->jsonhandler : converttojson(filtered sensor data)
+    activate jsonhandler
+    return  filtered sensor data in json form
+
+    texthandler->filehandler : writetofile(filepath+id, filtereddata)
+    activate filehandler
+
+    filehandler->filesystem : writefile(filepath+id, filtereddata)
+    return
+end
+@enduml
