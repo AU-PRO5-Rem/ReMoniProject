@@ -1,7 +1,8 @@
-from remoniproject.texthandling.interfaces import Ijsonhandler, Ifilehandler
+from texthandling.interfaces import Ijsonhandler, Ifilehandler
 
 
-class texthandler(Ijsonhandler, Ifilehandler):
+class texthandler(object):
+
     def __init__(self, Ijsonhandler, Ifilehandler):
         self.__jsonhandler = Ijsonhandler
         self.__filehandler = Ifilehandler
