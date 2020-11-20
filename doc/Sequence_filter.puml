@@ -12,42 +12,19 @@ title sequence diagram for data filter
 Program -> texthandler : create object
     activate texthandler
 group Get sensor config
-    Program -> texthandler : Getconfig()
-    texthandler -> filehandler : loadfile(filepath)
-    activate filehandler
-    filehandler -> filesystem : openfile(filepath)
-    activate filesystem
-    return Config data
-    return Config data
+    Program -> texthandler : Getconfig(config dict)
 end
 group Get list with ID
-    Program -> texthandler : GetID()
-    texthandler -> filehandler : loadfile(filepath)
-    activate filehandler
-    filehandler -> filesystem : openfile(filepath)
-    activate filesystem
-    return ID list
-    return ID list
+    Program -> texthandler : GetID(ID dict)
+
 end
 
 == loop ==
 
-Program -> texthandler : filterdata()
+Program -> texthandler : filterdata(sensor_data dict)
 loop for all ID's
-    texthandler->filehandler : loadfile(filepath+id)
-    activate filehandler
 
-    filehandler -> filesystem : openfile(filepath+id)
-    activate filesystem
-    return  sensor data
-
-    return sensor data
-
-    texthandler->jsonhandler : convertfromjson(sensor data)
-    activate jsonhandler
-    return sensor data in string form
-
-    texthandler -> texthandler : Filter data
+    texthandler -> texthandler : Filter data with config
     activate texthandler
     return filtered sensor data
 
@@ -61,4 +38,5 @@ loop for all ID's
     filehandler->filesystem : writefile(filepath+id, filtereddata)
     return
 end
+texthandler--> Program
 @enduml

@@ -4,13 +4,9 @@ from abc import ABC, abstractmethod
 class Ifilehandler(ABC):
 
     @abstractmethod
-    def writetojsonfile(self, data, ID):
+    def readfile(self, path):
         pass
 
     @abstractmethod
-    def readfromfile(self):
-        pass
-
-    @abstractmethod
-    def readconffile(self, ID):
+    def writefile(self, path, data):
         pass

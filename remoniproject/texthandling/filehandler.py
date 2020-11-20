@@ -1,4 +1,5 @@
 from remoniproject.texthandling.interfaces import Ifilehandler
+import fcntl
 
 
 class filehandler(Ifilehandler):
@@ -6,39 +7,29 @@ class filehandler(Ifilehandler):
         self.__filehandler = Ifilehandler
 
     def readfile(self, path):
-        f = open(path, 'r')     # Opens file on path
-        data = f.read()     # Reads file content
-        f.close()       # Closes files
-        return data
 
+        with open(path, "r") as filepointer:
+            lock = 0
+            while lock != 1:
+                try:
+                    fcntl.flock(filepointer, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    lock = 1
+                except IOError:
+                    lock = 0
+            data = filepointer
+            fcntl.flock(filepointer, fcntl.LOCK_UN)
+
+        return data
 
     def writefile(self, path, data):
 
-        return NotImplementedError
-
-
-
-
-
-    def writetojsonfile(self, data, ID):
-        filepath = 'remoniproject/data/'    # File path
-        filename = 'Send_sensor'+str(ID)+'.json'   # File name with ID
-        writepath = filepath + filename     # Complete path to file
-        # Open file if file doesn't exist create the file
-        f = open(writepath, 'w+')
-        f.write(data)       # Write json data in the file
-        f.close()       # Close the file
-
-    def readfromfile(self):
-        return NotImplementedError
-
-    def readconffile(self, ID):
-        filepath = 'remoniproject/data/'  # File path
-        # File name with ID
-        filename = 'conf_pnZW100_MultiSensor_6_ni'+str(ID)+'.txt'
-        writepath = filepath + filename     # Complete path to file
-        f = open(writepath, 'r')        # open file in read mode
-        data = f.read()             # Read content of file
-        f.close()           # Close file
-
-        return data     # return data
+        with open(path, "w") as filepointer:
+            lock = 0
+            while lock != 1:
+                try:
+                    fcntl.flock(filepointer, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    lock = 1
+                except IOError:
+                    lock = 0
+            filepointer.write(data)
+            fcntl.flock(filepointer, fcntl.LOCK_UN)
