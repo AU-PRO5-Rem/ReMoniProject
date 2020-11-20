@@ -7,10 +7,6 @@ In this program it will be connected to our own rented MQTT broker (beebotte),
 so it's possible to do extended test's,
 where in reality it will be changed to Remonis own MQTT client and broker.
 """
-# Enable full folder structure to become available
-import sys
-sys.path.append("../")
-
 # Rest of imports
 import logging
 import paho.mqtt.client as mqtt
@@ -20,6 +16,9 @@ import time
 import json
 import os
 import fcntl
+# Enable full folder structure to become available
+import sys
+sys.path.append("../")
 from conf_tests.conf_class import ConfClass
 
 # Path settings (is gonna change in the final setup)
@@ -27,7 +26,7 @@ path_to_val = ""  # path to sensor and ID value's txt's
 path_to_conf = "../conf_tests"  # path to conf class file
 
 
-# ------------------------- Logging setup ------------------------------------ #
+# ------------------------- Logging setup ----------------------------------- #
 def MQTT_logging_setup():
     # File for logging
     logging.basicConfig(
@@ -37,7 +36,7 @@ def MQTT_logging_setup():
     )
 
 
-# ---------------------------------------------------------------------------- #
+# --------------------------------------------------------------------------- #
 # Callback definitions
 # it's possible to create a callback function,
 # so when a certain function is done or "accomplished", it will call these
@@ -217,7 +216,7 @@ def on_FIFO_message(client, userdata, msg):
     logging.info("MQTT_debugging: FIFO recieved: " + str(filter_msg))
 
 
-# ---------------------------------------------------------------------------- #
+# --------------------------------------------------------------------------- #
 # Non callback functions
 def read_sensor_vals():
     vals_dict = {}
@@ -307,7 +306,7 @@ def start_client(host, port, timer):
     return client
 
 
-# ------------------------ "Main part" --------------------------------------- #
+# ------------------------ "Main part" -------------------------------------- #
 
 # Create log
 MQTT_logging_setup()
