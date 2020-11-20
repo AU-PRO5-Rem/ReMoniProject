@@ -7,10 +7,50 @@ class texthandler(Ijsonhandler, Ifilehandler):
         self.__filehandler = Ifilehandler
 
         self.__filter = {}
+        self.__id = {}
+        self.__result = {}
 
-        self.__data_string = ""
-        self.__data_json = '''{}'''
-        self.__data_dict = {}
+    def filterdata(self, sensordata_dict):
+
+        for key1, value1 in filter.items():
+            for key2, value2 in sensordata_dict.items():
+                if key1 == key2:
+                    if value1 == 1:
+                        self.__result[key2] = value2
+
+        temp = self.__jsonhandler.converttojson(self.__result)
+
+    def Getconfig(self, config_dict):
+        self.__filter = config_dict
+
+    def get_id(self, id_dict):
+        self.__id = id_dict
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def loadfilter(self):
         localid = {}        # Sensor ID
