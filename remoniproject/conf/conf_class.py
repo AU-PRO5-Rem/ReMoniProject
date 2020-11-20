@@ -104,14 +104,14 @@ class ConfClass:
                     # Create conf file
                     try:
                         conf_vars = open(pn, "r")
-                    except:
+                    except (NameError, OSError, IOError):
                         z = " "
                         logging.error("conf: missing init configuration "
                                       "file called " + pn)
                         logging.info("conf: There should be an "
                                      "init configuration file, "
-                                     "named after the product_name of a sensor,"
-                                     " \n" + 29 * z +
+                                     "named after the product_name of a sensor"
+                                     ",\n" + 29 * z +
                                      "containing the names of the sensor vals "
                                      "listed on new lines fx:\n" + 29 * z +
                                      "Temperature\n" + 29 * z +
@@ -196,7 +196,7 @@ class ConfClass:
                         lock = 0
                 og_data = json.load(og_conf_fd)
                 fcntl.flock(og_conf_fd, fcntl.LOCK_UN)
-        except:
+        except (NameError, OSError, IOError):
             logging.warning("conf: Couldn't find '" + str(conf_fn) + ".txt'")
             os.chdir(o_path)
             return -1
@@ -262,7 +262,7 @@ class ConfClass:
                         lock = 0
                 conf_data = json.load(og_conf_fd)
                 fcntl.flock(og_conf_fd, fcntl.LOCK_UN)
-        except:
+        except (NameError, OSError, IOError):
             logging.warning("Couldn't find '" + str(conf_fn) + ".txt'")
             os.chdir(o_path)
             return -1
