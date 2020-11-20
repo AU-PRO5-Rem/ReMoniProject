@@ -17,9 +17,10 @@
 
 class Multisensor(object):
 
-    def __init__(self, _IOZWNetwork):
+    def __init__(self, IOZWNetwork, IGatewayFS):
 
-        self.__network = _IOZWNetwork
+        self.__network = IOZWNetwork
+        self.__gateway = IGatewayFS
         self.sensor_values = '''
 {
     "Temperature": 00.00,
@@ -30,7 +31,26 @@ class Multisensor(object):
             '''
 
     def is_awake(self):
+        """
+        Check if Sensor is awake
+        This can take some time before Z-Stick is ready
+        :return: True: Awake or False: Sleeping
+        :rtype: bool
+        """
         return self.__network.is_awake()
 
     def get_values(self):
+        """
+        Retrieve values from sensor using Open-ZWave lib
+        values are stored in field 'sensor_values'
+        """
         self.sensor_values = self.__network.get_values()
+
+    def update_configuration(self):
+        pass
+
+    def write_values_to_file(self):
+        self.__gateway.write_values_to_file(self.sensor_values)
+
+    def read_configuration_from_file(self):
+        self.__gateway.read_configuration_from_file()
