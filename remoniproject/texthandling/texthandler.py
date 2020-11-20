@@ -10,7 +10,11 @@ class texthandler(Ijsonhandler, Ifilehandler):
         self.__id = {}
         self.__result = {}
 
-    def filterdata(self, sensordata_dict):
+    def filterdata(self, sensordata_dict, sensor_id):
+
+        filepath = 'Remoni_Project/data/'    # File path
+        filename = 'Send_sensor'+str(sensor_id)+'.txt'   # File name with ID
+        writepath = filepath + filename     # Complete path to file
 
         for key1, value1 in filter.items():
             for key2, value2 in sensordata_dict.items():
@@ -18,7 +22,11 @@ class texthandler(Ijsonhandler, Ifilehandler):
                     if value1 == 1:
                         self.__result[key2] = value2
 
+        self.__result["Timestamp"] = sensordata_dict.get("Timestamp")
+
         temp = self.__jsonhandler.converttojson(self.__result)
+
+        self.__filehandler.writefile(writepath, temp)
 
     def Getconfig(self, config_dict):
         self.__filter = config_dict
