@@ -1,3 +1,7 @@
+"""
+    Description:    Interface to filehandler
+"""
+
 from abc import ABC, abstractmethod
 
 
