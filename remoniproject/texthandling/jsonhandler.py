@@ -7,7 +7,7 @@
 
 """
 
-from remoniproject.texthandling.interfaces.Ijsonhandler import Ijsonhandler
+from texthandling.interfaces.Ijsonhandler import Ijsonhandler
 import json
 
 

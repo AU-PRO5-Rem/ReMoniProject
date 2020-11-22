@@ -7,8 +7,9 @@
 
 """
 
-from remoniproject.texthandling.interfaces.Ifilehandler import Ifilehandler
+from texthandling.interfaces.Ifilehandler import Ifilehandler
 import fcntl    # package with file lock function
+import os
 
 
 class filehandler(Ifilehandler):
@@ -41,16 +42,18 @@ class filehandler(Ifilehandler):
         #returns data
         return data
 
-    def writefile(self, path, data):
+    def writefile(self, file, data):
         """
         Write to file
         :param path: path including filename
         :param data: data going to be written to file
         :return: None
         """
+        cwd = os.getcwd()
+        os.chdir(('../data'))
 
         # Opens file
-        with open(path, "w") as filepointer:
+        with open(file, "w") as filepointer:
             lock = 0
             # Tries to get lock for the file
             while lock != 1:
@@ -63,3 +66,5 @@ class filehandler(Ifilehandler):
             filepointer.write(data)
             # Releases lock
             fcntl.flock(filepointer, fcntl.LOCK_UN)
+
+        os.chdir(cwd)
