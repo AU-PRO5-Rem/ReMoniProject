@@ -39,22 +39,24 @@ return
 == Initialization : zwave ==
 main -> ZStick : init()
 return 
-main -> ZStick : network_is_awake()
-return True / False
+
 main -> ZStick : scan_for_nodes()
+ZStick -> ZStick : network_is_awake()
+return True / False
 autoactivate off
 Multisensor_1 -> ZStick : hello<dict info>
 Multisensor_2 -> ZStick : hello<dict info>
-ZStick -> ZStick : get_multisensor_node_ids()
+main -> ZStick : get_multisensor_node_ids()
 ZStick -> main : Multisensor_node_ids
 deactivate
+autoactivate off
 
 loop for node_ids
     main -> Multisensor : Multisensors[] = Multisensor(node_id, ...)
 end
 == Main Loop ==
 loop While 1
-loop for Multisensors[node_id] :\nNote: Shown for Multisensor 1 and 2 to illustate loop. Will loop through all node ids up to 232 Sensors
+loop for Multisensors[node_id] :\nNote: Shown for Multisensor 1 and 2 to illustrate loop. Will loop through all node ids up to 232 Sensors
     autoactivate on
 
     Multisensor -> Multisensor_1 : is_awake()
@@ -83,16 +85,18 @@ autoactivate off
 ...1 minute later...
 
 autoactivate on
-main -> ZStick : network_is_awake()
-return True / False
-main -> ZStick : scan_for_nodes()
-autoactivate off
 
+main -> ZStick : scan_for_nodes()
+ZStick -> ZStick : network_is_awake()
+return True / False
+autoactivate off
 Multisensor_1 -> ZStick : hello<dict info>
 Multisensor_2 -> ZStick : hello<dict info>
-ZStick -> ZStick : get_multisensor_node_ids()
+main -> ZStick : get_multisensor_node_ids()
 ZStick -> main : Multisensor_node_ids
-deactivate ZStick
+deactivate
+autoactivate off
+
 main -> main : compare new ids to old ids
 main -> main : create or pop Sensor obejct in\nMultisensor[Multisensor(node_id)]
 end

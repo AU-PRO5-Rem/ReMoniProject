@@ -46,6 +46,7 @@ class ZStick(IZStick):
         print("Waiting for ZWave Network")
         for i in range(0, timeout):
             if self.network.state >= self.network.STATE_AWAKED:
+                print("ZWave Network ready after %ss" % time_elapsed)
                 return True
             else:
                 if i % 2 == 0:
@@ -56,6 +57,7 @@ class ZStick(IZStick):
                 time.sleep(1.0)
 
         if self.network.state < self.network.STATE_AWAKED:
+            print("ZWave Network timed out (Timeout: %ss)" % time_elapsed)
             return False
 
     def scan_for_nodes(self, initial=False):
@@ -87,7 +89,7 @@ class ZStick(IZStick):
         finally:
             self.sensor_list = sensor_list
 
-    def get_multisensor_node_ids(self, sensor_list):
+    def get_multisensor_node_ids(self):
         """Evaluate sensor_list and return list with node ids for multisensors
 
         :param sensor_list: list
