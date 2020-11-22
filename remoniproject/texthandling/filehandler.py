@@ -21,6 +21,9 @@ class filehandler(Ifilehandler):
         :return: returns file data
         """
 
+        cwd = os.getcwd()   # get current working directory
+        os.chdir(('../data'))   # Changes cwd to /data
+
         # Opens file
         with open(path, "r") as filepointer:
             # Local lock variable
@@ -39,6 +42,7 @@ class filehandler(Ifilehandler):
             data = filepointer.read()
             # Releases lock
             fcntl.flock(filepointer, fcntl.LOCK_UN)
+        os.chdir(cwd)   # Switch back to original working directory
         #returns data
         return data
 
@@ -49,8 +53,8 @@ class filehandler(Ifilehandler):
         :param data: data going to be written to file
         :return: None
         """
-        cwd = os.getcwd()
-        os.chdir(('../data'))
+        cwd = os.getcwd()   # get current working directory
+        os.chdir(('../data'))   # Changes cwd to /data
 
         # Opens file
         with open(file, "w") as filepointer:
@@ -67,4 +71,4 @@ class filehandler(Ifilehandler):
             # Releases lock
             fcntl.flock(filepointer, fcntl.LOCK_UN)
 
-        os.chdir(cwd)
+        os.chdir(cwd)   # Switch back to original working directory
