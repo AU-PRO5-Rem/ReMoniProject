@@ -16,10 +16,8 @@ import time
 import json
 import os
 import fcntl
-# Enable full folder structure to become available
-import sys
-sys.path.append("../")
-from conf_tests.conf_class import ConfClass
+from conf.conf_class import ConfClass
+
 
 # Path settings (is gonna change in the final setup)
 path_to_val = ""  # path to sensor and ID value's txt's
