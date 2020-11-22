@@ -1,9 +1,8 @@
 from texthandling.texthandler import texthandler as TH
 from texthandling.jsonhandler import jsonhandler as JH
 from texthandling.filehandler import filehandler as FH
-import os
 
-ID = [1,2,3,4]
+ID = [1, 2, 3, 4]
 
 filterdata = '''{
     "Temperature": 1,
@@ -28,10 +27,7 @@ def main():
     text.get_id(1)
     text.Getconfig(filterdata)
     if text.filterdata(data, 1) == -1:
-        print("wrong id!");
-
-
-
+        print("wrong id!")
 
 
 # Press the green button in the gutter to run the script.

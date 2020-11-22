@@ -4,8 +4,8 @@
                     send with MQTT to server.
     Dependencies:   JsonHandler & FileHandler
 
-    Functions:      :filterdata - Takes sensor data and sensor ID and formats it
-                                 to a file
+    Functions:      :filterdata - Takes sensor data and sensor ID and formats
+                                 it to a file
                     :getconfig - Gets filter for a particular sensor
                     :get_id - Gets id for a particular sensor
 

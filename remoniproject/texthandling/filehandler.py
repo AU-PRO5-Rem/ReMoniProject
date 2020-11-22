@@ -43,7 +43,7 @@ class filehandler(Ifilehandler):
             # Releases lock
             fcntl.flock(filepointer, fcntl.LOCK_UN)
         os.chdir(cwd)   # Switch back to original working directory
-        #returns data
+        # returns data
         return data
 
     def writefile(self, file, data):
