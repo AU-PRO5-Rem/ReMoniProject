@@ -5,3 +5,4 @@ omit = */remoniproject/MQTT*
         */remoniproject/MQTT/*
         */remoniproject/main*
         */remoniproject/test*
+        */setup*
