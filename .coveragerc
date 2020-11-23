@@ -4,4 +4,4 @@ omit = */remoniproject/MQTT*
         */remoniproject/conf/*
         */remoniproject/MQTT/*
         */remoniproject/main*
-        */remoniproject/test
+        */remoniproject/test*
