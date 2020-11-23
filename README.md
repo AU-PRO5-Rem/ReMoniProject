@@ -1,4 +1,4 @@
-![Python-auto-test](https://github.com/AU-PRO5-Rem/ReMoniProject/workflows/Python-auto-test/badge.svg?branch=master)
+![Python-auto-test](https://github.com/AU-PRO5-Rem/ReMoniProject/workflows/Python-auto-test/badge.svg)
 # Remoni Project: 3. parts sensorer  
 Dette Repo indeholder kildekoden til Team(4) JDM's projekt med ReMoni, som omhandler implementeringen af 3. parts sensorer i deres web solution ReCalc.  
   
