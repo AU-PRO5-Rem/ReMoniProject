@@ -130,17 +130,18 @@ class ConfClass:
                         i = i.replace("\n", "")
                         json_dict[i] = 1
                         json_dict["Time"] = 10
-                    with open(conf_fn + ".txt", "w+") as outfile_fd:
-                        lock = 0
-                        while lock != 1:
-                            try:
-                                fcntl.flock(outfile_fd, fcntl.LOCK_EX |
-                                            fcntl.LOCK_NB)
-                                lock = 1
-                            except IOError:
-                                lock = 0
-                        json.dump(json_dict, outfile_fd, indent=4)
-                        fcntl.flock(outfile_fd, fcntl.LOCK_UN)
+                    if not os.path.isfile(conf_fn + ".txt"):
+                        with open(conf_fn + ".txt", "w+") as outfile_fd:
+                            lock = 0
+                            while lock != 1:
+                                try:
+                                    fcntl.flock(outfile_fd, fcntl.LOCK_EX |
+                                                fcntl.LOCK_NB)
+                                    lock = 1
+                                except IOError:
+                                    lock = 0
+                            json.dump(json_dict, outfile_fd, indent=4)
+                            fcntl.flock(outfile_fd, fcntl.LOCK_UN)
 
                     conf_vars.close()
 
