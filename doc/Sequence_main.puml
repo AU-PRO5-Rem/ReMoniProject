@@ -1,0 +1,80 @@
+@startuml
+box "MQTT Process"
+participant MQTT
+end box
+
+box "main process"
+participant main
+participant startup
+participant conf
+
+collections texthandler
+collections Multisensor
+entity ZStick
+end box
+
+box "Aeotec Multisensor 6"
+actor Multisensor_1
+actor Multisensor_2
+end box
+
+autoactivate on
+
+==Initialization : startup==
+activate main
+main -[#blue]> startup : setup()
+activate startup
+startup -[#blue]> startup : find_usb()
+startup --[#red]> main : return -1 if error
+startup -[#blue]> startup : logger()
+startup --[#red]> main : return -1 if error
+startup -[#blue]> startup : check_internet_connection()
+startup --[#red]> main : return -1 if error
+startup -[#blue]> MQTT : mqtt_setup()
+activate MQTT
+startup --[#red]> main : return -1 if error
+startup --[#green]> main : return if everything worked
+deactivate startup
+
+
+
+== Initialization : zwave ==
+main -[#blue]> ZStick : init()
+return [#green]
+
+main -[#blue]> ZStick : scan_for_nodes()
+ZStick -[#blue]> ZStick : network_is_awake()
+return True / False
+autoactivate off
+Multisensor_1 -[#green]> ZStick : hello<dict info>
+Multisensor_2 -[#green]> ZStick : hello<dict info>
+main -[#blue]> ZStick : get_multisensor_node_ids()
+ZStick --[#green]> main : Multisensor_node_ids
+deactivate
+autoactivate off
+
+loop for node_ids
+    main -[#blue]> Multisensor : Multisensors[] = Multisensor(node_id, ...)
+end
+autoactivate on
+== Initialization : config ==
+
+main -[#blue]> conf : create_confs()
+conf --[#green]> main
+
+
+loop for node_ids
+main -[#blue]> conf : confs[] = read_confs(node_id)
+conf --[#green]> main
+end
+autoactivate off
+== Initialization : texthandler ==
+loop for node_ids and confs
+main -[#blue]> texthandler : texthandlers[] = texthandler()
+main -[#blue]> texthandler : texthandler.get_id(node_ids)
+main -[#blue]> texthandler : texthandler.Getconfig(confs)
+
+end
+
+== Other ==
+@enduml
