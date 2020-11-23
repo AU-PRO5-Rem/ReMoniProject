@@ -20,8 +20,8 @@ from conf.conf_class import ConfClass
 
 
 # Path settings (is gonna change in the final setup)
-path_to_val = ""  # path to sensor and ID value's txt's
-path_to_conf = "../conf_tests"  # path to conf class file
+path_to_val = "../data"  # path to sensor and ID value's txt's
+path_to_conf = "../data"  # path to conf class file
 
 
 # ------------------------- Logging setup ----------------------------------- #

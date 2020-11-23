@@ -83,6 +83,8 @@ class ConfClass:
         # Collect node ID's
         multisensors_node_ids = self.get_multisensors_node_ids(network_obj)
 
+        node_id_dict = {}
+
         # Go through the node's, to collect sensor data
         for IDs in multisensors_node_ids:
             multisensor = network_obj.nodes[IDs]
@@ -100,6 +102,7 @@ class ConfClass:
                 # Create conf file if there's a product_name and a node_id
                 if "pn" in locals() and "ni" in locals():
                     conf_fn = "conf_pn" + pn + "_ni" + ni
+                    node_id_dict[ni] = pn
 
                     # Create conf file
                     try:
@@ -151,6 +154,18 @@ class ConfClass:
 
                     logging.info("conf: configuration file " + conf_fn +
                                  ".txt created")
+
+                    with open("sensor_ids.txt", "w+") as idfile_fd:
+                        lock = 0
+                        while lock != 1:
+                            try:
+                                fcntl.flock(idfile_fd, fcntl.LOCK_EX |
+                                            fcntl.LOCK_NB)
+                                lock = 1
+                            except IOError:
+                                lock = 0
+                        json.dump(node_id_dict, idfile_fd, indent=4)
+                        fcntl.flock(idfile_fd, fcntl.LOCK_UN)
 
                     # Reset path
                     os.chdir(o_path)

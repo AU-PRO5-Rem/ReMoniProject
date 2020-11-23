@@ -8,10 +8,10 @@ from zwave.ozw_zstick import ZStick
 from zwave.multisensor import Multisensor
 from zwave.ozw_multisensor import OZWMultisensor
 from zwave.gateway import Gateway
+from conf.conf_class import ConfClass
 
 # Set how often it will re-scan ZWave network for nodes and execute main()
 main_loop_time = 60.0
-
 
 def main():
     # Start-up checks
@@ -20,6 +20,9 @@ def main():
     # Create the Z-Stick object conaining the OZW network obj
     # Default constructs "/dev/ttyACM0" as zstick
     zstick = ZStick()
+
+    # Create conf object
+    conf = ConfClass()
 
     # Scan ZWave network for nodes and
     # save node ids to zstick.sensor_list
@@ -83,6 +86,8 @@ def main():
 
             multisensors_node_ids = updated_sensor_list
 
+        # create/update conf files
+        conf.create_confs(zstick.network, "../data")
 
 if __name__ == "__main__":
     main()
