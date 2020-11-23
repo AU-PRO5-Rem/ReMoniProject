@@ -43,7 +43,7 @@ def setup():
     else:
         # Change to logging function
         print("Logger initiate failed!")
-        exit(-1)
+        return -1
 
     # Checks the internet connection
     if check_internet_connection():
@@ -52,7 +52,7 @@ def setup():
     else:
         # Change to logging function
         print("RP is not connected to the web!")
-        exit(-1)
+        return -1
 
     # Checks MQTT
     if mqtt_setup():
@@ -61,7 +61,7 @@ def setup():
     else:
         # Change to logging function
         print("MQTT connection is not established!")
-        exit(-1)
+        return -1
 
     # Checks USB list for Z-Stick Gen 5
     if find_usb():
@@ -70,4 +70,4 @@ def setup():
     else:
         # Change to logging function
         print("Z-Stick Gen 5 is not connected!")
-        exit(-1)
+        return -1
