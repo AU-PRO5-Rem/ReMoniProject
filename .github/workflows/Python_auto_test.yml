@@ -29,14 +29,14 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: test-result-rapport-xml
-          path: ./test-results.xml
+          path: ./tests/test-results.xml
       - name: Archive code coverage results in HTML
         uses: actions/upload-artifact@v2
         with:
           name: code-coverage-report-html
-          path: ./htmlcov/
+          path: ./tests/htmlcov/
       - name: Archive code coverage results in XML
         uses: actions/upload-artifact@v2
         with:
           name: code-coverage-report-xml
-          path: ./coverage.xml
+          path: ./tests/coverage.xml
