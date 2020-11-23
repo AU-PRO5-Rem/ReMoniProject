@@ -1,6 +1,7 @@
 from remoniproject.texthandling.interfaces.Ijsonhandler import Ijsonhandler
 import json
 
+
 class fake_jsonhandler(Ijsonhandler):
 
     def convertfromjson(self, json_data):
@@ -28,4 +29,3 @@ class fake_jsonhandler(Ijsonhandler):
 
         # Returns converted data
         return json_data
-
