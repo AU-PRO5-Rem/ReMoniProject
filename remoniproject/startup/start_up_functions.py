@@ -1,5 +1,6 @@
 # Imports
 import subprocess
+import os
 import urllib.request
 import urllib.error
 
@@ -9,12 +10,15 @@ z_stick = b"Z-Stick Gen5"
 
 # Checks if the USB is connected to the RP, by running shell commands
 def find_usb():
-    p = subprocess.Popen("lsusb", stdout=subprocess.PIPE, shell=True)
-    (usb_list, err) = p.communicate()
-    if z_stick in usb_list:
-        return True
-    else:
-        return False
+    try:
+        p = subprocess.Popen("lsusb", stdout=subprocess.PIPE, shell=True)
+        (usb_list, err) = p.communicate()
+        if z_stick in usb_list:
+            return 1
+        else:
+            return -1
+    except subprocess.SubprocessError:
+        return -1
 
 
 # Initiate logging for program
@@ -32,7 +36,12 @@ def check_internet_connection():
 
 
 def mqtt_setup():
-    return True
+    try:
+        subprocess.Popen("python3 MQTT_program.py",
+                         stdout=subprocess.PIPE, shell=True)
+        return 1
+    except subprocess.SubprocessError:
+        return -1
 
 
 def setup():
@@ -71,3 +80,5 @@ def setup():
         # Change to logging function
         print("Z-Stick Gen 5 is not connected!")
         return -1
+
+    return 1

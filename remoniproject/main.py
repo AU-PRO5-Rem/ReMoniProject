@@ -19,7 +19,8 @@ main_loop_time = 60.0
 
 def main():
     # Start-up checks
-    setup()
+    if setup() != 1:
+        exit(-1)
 
     # Create the Z-Stick object conaining the OZW network obj
     # Default constructs "/dev/ttyACM0" as zstick
@@ -106,9 +107,14 @@ def main():
             # Create or pop sensor object in multisensor[]
 
             multisensors_node_ids = updated_sensor_list
+            # create/update conf files
+            conf.create_confs(zstick.network, "../data")
 
-        # create/update conf files
-        conf.create_confs(zstick.network, "../data")
+        # Save confs in list
+        for idx, node_id in enumerate(multisensors_node_ids):
+            confs[idx] = conf.read_conf("ZW100_MultiSensor_6", node_id,
+                                        "../data")
+            texthandlers[idx].Getconfig(confs[idx])
 
 
 if __name__ == "__main__":

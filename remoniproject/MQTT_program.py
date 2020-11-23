@@ -221,8 +221,7 @@ def read_sensor_vals():
 
     # Path correction
     o_path = os.getcwd()  # old path
-    if path_to_val != "":
-        os.chdir(path_to_val)  # new path
+    os.chdir(path_to_val)  # new path
 
     # First check if Sensor node id's txt file
     while os.path.isfile("sensor_ids.txt") != 1:
@@ -244,10 +243,11 @@ def read_sensor_vals():
 
     # Load/read values: sensor reading + time values/value from txt file
     for ids in sensor_ids:
-
+        print(os.getcwd())
         # First check if sensor value files exist
         while os.path.isfile("sensor_filtered_val_" + str(ids) + ".txt") != 1:
-            logging.warning("MQTT: missing sensor values txt file")
+            logging.warning("MQTT: missing sensor_filtered_val_" + str(ids) +
+                            ".txt")
             time.sleep(5)
 
         # Load file
@@ -264,7 +264,7 @@ def read_sensor_vals():
             fcntl.flock(sensor_vals, fcntl.LOCK_UN)
 
         vals_dict[ids] = sensor_value
-        os.chdir(o_path)  # Return to old path
+    os.chdir(o_path)  # Return to old path
 
     return vals_dict
 
@@ -313,7 +313,7 @@ MQTT_logging_setup()
 mqtt_client = start_client("mqtt.beebotte.com", 1883, 60)
 
 # default Timer value (incase no timer value is defined in txt files)
-Timer = 600
+Timer = 6
 
 # Endless loop
 # client.loop_forever(timeout=5, retry_first_connection=False)

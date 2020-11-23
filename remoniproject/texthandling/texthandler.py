@@ -49,8 +49,9 @@ class texthandler(object):
                     if value1 == 1:
                         self.result[key2] = value2
 
-        # Adds timestamp to result variable
+        # Adds timestamp and time to result variable
         self.result["Timestamp"] = sensordata_dict.get("Timestamp")
+        self.result["Time"] = self.datafilter.get("Time")
 
         # Converts to JSON format and saves data in temp variable
         temp = self.__jsonhandler.converttojson(self.result)
