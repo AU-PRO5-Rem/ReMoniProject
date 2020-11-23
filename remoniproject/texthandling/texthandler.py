@@ -39,8 +39,8 @@ class texthandler(object):
         if isinstance(sensordata_dict, str):
             sensordata_dict = \
                 self.__jsonhandler.convertfromjson(sensordata_dict)
-
-        filename = 'sensor_filtered_val_' + str(sensor_id) + '.txt'  # File name with ID
+        # File name with ID
+        filename = 'sensor_filtered_val_' + str(sensor_id) + '.txt'
 
         # Filters through sensor data ands saves to result variable
         for key1, value1 in self.datafilter.items():

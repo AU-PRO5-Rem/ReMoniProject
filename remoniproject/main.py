@@ -13,6 +13,7 @@ from conf.conf_class import ConfClass
 # Set how often it will re-scan ZWave network for nodes and execute main()
 main_loop_time = 60.0
 
+
 def main():
     # Start-up checks
     setup()
@@ -33,7 +34,7 @@ def main():
     multisensors_node_ids = zstick.get_multisensor_node_ids()
 
     # Initialize an empty list that can contain all Multisensors
-    multisensors = [0]*(len(multisensors_node_ids))
+    multisensors = [0] * (len(multisensors_node_ids))
 
     # Create Multisensor object per multisensors_node_ids
     for idx, node_id in enumerate(multisensors_node_ids):
@@ -88,6 +89,7 @@ def main():
 
         # create/update conf files
         conf.create_confs(zstick.network, "../data")
+
 
 if __name__ == "__main__":
     main()
