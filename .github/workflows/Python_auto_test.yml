@@ -24,7 +24,7 @@ jobs:
           pip install pytest
           pip install pytest-cov
           export PYTHONPATH=src
-          pytest ./tests/test*.py --doctest-modules --junitxml=test-results.xml --cov-config=./tests/.coveragerc --cov-report=xml --cov-report=html
+          pytest ./tests/test*.py --doctest-modules --junitxml=test-results.xml --cov-config=. --cov-report=xml --cov-report=html
       - name: Archive test results
         uses: actions/upload-artifact@v2
         with:
@@ -34,9 +34,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: code-coverage-report-html
-          path: ./tests/htmlcov/
+          path: ./htmlcov/
       - name: Archive code coverage results in XML
         uses: actions/upload-artifact@v2
         with:
           name: code-coverage-report-xml
-          path: ./tests/coverage.xml
+          path: ./coverage.xml
