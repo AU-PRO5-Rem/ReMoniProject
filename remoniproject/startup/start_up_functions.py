@@ -1,6 +1,5 @@
 # Imports
 import subprocess
-import os
 import urllib.request
 import urllib.error
 
