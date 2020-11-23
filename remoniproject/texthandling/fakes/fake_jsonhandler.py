@@ -1,24 +1,31 @@
-from texthandling.interfaces.Ijsonhandler import Ijsonhandler
-
+from remoniproject.texthandling.interfaces.Ijsonhandler import Ijsonhandler
+import json
 
 class fake_jsonhandler(Ijsonhandler):
 
     def convertfromjson(self, json_data):
-        data = {
-            "Temperature": 71.0,
-            "Luminance": 55.0,
-            "Relative Humidity": 51.0,
-            "Ultraviolet": 0.0,
-            "Timestamp": "2020-11-18 11:37:39.727683"
-        }
-        return data
+        """
+        Converts to dict from string
+        :param json_data: data in string format
+        :return: data in dict format
+        """
+
+        # Converts data with json.loads function
+        string_data = json.loads(json_data)
+
+        # Returns converted data
+        return string_data
 
     def converttojson(self, string_data):
-        data = '''{
-            "Temperature": 71.0,
-            "Luminance": 55.0,
-            "Relative Humidity": 51.0,
-            "Ultraviolet": 0.0,
-            "Timestamp": "2020-11-18 11:37:39.727683"
-        }'''
-        return data
+        """
+        Converts to string from dict
+        :param string_data: data in dict format
+        :return: data in string format
+        """
+
+        # Converts data with json.dumps funtion
+        json_data = json.dumps(string_data)
+
+        # Returns converted data
+        return json_data
+

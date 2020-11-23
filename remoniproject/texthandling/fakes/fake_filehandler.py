@@ -1,4 +1,4 @@
-from texthandling.interfaces.Ifilehandler import Ifilehandler
+from remoniproject.texthandling.interfaces.Ifilehandler import Ifilehandler
 
 
 class fake_filehandler(Ifilehandler):

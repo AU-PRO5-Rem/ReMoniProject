@@ -18,9 +18,9 @@ class texthandler(object):
         self.__jsonhandler = Ijsonhandler()  # Inherit interface
         self.__filehandler = Ifilehandler()  # Inherit interface
 
-        self.__datafilter = {}  # Variable to store filter
-        self.__id = []  # Variable to store sensor ID in
-        self.__result = {}  # Variable to store filtered data
+        self.datafilter = {}  # Variable to store filter
+        self.id = []  # Variable to store sensor ID in
+        self.result = {}  # Variable to store filtered data
 
     def filterdata(self, sensordata_dict, sensor_id):
 
@@ -32,7 +32,7 @@ class texthandler(object):
         :return: 1 - If success, -1 - If Error
         """
 
-        if sensor_id != self.__id:  # Checks for correct sensor ID
+        if sensor_id != self.id:  # Checks for correct sensor ID
             return -1
 
         # Checks if sensor data is formatted correct
@@ -43,17 +43,17 @@ class texthandler(object):
         filename = 'Send_sensor' + str(sensor_id) + '.txt'  # File name with ID
 
         # Filters through sensor data ands saves to result variable
-        for key1, value1 in self.__datafilter.items():
+        for key1, value1 in self.datafilter.items():
             for key2, value2 in sensordata_dict.items():
                 if key1 == key2:
                     if value1 == 1:
-                        self.__result[key2] = value2
+                        self.result[key2] = value2
 
         # Adds timestamp to result variable
-        self.__result["Timestamp"] = sensordata_dict.get("Timestamp")
+        self.result["Timestamp"] = sensordata_dict.get("Timestamp")
 
         # Converts to JSON format and saves data in temp variable
-        temp = self.__jsonhandler.converttojson(self.__result)
+        temp = self.__jsonhandler.converttojson(self.result)
 
         # Writes to file.
         self.__filehandler.writefile(filename, temp)
@@ -70,7 +70,7 @@ class texthandler(object):
         if isinstance(data, str):
             data = self.__jsonhandler.convertfromjson(data)
         # Saves data to local variable
-        self.__datafilter = data
+        self.datafilter = data
 
     def get_id(self, sensor_id):
         """
@@ -78,4 +78,4 @@ class texthandler(object):
         :param sensor_id: sensor id
         :return: None
         """
-        self.__id = sensor_id
+        self.id = sensor_id
