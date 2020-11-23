@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-class IOZWNetwork():
+class ISensor():
     """
     Interface Python Open-ZWave Network
     """

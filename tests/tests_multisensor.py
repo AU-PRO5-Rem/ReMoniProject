@@ -8,13 +8,13 @@
 import unittest
 import json
 
-from remoniproject.zwave.class_multisensor import Multisensor
-from remoniproject.zwave.fakes.fake_ozwnetwork import FakeOZWNetwork
-from remoniproject.zwave.fakes.fake_gateway import FakeGatewayFS
+from remoniproject.zwave.multisensor import Multisensor
+from remoniproject.zwave.fakes.fake_multisensor import FakeMultisensor
+from remoniproject.zwave.fakes.fake_gateway import FakeGateway
 
 # Global Arrange
-_mock_multisensor = FakeOZWNetwork()
-_stub_gateway = FakeGatewayFS()
+_mock_multisensor = FakeMultisensor()
+_stub_gateway = FakeGateway()
 
 
 class MultisensorUnitTest(unittest.TestCase):
@@ -75,17 +75,9 @@ class MultisensorUnitTest(unittest.TestCase):
         # Arrange
         _stub_gateway.read_configurations_called = 0
         # Act
-        self._uut.read_configuration_from_file()
+        self._uut.read_configuration()
         # Assert
         self.assertEqual(_stub_gateway.read_configurations_called, 1)
-
-    def test_newtest(self):
-        # Arrange
-
-        # Act
-
-        # Assert
-        self.assertTrue(True)
 
 
 if __name__ == '__main__':
