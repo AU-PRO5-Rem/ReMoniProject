@@ -29,7 +29,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: test-result-rapport-xml
-          path: /test-results.xml
+          path: ./test-results.xml
       - name: Archive code coverage results in HTML
         uses: actions/upload-artifact@v2
         with:
