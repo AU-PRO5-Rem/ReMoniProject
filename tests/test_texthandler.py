@@ -44,7 +44,6 @@ class Testtexthandler(unittest.TestCase):
     def test_filterdata_correctfiltering(self):
         data = '''{
             "Temperature": 71.0,
-            "Time": 30,
             "Luminance": 55.0,
             "Relative Humidity": 51.0,
             "Ultraviolet": 0.0,
