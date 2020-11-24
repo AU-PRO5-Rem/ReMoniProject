@@ -13,8 +13,6 @@ class FakeMultisensor(ISensor):
     def __init__(self):
         self.status_is_awake = False
 
-    def is_network_ready(self):
-        raise NotImplementedError
 
     def is_awake(self):
         """
@@ -35,8 +33,3 @@ class FakeMultisensor(ISensor):
             }'''
         return fake_values_dict
 
-    def update_configuration(self):
-        """
-        Send configurations to sensor
-        """
-        raise NotImplementedError

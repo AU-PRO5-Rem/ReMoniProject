@@ -11,16 +11,16 @@ class ISensor():
         """
         Check if Z-Stick network is awake'n'ready
         """
-        raise NotImplementedError
+        pass
 
     def is_awake(self, parameter_list):
         """
         Check if sensor is awake
         """
-        raise NotImplementedError
+        pass
 
     def get_values(self, parameter_list):
         """
         Get Values from Sensor(s)
         """
-        raise NotImplementedError
+        pass
