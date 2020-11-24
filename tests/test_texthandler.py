@@ -50,16 +50,16 @@ class Testtexthandler(unittest.TestCase):
             "Timestamp": "2020-11-18 11:37:39.727683"
         }'''
         expected = {'Temperature': 71.0, 'Relative Humidity': 51.0,
-                    'Timestamp': '2020-11-18 11:37:39.727683'}
+                    'Timestamp': '2020-11-18 11:37:39.727683', "Time": 30}
         self.__uut.filterdata(data, 1)
         self.assertEqual(self.__uut.result, expected)
 
     def test_getconfig_changeconfig(self):
         currentfilter = {"Temperature": 1, "Time": 30, "Luminance": 0,
-                         "Ultraviolet": 0, "Relative Humidity": 1}
+                         "Ultraviolet": 0, "Relative Humidity": 1, "Time": 30}
         self.assertEqual(self.__uut.datafilter, currentfilter)
         newfilter = {"Temperature": 1, "Time": 30, "Luminance": 1,
-                     "Ultraviolet": 1, "Relative Humidity": 1}
+                     "Ultraviolet": 1, "Relative Humidity": 1, "Time": 30}
         self.__uut.Getconfig(newfilter)
         self.assertEqual(self.__uut.datafilter, newfilter)
 
