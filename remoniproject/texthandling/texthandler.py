@@ -58,6 +58,7 @@ class texthandler(object):
 
         # Writes to file.
         self.__filehandler.writefile(filename, temp)
+        self.result = {}
         return 1
 
     def Getconfig(self, data):
