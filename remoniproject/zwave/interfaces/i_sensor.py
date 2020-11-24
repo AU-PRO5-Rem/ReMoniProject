@@ -24,9 +24,3 @@ class ISensor():
         Get Values from Sensor(s)
         """
         raise NotImplementedError
-
-    def update_configuration(self, parameter_list):
-        """
-        Send configurations to sensor
-        """
-        raise NotImplementedError

@@ -47,9 +47,6 @@ class Multisensor(object):
         """
         self.sensor_values = self.__sensor.get_values()
 
-    def update_configuration(self):
-        pass
-
     def write_values_to_file(self):
         self.__gateway.write_values_to_file(self.sensor_values)
 
