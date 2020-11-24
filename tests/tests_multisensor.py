@@ -78,7 +78,3 @@ class MultisensorUnitTest(unittest.TestCase):
         self._uut.read_configuration()
         # Assert
         self.assertEqual(_stub_gateway.read_configurations_called, 1)
-
-
-if __name__ == '__main__':
-    unittest.main()
