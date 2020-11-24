@@ -41,7 +41,8 @@ class texthandler(object):
                 self.__jsonhandler.convertfromjson(sensordata_dict)
         # File name with ID
         filename = 'sensor_filtered_val_' + str(sensor_id) + '.txt'
-
+        # Clear result
+        self.result = {}
         # Filters through sensor data ands saves to result variable
         for key1, value1 in self.datafilter.items():
             for key2, value2 in sensordata_dict.items():
@@ -58,7 +59,6 @@ class texthandler(object):
 
         # Writes to file.
         self.__filehandler.writefile(filename, temp)
-        self.result = {}
         return 1
 
     def Getconfig(self, data):
