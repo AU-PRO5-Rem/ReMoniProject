@@ -14,7 +14,7 @@ class FakeMultisensor(ISensor):
         self.status_is_awake = False
 
     def is_network_ready(self):
-        raise NotImplementedError
+        raise NotImplementedError  # pragma no cover
 
     def is_awake(self):
         """
@@ -39,4 +39,4 @@ class FakeMultisensor(ISensor):
         """
         Send configurations to sensor
         """
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover

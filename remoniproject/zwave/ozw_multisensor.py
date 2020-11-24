@@ -110,13 +110,8 @@ class OZWMultisensor(ISensor):
         else:
             return False
 
-    def update_configuration(self):
-        """
-        Send configurations to sensor
-        """
-        raise NotImplementedError
-
     # Support functions
+
     def __make_timestamp(self):
         """
         Make ISO8601 Timestamp

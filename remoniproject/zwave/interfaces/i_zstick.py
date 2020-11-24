@@ -11,10 +11,10 @@ class IZStick():
         """
         Check if Z-Stick network is awake'n'ready
         """
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     def scan_for_nodes(self, parameter_list):
         """
         Search for any sensor and get its node id
         """
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover

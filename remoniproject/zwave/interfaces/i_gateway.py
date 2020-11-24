@@ -11,10 +11,10 @@ class IGateway():
         """
         Write sensor values to a file
         """
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     def read_configuration_from_file(self, parameter_list):
         """
         Read sensor configurations from a file
         """
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
