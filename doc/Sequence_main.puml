@@ -3,19 +3,23 @@ box "MQTT Process"
 participant MQTT
 end box
 
+database jsonfiles
+
 box "main process"
+entity Gateway
 participant main
 participant startup
 participant conf
 
 collections texthandler
+participant filehandler
+participant jsonhandler
 collections Multisensor
 entity ZStick
 end box
 
 box "Aeotec Multisensor 6"
-actor Multisensor_1
-actor Multisensor_2
+actor Multisensor_X
 end box
 
 autoactivate on
@@ -23,34 +27,36 @@ autoactivate on
 ==Initialization : startup==
 activate main
 main -[#blue]> startup : setup()
-activate startup
 startup -[#blue]> startup : find_usb()
+startup->Gateway
+return
 startup --[#red]> main : return -1 if error
 startup -[#blue]> startup : logger()
 startup --[#red]> main : return -1 if error
 startup -[#blue]> startup : check_internet_connection()
+startup->Gateway
+return
 startup --[#red]> main : return -1 if error
 startup -[#blue]> MQTT : mqtt_setup()
 activate MQTT
 startup --[#red]> main : return -1 if error
-startup --[#green]> main : return if everything worked
+return if everything worked
 deactivate startup
 
 
 
 == Initialization : zwave ==
 main -[#blue]> ZStick : init()
-return [#green]
+return
 
 main -[#blue]> ZStick : scan_for_nodes()
 ZStick -[#blue]> ZStick : network_is_awake()
 return True / False
 autoactivate off
-Multisensor_1 -[#green]> ZStick : hello<dict info>
-Multisensor_2 -[#green]> ZStick : hello<dict info>
+Multisensor_X -[#green]> ZStick : hello<dict info>
+Multisensor_X -[#green]> ZStick : hello<dict info>
 main -[#blue]> ZStick : get_multisensor_node_ids()
-ZStick --[#green]> main : Multisensor_node_ids
-deactivate
+return Multisensor_node_ids
 autoactivate off
 
 loop for node_ids
@@ -60,12 +66,12 @@ autoactivate on
 == Initialization : config ==
 
 main -[#blue]> conf : create_confs()
-conf --[#green]> main
+return
 
 
 loop for node_ids
 main -[#blue]> conf : confs[] = read_confs(node_id)
-conf --[#green]> main
+return
 end
 autoactivate off
 == Initialization : texthandler ==
@@ -75,6 +81,71 @@ main -[#blue]> texthandler : texthandler.get_id(node_ids)
 main -[#blue]> texthandler : texthandler.Getconfig(confs)
 
 end
+== Main Loop ==
+loop While 1
+loop Enumerate multisensors_node_ids :\nNote: Shown for Multisensor_X to illustrate loop. Will loop through all node ids up to 232 Sensors
+    autoactivate on
 
-== Other ==
+    loop until sensor is awake
+    main -[#blue]> Multisensor : is_awake()
+    Multisensor -[#blue]> Multisensor_X : is_awake()
+    return True / False
+    return True / False
+    end
+
+    main -[#blue]> Multisensor : get_values()
+    Multisensor -[#blue]> Multisensor_X : get_values()
+    return values
+    return values
+
+    main -[#blue]> texthandler : filterdata(Multisensor.sensorvalue)
+    texthandler -[#blue]> jsonhandler : convertfromjson(data)
+    return formattet dictionary
+    autoactivate off
+    texthandler -[#blue]> texthandler : filters data
+    autoactivate on
+
+    texthandler -[#blue]> jsonhandler : converttojson(data)
+    return formattet json data
+
+    texthandler -[#blue]> filehandler : writefile(json data)
+    filehandler -> Gateway :  write_data_to_file()
+    Gateway -> jsonfiles : write_values
+    return True / False
+    return  True / False
+    return
+    return
+end
+autoactivate off
+
+...Wait 1 minute...
+
+autoactivate on
+
+main -[#blue]> ZStick : scan_for_nodes()
+ZStick -[#blue]> ZStick : network_is_awake()
+return True / False
+autoactivate off
+Multisensor_X -[#green]> ZStick : hello<dict info>
+main -[#blue]> ZStick : get_multisensor_node_ids()
+ZStick -[#blue]> main : Multisensor_node_ids
+deactivate
+autoactivate off
+
+main -[#blue]> main : compare new ids to old ids
+alt if new ids is different from old ids
+     main-[#blue]> main : update id list
+     main -[#blue]> main : create or pop Sensor obejct in\nMultisensor[Multisensor(node_id)]
+     main -[#blue]> conf : Create_confs()
+end
+
+loop for node_ids
+autoactivate on
+main -[#blue]> conf : confs[] = read_confs(node_id)
+return
+autoactivate off
+main -[#blue]> texthandler : texthandler.Getconfig(confs)
+end
+deactivate main
+end
 @enduml
