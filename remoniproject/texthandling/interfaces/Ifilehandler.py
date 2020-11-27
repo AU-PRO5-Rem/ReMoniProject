@@ -9,8 +9,8 @@ class Ifilehandler(ABC):
 
     @abstractmethod
     def readfile(self, path):
-        pass
+        pass    # pragma: no cover
 
     @abstractmethod
     def writefile(self, path, data):
-        pass
+        pass    # pragma: no cover
