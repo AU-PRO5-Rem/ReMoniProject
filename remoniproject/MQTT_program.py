@@ -65,7 +65,7 @@ def on_connect(client, userdata, flags, rc):
             publish_string = '{"data":' + str(FIFO_dict) + ',"write":true}'
             mqtt_client.publish("mqtt_test/FIFO", publish_string, 1)
             logging.info("MQTT: FIFO content sent to broker")
-            # os.remove("FIFO.txt")
+            os.remove("FIFO.txt")
 
 
 def on_disconnect(client, userdata, rc):
